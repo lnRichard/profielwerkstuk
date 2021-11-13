@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tiles.png-f59d0c125084fa806bcfffd4038d7127.stex"
+path="res://.import/16x16 dungeon ii wall reconfig v04 spritesheet.png-de5285ba19665458a285eeb1294d4a98.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/tilemaps/basic_dungeon/floor/tiles.png"
-dest_files=[ "res://.import/tiles.png-f59d0c125084fa806bcfffd4038d7127.stex" ]
+source_file="res://sprites/tilemaps/basic_dungeon/16x16 dungeon ii wall reconfig v04 spritesheet.png"
+dest_files=[ "res://.import/16x16 dungeon ii wall reconfig v04 spritesheet.png-de5285ba19665458a285eeb1294d4a98.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
