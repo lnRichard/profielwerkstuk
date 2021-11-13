@@ -1,34 +1,73 @@
 extends KinematicBody2D
-export var speed = 100; # walk speed
-export var max_hp = 100.0;
-export var hp = 100.0;
-export var dash_speed = 250; # dash distance/speed
-export var dash_cooldown = 60; # 0.5 second cooldown
 
-# Variables associated with dash ability TODO: Add state machine?
-var dashing = false;
-var current_dash_cooldown = 0
-var v = Vector2();
-var count = 10;
-var time = 0;
+enum {IDLE, WALKING, DASHING, ATTACKING}
+export var speed := 3; # walk speed
 
-# Variables associated with the dash ability
+export var max_hp := 100.0;
+export var hp := 100.0;
 
 
-# Called when the node enters the scene tree for the first time.
+
+
+var state = IDLE;
+
+var last_direction = Vector2();
+export var dash_speed := 15
+export var dash_cooldown :=30;
+export var dash_current_cooldown := 30; # 30 frames;
+export var dash_range := 10 # 30 frames;
+export var dash_duration := 0; # duration of ongoing dash
+
 func _ready():
-	pass
+	$AnimatedSprite/Particles2D.hide();
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
 
 func _physics_process(delta):
-	if current_dash_cooldown > 0:
-		current_dash_cooldown -=1
-	var velocity = Vector2()  # The player's movement vector.
+	var velocity = Vector2();
+	dash_current_cooldown-=1;
+	if Input.is_action_just_pressed("ui_accept") && dash_current_cooldown <= 0:
+		dash_current_cooldown = dash_cooldown # reset;
+		state = DASHING;
+	match state:
+		IDLE:
+			$AnimatedSprite.play("default")
+			velocity = input();
+			if (velocity.length() > 0):
+				state = WALKING;
+		WALKING:
+			$AnimatedSprite.play("running")
+			velocity = input();
+			if (velocity.length() == 0):
+				state = IDLE;
+			else:
+				last_direction = velocity; # for dash
+				move_and_collide(velocity * speed)
+				$AnimatedSprite.flip_h = velocity.x < 0;
+		DASHING:
+			move_and_collide(last_direction * dash_speed);
+			dash_duration+=1;
+			if dash_duration >= dash_range:
+				state = IDLE;
+				dash_duration = 0;
+			
+			
+		ATTACKING:
+			pass
+	
+#	# Determine which way to show sprite	
+#	if velocity.length() > 0:
+#		velocity = velocity.normalized() * speed
+#
+		
+#
+	
+	
+func input() -> Vector2:
+	var velocity = Vector2();
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("ui_left"):
@@ -37,24 +76,4 @@ func _physics_process(delta):
 		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
-	if Input.is_action_just_pressed("shift") && current_dash_cooldown == 0:
-		$AnimatedSprite.stop(); # Temporary because no dash animation atm, probably add celeste like dash effect? 
-		current_dash_cooldown = dash_cooldown;
-		dashing = true;
-		count = 0;
-		v = Vector2(dash_speed, 0).rotated(get_local_mouse_position().angle());
-		
-	if count < 10:
-		count+=1;
-		move_and_collide(v*delta);
-		$AnimatedSprite.flip_h = v.x < 0;
-	else:
-		dashing = false
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
-		$AnimatedSprite.play("running")
-		$AnimatedSprite.flip_h = velocity.x < 0;
-
-	else:
-		$AnimatedSprite.play("default")
-	move_and_collide(velocity * delta)
+	return velocity.normalized();
