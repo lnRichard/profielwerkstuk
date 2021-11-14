@@ -19,7 +19,7 @@ export var dash_range := 10 # 30 frames;
 export var dash_duration := 0; # duration of ongoing dash
 
 func _ready():
-	$AnimatedSprite/Particles2D.hide();
+	pass
 
 
 func _process(delta):

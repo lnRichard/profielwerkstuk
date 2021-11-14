@@ -11,10 +11,7 @@
 [ext_resource path="res://sprites/characters/player/wizard/running/wizzard_m_run_anim_f1.png" type="Texture" id=9]
 [ext_resource path="res://scenes/characters/player/Player.gd" type="Script" id=19]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 6.95167, 8.82775 )
-
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 2 ) ],
 "loop": true,
@@ -32,23 +29,27 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 3.61436, 6.81993 )
+
 [node name="Player" type="KinematicBody2D"]
+position = Vector2( -0.166855, -3.75422 )
 script = ExtResource( 19 )
 __meta__ = {
 "_edit_group_": true
 }
 
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+frame = 1
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 one_way_collision_margin = 0.0
 __meta__ = {
 "_editor_description_": " "
 }
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 2 )
-frame = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
