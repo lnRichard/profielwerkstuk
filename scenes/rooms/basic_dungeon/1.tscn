@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/tilemaps/basic_dungeon/DefaultAutotile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/characters/enemies/grunt/Grunt.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/characters/player/Player.tscn" type="PackedScene" id=3]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+
+[node name="HostileEntity" parent="." instance=ExtResource( 2 )]
+position = Vector2( 53.7518, -0.749153 )
+
+[node name="BasicDungeon" parent="." instance=ExtResource( 1 )]
+show_collision = true
+tile_data = PoolIntArray( -65541, 0, 65537, -65540, 0, 65538, -65539, 0, 65538, -65538, 0, 65538, -65537, 0, 65538, -131072, 0, 65538, -131071, 0, 65538, -131070, 0, 65538, -131069, 0, 65538, -131068, 0, 65538, -131067, 0, 65539, -5, 0, 131073, -4, 0, 12, -3, 0, 12, -2, 0, 131074, -1, 0, 131074, -65536, 0, 131074, -65535, 0, 131074, -65534, 0, 12, -65533, 0, 12, -65532, 0, 131074, -65531, 0, 131075, 65531, 0, 131073, 65532, 0, 131074, 65533, 0, 131074, 65534, 0, 131074, 65535, 0, 131074, 0, 0, 12, 1, 0, 131074, 2, 0, 131074, 3, 0, 12, 4, 0, 131074, 5, 0, 131075, 131067, 0, 196609, 131068, 0, 196614, 131069, 0, 196614, 131070, 0, 196614, 131071, 0, 196614, 65536, 0, 196616, 65537, 0, 196614, 65538, 0, 196614, 65539, 0, 196610, 65540, 0, 196614, 65541, 0, 196611 )
