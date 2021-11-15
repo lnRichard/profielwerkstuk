@@ -81,7 +81,7 @@ func _physics_process(delta):
 #
 
 func clicked() -> bool:
-	return Input.is_action_pressed("shift")
+	return Input.is_action_just_pressed("shift")
 	
 func input() -> Vector2:
 	var velocity = Vector2();
