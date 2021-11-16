@@ -9,6 +9,12 @@ func _ready():
 
 
 func _physics_process(delta):
-	var vel = global_position.direction_to(player.global_position)
-	$AnimatedSprite.flip_h = vel.x < 0;
-	move_and_collide(vel)
+	match state:
+		IDLE:
+			$AnimatedSprite.play("idle")
+		CHASING:
+			var vel = global_position.direction_to(player.global_position)
+			$AnimatedSprite.flip_h = vel.x < 0;
+			move_and_collide(vel)
+		ATTACKING:
+			pass

@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
-
+export (int) var cooldown;
 export (float) var damage;
-export (float) var stun;
+export (int) var stun;
 export (float) var speed;
 export (int) var lifetime;
 export (int) var size;
@@ -18,6 +18,13 @@ func _physics_process(delta):
 	else:
 		start+=1;
 
+func _init(_cooldown: int, _damage: float, _stun: int, _speed: float, _lifetime: int, _size: int):
+	cooldown = _cooldown;
+	damage = _damage;
+	stun = _stun;
+	speed = _speed
+	lifetime = _lifetime
+	size = _size
 
 func _on_Area2D_body_entered(body):
-	print(body.name);
+	pass

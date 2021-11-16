@@ -18,11 +18,14 @@ export var dash_current_cooldown := 30; # 30 frames;
 export var dash_range := 10 # 30 frames;
 export var dash_duration := 0; # duration of ongoing dash
 
+enum Spell {R, L, F, G, NONE}
 
-var ability_rc = "res://scenes/spells/fireball/Fireball.tscn"
-var ability_lc;
-var ability_r;
-var ability_f;
+# Max of FOUR
+var eq_spells = [
+	load("res://scenes/spells/fireball/Fireball.tscn")
+	]
+
+var eq_cooldown = [0, 0, 0, 0]
 
 onready var room = get_parent();
 
@@ -35,17 +38,21 @@ func _process(delta):
 
 
 func _physics_process(delta):
+	var velocity = Vector2();
 	# PROTOTYPE FOR CASTING SPELLS
 	# IDEA IS TO ADD VARIABLES WHICH ARE THE PATHS TO THE FIREBALLS WHICH WILL BE INSTANTIATED
 	# COOL DOWN CAN BE CHECKED 
 	
-	if clicked():
-		var instance = load(ability_rc).instance();
-		instance.direction = Vector2(10, 0).rotated(get_local_mouse_position().angle());
-		instance.position = position;
-		room.add_child(instance); # So that it's not relative to the player
-	var velocity = Vector2();
+	var spell = spell_ability();
+	state = ATTACKING if spell != Spell.NONE else state;
+
+	# make don't go below zero
 	dash_current_cooldown-=1;
+	eq_cooldown[0]-=1
+	eq_cooldown[1]-=1
+	eq_cooldown[2]-=1
+	eq_cooldown[3]-=1
+	print(eq_cooldown)
 	if Input.is_action_just_pressed("ui_accept") && dash_current_cooldown <= 0:
 		dash_current_cooldown = dash_cooldown # reset;
 		state = DASHING;
@@ -71,18 +78,31 @@ func _physics_process(delta):
 				state = IDLE;
 				dash_duration = 0;
 		ATTACKING:
-			pass
-	
-#	# Determine which way to show sprite	
-#	if velocity.length() > 0:
-#		velocity = velocity.normalized() * speed
-#
-		
-#
+			if (eq_cooldown[spell] > 0):
+				pass
+			else: 
+				var instance = eq_spells[spell].instance();
+				eq_cooldown[spell] = instance.cooldown;
+#				print(instance.name)
+				print(instance.cooldown)
+				instance.direction = Vector2(10, 0).rotated(get_local_mouse_position().angle())
+				instance.position = position;
+				room.add_child(instance); # So that it's not relative to the player
+			state = IDLE
 
-func clicked() -> bool:
-	return Input.is_action_just_pressed("shift")
-	
+
+func spell_ability() -> int:
+	if Input.is_action_just_pressed("shift"):
+		return Spell.R;
+	elif Input.is_action_just_pressed("shift"):
+		return Spell.L
+	elif Input.is_action_just_pressed("shift"):
+		return Spell.F;
+	elif Input.is_action_just_pressed("shift"):
+		return Spell.G
+	else:
+		return Spell.NONE
+		
 func input() -> Vector2:
 	var velocity = Vector2();
 	if Input.is_action_pressed("ui_right"):
@@ -94,3 +114,9 @@ func input() -> Vector2:
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
 	return velocity.normalized();
+	
+	
+func equip_spell(index: int, spell: String):
+	eq_spells[index] = spell;
+	
+
