@@ -47,12 +47,15 @@ func _physics_process(delta):
 	state = ATTACKING if spell != Spell.NONE else state;
 
 	# make don't go below zero
-	dash_current_cooldown-=1;
-	eq_cooldown[0]-=1
-	eq_cooldown[1]-=1
-	eq_cooldown[2]-=1
-	eq_cooldown[3]-=1
-	print(eq_cooldown)
+	# godot passes by value and not reference for these things
+	eq_cooldown[0] = eq_cooldown[0]-1 if eq_cooldown[0] > 0 else 0;
+	eq_cooldown[1] = eq_cooldown[1]-1 if eq_cooldown[1] > 0 else 0;
+	eq_cooldown[2] = eq_cooldown[2]-1 if eq_cooldown[2] > 0 else 0;
+	eq_cooldown[3] = eq_cooldown[3]-1 if eq_cooldown[3] > 0 else 0;
+	 
+	
+	dash_current_cooldown = dash_current_cooldown-1 if dash_current_cooldown > 0 else 0
+#	print(eq_cooldown)
 	if Input.is_action_just_pressed("ui_accept") && dash_current_cooldown <= 0:
 		dash_current_cooldown = dash_cooldown # reset;
 		state = DASHING;
@@ -118,5 +121,3 @@ func input() -> Vector2:
 	
 func equip_spell(index: int, spell: String):
 	eq_spells[index] = spell;
-	
-
