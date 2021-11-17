@@ -27,4 +27,5 @@ func _init(_cooldown: int, _damage: float, _stun: int, _speed: float, _lifetime:
 	size = _size
 
 func _on_Area2D_body_entered(body):
-	pass
+	if (body.name == "HostileEntity"):
+		body.apply_damage(damage);

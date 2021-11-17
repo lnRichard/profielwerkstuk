@@ -2,12 +2,10 @@ extends "res://scenes/characters/enemies/hostile_entity/HostileEntity.gd"
 
 
 func _ready():
-	# Geef al de stats hier aan. TIM
-	
-	base_sight = 5;
-	apply_sight(base_sight);
+	pass
 
-
+func _init().(20, 1, 10, 10, 10, 10, 1):
+	pass
 func _physics_process(delta):
 	
 	match state:

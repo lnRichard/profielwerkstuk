@@ -120,4 +120,4 @@ func input() -> Vector2:
 	
 	
 func equip_spell(index: int, spell: String):
-	eq_spells[index] = spell;
+	eq_spells[index] = load(spell);
