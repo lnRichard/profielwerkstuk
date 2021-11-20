@@ -6,10 +6,11 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
-
 [node name="HostileEntity" parent="." instance=ExtResource( 2 )]
-position = Vector2( 53.7518, -0.749153 )
+position = Vector2( 35.3177, -20.602 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( -42.4936, -4.22625 )
 
 [node name="BasicDungeon" parent="." instance=ExtResource( 1 )]
 show_collision = true

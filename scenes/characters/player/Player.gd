@@ -93,7 +93,6 @@ func _physics_process(delta):
 				room.add_child(instance); # So that it's not relative to the player
 			state = IDLE
 
-
 func spell_ability() -> int:
 	if Input.is_action_just_pressed("shift"):
 		return Spell.R;
