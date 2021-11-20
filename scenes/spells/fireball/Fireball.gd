@@ -2,9 +2,13 @@ extends "../base_spell/BaseSpell.gd"
 
 
 # Called when the node enters the scene tree for the first time.
+func _init().(30, 10, 30, 0.5, 20, 1):
+	pass
+
 func _ready():
-	pass # Replace with function body.
-
-
+	pass	
 func _physics_process(delta):
-	move_and_collide(direction);
+	lifetime-=1
+	if lifetime < 0:
+		queue_free()
+	move_and_collide(direction * speed);
