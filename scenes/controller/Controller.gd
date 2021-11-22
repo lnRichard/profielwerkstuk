@@ -19,6 +19,7 @@ func _ready():
 func load_room(index: int):
 	room = load(basic_dungeon + files[index]).instance();
 	add_child(room);
+	add_child(player);
 
 func count_files_and_get_names():
 	var dir = Directory.new();
