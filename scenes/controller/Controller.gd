@@ -7,11 +7,13 @@ var files = []
 var count = 0;
 
 func _ready():
+
 	count_files_and_get_names() # files and count now have the right value;
 	
 	var rng = RandomNumberGenerator.new();
 	rng.randomize();
 	
+
 	var result = rng.randi_range(0, count-1);
 	load_room(result)
 
@@ -27,7 +29,7 @@ func count_files_and_get_names():
 		dir.list_dir_begin();
 		var file_name = dir.get_next();
 		while file_name != "":
-			if (file_name !="." && file_name !=".."):
+			if (file_name.get_extension() == "tscn"):
 				files.push_back(file_name)
 				count+=1;
 			file_name = dir.get_next();
