@@ -9,8 +9,6 @@ signal PlayerExit
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	self.connect("PlayerExit", get_parent().get_parent(), "_exit")
-	print("ready")
-	emit_signal("PlayerExit");
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,4 +17,6 @@ func _ready():
 
 
 func _on_Exit_body_entered(body):
-	emit_signal("PlayerExit")
+	if(body.name =="Player"):
+		emit_signal("PlayerExit")
+#

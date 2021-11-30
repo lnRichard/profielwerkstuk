@@ -1,6 +1,7 @@
 extends Node
 
-onready var player = load("res://scenes/characters/player/Player.tscn").instance();
+
+onready var player = preload("res://scenes/characters/player/Player.tscn").instance();
 var basic_dungeon = "res://scenes/rooms/basic_dungeon/";
 var room;
 var files = []
@@ -10,18 +11,28 @@ func _ready():
 	print("Loading rooms...")
 	count_files_and_get_names() # files and count now have the right value;
 	
+	pick_room();
+
+func pick_room():
 	var rng = RandomNumberGenerator.new();
 	rng.randomize();
-	
 	var result = rng.randi_range(0, count-1);
-	load_room(result)
-
-
+	load_room(result);
 func load_room(index: int):
 	room = load(basic_dungeon + files[index]).instance();
 	add_child(room);
 	add_child(player);
-
+	
+func _exit():
+	remove_child(room);
+	room.queue_free();
+	var rng = RandomNumberGenerator.new();
+	rng.randomize();
+	var index = rng.randi_range(0, count-1);
+	room = load(basic_dungeon + files[index]).instance();
+	add_child(room);
+	add_child(player);
+	
 func count_files_and_get_names():
 	var dir = Directory.new();
 	if dir.open(basic_dungeon) == OK:
@@ -34,8 +45,7 @@ func count_files_and_get_names():
 			file_name = dir.get_next();
 		dir.list_dir_end()
 
-func _exit():
-	print(1124768124)
+
 func test():
 	pass
 	# get entrance and exit for the room
