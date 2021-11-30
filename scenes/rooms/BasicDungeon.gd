@@ -8,6 +8,7 @@ export (int) var room_weight = 10;
 var enemy_folder = "res://scenes/characters/enemies/";
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print(123786)
 	enemies = file_process(enemy_folder)
 	for e in enemies:
 		print(e)

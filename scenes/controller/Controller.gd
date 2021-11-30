@@ -7,6 +7,7 @@ var files = []
 var count = 0;
 
 func _ready():
+	print("Loading rooms...")
 	count_files_and_get_names() # files and count now have the right value;
 	
 	var rng = RandomNumberGenerator.new();
@@ -33,7 +34,8 @@ func count_files_and_get_names():
 			file_name = dir.get_next();
 		dir.list_dir_end()
 
-
+func _exit():
+	print(1124768124)
 func test():
 	pass
 	# get entrance and exit for the room

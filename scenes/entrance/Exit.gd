@@ -1,15 +1,16 @@
 extends Area2D
 
-signal player_enter_exit
+signal PlayerExit
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	self.connect("PlayerExit", get_parent().get_parent(), "_exit")
+	print("ready")
+	emit_signal("PlayerExit");
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -18,4 +19,4 @@ func _ready():
 
 
 func _on_Exit_body_entered(body):
-	pass # Replace with function body.
+	emit_signal("PlayerExit")

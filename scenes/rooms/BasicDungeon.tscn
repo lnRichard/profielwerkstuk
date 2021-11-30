@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/entrance/Exit.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/rooms/BasicDungeon.gd" type="Script" id=3]
 
-[node name="Node2D" type="Node2D"]
+[node name="BasicDungeon" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="BasicDungeon" parent="." instance=ExtResource( 1 )]
