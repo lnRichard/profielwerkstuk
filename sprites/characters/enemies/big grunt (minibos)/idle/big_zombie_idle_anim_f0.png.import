@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Boulder.png-259125c2716948812d3d15c06e9f2615.stex"
+path="res://.import/big_zombie_idle_anim_f0.png-dbc70eadfa26f020ffa38db9dae759ea.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/scenery/boulder/Boulder.png"
-dest_files=[ "res://.import/Boulder.png-259125c2716948812d3d15c06e9f2615.stex" ]
+source_file="res://sprites/characters/enemies/big grunt (minibos)/idle/big_zombie_idle_anim_f0.png"
+dest_files=[ "res://.import/big_zombie_idle_anim_f0.png-dbc70eadfa26f020ffa38db9dae759ea.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
