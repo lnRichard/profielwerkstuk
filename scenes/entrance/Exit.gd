@@ -10,7 +10,6 @@ signal PlayerExit
 func _ready():
 	self.connect("PlayerExit", get_parent().get_parent(), "_exit")
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
@@ -19,4 +18,3 @@ func _ready():
 func _on_Exit_body_entered(body):
 	if(body.name =="Player"):
 		emit_signal("PlayerExit")
-#

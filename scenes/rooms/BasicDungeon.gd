@@ -15,17 +15,17 @@ func _ready():
 		var i = e.instance();
 		i.position = Vector2(0,0)
 		add_child(i)
-		
+
 
 func _physics_process(delta):
 	pass
 
-
-func _init(_room_weight: int):
-	room_weight = _room_weight
-
-	
-
+# FFS don't add init and then not call it because then _ready() isn't called smh
+#func _init(_room_weight: int):
+#	room_weight = _room_weight;
+#
+#
+#
 func file_process(path: String) -> Array:
 	var enemy_folders = [];
 	var enemy_scenes = [];
@@ -49,10 +49,9 @@ func file_process(path: String) -> Array:
 				poss_scene = dir.get_next();
 			dir.list_dir_end()
 	return enemy_scenes
+
 func weigh_enemies():
 	pass
-
-
 
 func spawn_enemies(tospawn: Array):
 	for enemy in tospawn:
