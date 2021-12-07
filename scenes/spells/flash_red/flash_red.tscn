@@ -1,28 +1,38 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/spells/base_spell/BaseSpell.tscn" type="PackedScene" id=1]
-[ext_resource path="res://sprites/spells/flash_red/image_part_010.jpg" type="Texture" id=2]
-[ext_resource path="res://sprites/spells/flash_red/image_part_003.jpg" type="Texture" id=3]
-[ext_resource path="res://sprites/spells/flash_red/image_part_008.jpg" type="Texture" id=4]
-[ext_resource path="res://sprites/spells/flash_red/image_part_004.jpg" type="Texture" id=5]
-[ext_resource path="res://sprites/spells/flash_red/image_part_006.jpg" type="Texture" id=6]
-[ext_resource path="res://sprites/spells/flash_red/image_part_009.jpg" type="Texture" id=7]
-[ext_resource path="res://sprites/spells/flash_red/image_part_001.jpg" type="Texture" id=8]
-[ext_resource path="res://sprites/spells/flash_red/image_part_007.jpg" type="Texture" id=9]
-[ext_resource path="res://sprites/spells/flash_red/image_part_005.jpg" type="Texture" id=10]
-[ext_resource path="res://sprites/spells/flash_red/image_part_002.jpg" type="Texture" id=11]
+[ext_resource path="res://sprites/spells/flash_red/image_part_003.png" type="Texture" id=2]
+[ext_resource path="res://sprites/spells/flash_red/image_part_001.png" type="Texture" id=3]
+[ext_resource path="res://sprites/spells/flash_red/image_part_004.png" type="Texture" id=4]
+[ext_resource path="res://sprites/spells/flash_red/image_part_008.png" type="Texture" id=5]
+[ext_resource path="res://sprites/spells/flash_red/image_part_005.png" type="Texture" id=6]
+[ext_resource path="res://sprites/spells/flash_red/image_part_007.png" type="Texture" id=7]
+[ext_resource path="res://sprites/spells/flash_red/image_part_009.png" type="Texture" id=8]
+[ext_resource path="res://sprites/spells/flash_red/image_part_010.png" type="Texture" id=9]
+[ext_resource path="res://sprites/spells/flash_red/image_part_002.png" type="Texture" id=10]
+[ext_resource path="res://sprites/spells/flash_red/image_part_006.png" type="Texture" id=11]
 [ext_resource path="res://scenes/spells/flash_red/flash_red.gd" type="Script" id=12]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 11 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 10 ), ExtResource( 6 ), ExtResource( 9 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 2 ) ],
+"frames": [ ExtResource( 3 ), ExtResource( 10 ), ExtResource( 2 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 11 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 14.2348
 
 [node name="BaseSpell" instance=ExtResource( 1 )]
 script = ExtResource( 12 )
 
 [node name="AnimatedSprite" parent="." index="0"]
 frames = SubResource( 1 )
+frame = 8
+playing = true
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

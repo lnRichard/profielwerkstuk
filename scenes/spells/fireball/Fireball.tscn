@@ -16,14 +16,18 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 7.77512, 8.08736 )
+[sub_resource type="CircleShape2D" id=2]
 
 [node name="Fireball" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" parent="." index="0"]
+position = Vector2( -11.2085, 1.20791 )
 frames = SubResource( 1 )
+frame = 1
+playing = true
 
 [node name="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource( 2 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

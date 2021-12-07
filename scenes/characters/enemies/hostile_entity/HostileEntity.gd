@@ -1,5 +1,5 @@
 extends KinematicBody2D
-
+class_name HostileEntity
 
 var player;
 
@@ -56,4 +56,5 @@ func apply_sight():
 	get_node("Sight/Radius").scale*=base_sight;
 	
 func apply_damage(value: float):
+	print(value)
 	health-=value;
