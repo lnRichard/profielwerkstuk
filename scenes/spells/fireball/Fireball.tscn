@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/spells/base_spell/BaseSpell.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/spells/fireball/Fireball.gd" type="Script" id=2]
-[ext_resource path="res://sprites/spells/fireball/fireball.png" type="Texture" id=3]
+[ext_resource path="res://sprites/spells/fireball/FB003.png" type="Texture" id=3]
+[ext_resource path="res://sprites/spells/fireball/FB001.png" type="Texture" id=4]
+[ext_resource path="res://sprites/spells/fireball/FB002.png" type="Texture" id=5]
+[ext_resource path="res://sprites/spells/fireball/FB004.png" type="Texture" id=6]
+[ext_resource path="res://sprites/spells/fireball/FB005.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 3 ) ],
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
