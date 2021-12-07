@@ -13,3 +13,6 @@ tile_data = PoolIntArray( -655334, 0, 0, -589800, 0, 1, -589799, 0, 2, -589798, 
 
 [node name="KinematicBody2D" parent="." index="2" instance=ExtResource( 2 )]
 position = Vector2( 373, 234 )
+
+[node name="SpawnNode" parent="." index="3"]
+position = Vector2( 562.517, 140.398 )
