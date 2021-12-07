@@ -51,6 +51,7 @@ func _exit():
 	remove_child(room)
 	player.position = Vector2(0, 0)
 	load_next_room()	
+		
 func count_files_and_get_names():
 	var dir = Directory.new();
 	if dir.open(basic_dungeon) == OK:
