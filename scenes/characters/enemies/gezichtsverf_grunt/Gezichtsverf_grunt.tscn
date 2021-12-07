@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/characters/enemies/hostile_entity/HostileEntity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://sprites/characters/enemies/gezichtsverf_grunt/idle/orc_shaman_idle_anim_f3.png" type="Texture" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://sprites/characters/enemies/gezichtsverf_grunt/running/orc_shaman_run_anim_f3.png" type="Texture" id=8]
 [ext_resource path="res://sprites/characters/enemies/gezichtsverf_grunt/running/orc_shaman_run_anim_f2.png" type="Texture" id=9]
 [ext_resource path="res://scenes/characters/enemies/gezichtsverf_grunt/Gezichtsverf_grunt.gd" type="Script" id=10]
-
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -25,9 +24,16 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 2.63666, 4.48239 )
+
 [node name="HostileEntity" instance=ExtResource( 1 )]
 script = ExtResource( 10 )
 
 [node name="AnimatedSprite" parent="." index="0"]
 frames = SubResource( 1 )
 animation = "running"
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2( 1.05511, 0.677004 )
+shape = SubResource( 2 )

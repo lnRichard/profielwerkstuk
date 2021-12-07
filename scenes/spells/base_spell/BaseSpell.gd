@@ -11,10 +11,13 @@ var start = 0;
 
 func _ready():
 	$AnimatedSprite.hide();
+	$Area2D/CollisionShape2D.hide();
 	
 func _physics_process(delta):
 	if start==3:
+		$Area2D/CollisionShape2D.show()
 		$AnimatedSprite.show()
+		$AnimatedSprite.play();
 	else:
 		start+=1;
 
@@ -27,5 +30,11 @@ func _init(_cooldown: int, _damage: float, _stun: int, _speed: float, _lifetime:
 	size = _size
 
 func _on_Area2D_body_entered(body):
-	if (body.name == "HostileEntity"):
-		body.apply_damage(damage);
+	if (body is HostileEntity):
+		print(damage)
+		body.apply_damage(damage)
+		queue_free()
+	elif (body.name == "Player"):
+		pass;
+	else:
+		queue_free()

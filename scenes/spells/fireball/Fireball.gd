@@ -12,3 +12,4 @@ func _physics_process(delta):
 	if lifetime < 0:
 		queue_free()
 	move_and_collide(direction * speed);
+		

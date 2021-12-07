@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 enum {IDLE, WALKING, DASHING, ATTACKING}
 export var speed := 3; # walk speed
@@ -22,7 +23,10 @@ enum Spell {R, L, F, G, NONE}
 
 # Max of FOUR
 var eq_spells = [
-	load("res://scenes/spells/fireball/Fireball.tscn")
+	preload("res://scenes/spells/fireball/Fireball.tscn"),
+	preload("res://scenes/spells/flash_red/flash_red.tscn"),
+	preload("res://scenes/spells/iceshard/iceshard.tscn"),
+	preload("res://scenes/spells/fireball/Fireball.tscn")
 	]
 
 var eq_cooldown = [0, 0, 0, 0]
@@ -86,21 +90,20 @@ func _physics_process(delta):
 			else: 
 				var instance = eq_spells[spell].instance();
 				eq_cooldown[spell] = instance.cooldown;
-#				print(instance.name)
-				print(instance.cooldown)
 				instance.direction = Vector2(10, 0).rotated(get_local_mouse_position().angle())
 				instance.position = position;
+				instance.get_node("AnimatedSprite").rotation = get_local_mouse_position().angle()
 				room.add_child(instance); # So that it's not relative to the player
 			state = IDLE
 
 func spell_ability() -> int:
-	if Input.is_action_just_pressed("shift"):
+	if Input.is_action_just_pressed("right_click"):
 		return Spell.R;
-	elif Input.is_action_just_pressed("shift"):
+	elif Input.is_action_just_pressed("left_click"):
 		return Spell.L
-	elif Input.is_action_just_pressed("shift"):
+	elif Input.is_action_just_pressed("e_button"):
 		return Spell.F;
-	elif Input.is_action_just_pressed("shift"):
+	elif Input.is_action_just_pressed("q_button"):
 		return Spell.G
 	else:
 		return Spell.NONE
