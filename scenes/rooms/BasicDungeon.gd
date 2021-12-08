@@ -3,28 +3,23 @@ extends Node2D
 
 export (int) var difficulty;
 var enemies = [];
-export (int) var room_weight = 10;
+
 
 var enemy_folder = "res://scenes/characters/enemies/";
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemies = file_process(enemy_folder)
-	for e in enemies:
-		print(e)
-		var i = e.instance();
-		i.position = Vector2(0,0)
-		add_child(i)
+	enemies = get_parent().enemies;
 
 
 func _physics_process(delta):
 	pass
 
-# FFS don't add init and then not call it because then _ready() isn't called smh
-#func _init(_room_weight: int):
-#	room_weight = _room_weight;
-#
-#
-#
+func set_weight_multiplier(weight_multiplier: float):
+	for x in get_children():
+		if (x is SpawnNode):
+			x.set_weight_multiplier(weight_multiplier)
+	
+	
 func file_process(path: String) -> Array:
 	var enemy_folders = [];
 	var enemy_scenes = [];

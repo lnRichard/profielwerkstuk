@@ -5,10 +5,9 @@ func _ready():
 	apply_sight()
 	apply_multiplier()
 
-func _init().(20, 1, 10, 10, 10, 10, 1):
+func _init().(20, 1, 10, 10, 1, 1):
 	pass
 func _physics_process(delta):
-	
 	match state:
 		IDLE:
 			$AnimatedSprite.play("idle")
