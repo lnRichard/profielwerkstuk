@@ -30,15 +30,14 @@ func batch_rooms(n: int) -> Array:
 	var n_batch = [];
 	for x in n:
 		var index = rng.randi_range(0, count-1)
-		print(index)
 		n_batch.push_back(load(basic_dungeon + files[index]))
 	return n_batch
 
 func load_next_room():
 	if completed_rooms < current_batch.size():
 		room = current_batch[completed_rooms].instance();
+		room.set_weight_multiplier(1)
 		add_child(room)
-#		player.position = Vector2(0, 0)
 		completed_rooms+=1;
 		remove_child(load_screen)
 	else:
@@ -51,6 +50,7 @@ func _exit():
 	remove_child(room)
 	player.position = Vector2(0, 0)
 	load_next_room()	
+
 func count_files_and_get_names():
 	var dir = Directory.new();
 	if dir.open(basic_dungeon) == OK:

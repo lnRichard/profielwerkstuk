@@ -31,7 +31,6 @@ func _init(_cooldown: int, _damage: float, _stun: int, _speed: float, _lifetime:
 
 func _on_Area2D_body_entered(body):
 	if (body is HostileEntity):
-		print(damage)
 		body.apply_damage(damage)
 		queue_free()
 	elif (body.name == "Player"):

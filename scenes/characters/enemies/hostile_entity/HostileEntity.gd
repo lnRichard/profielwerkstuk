@@ -3,6 +3,8 @@ class_name HostileEntity
 
 var player;
 
+export (int) var weight;
+
 export (float) var base_health;
 export (float) var health;
 export (float) var base_speed;
@@ -22,18 +24,14 @@ var state = IDLE
 func _ready():
 	pass
 func _init(_base_health: float, _base_speed: float,
- _base_damage: float, _base_agility: float, _base_shield: float,
-_base_sight: float, _base_multiplier: float):
+ _base_damage: float, _base_sight,  _base_multiplier: float, _weight: int):
 	base_health = _base_health;
 	health = base_health
 	base_speed = _base_speed
 	base_damage = _base_damage;
-	base_agility = _base_agility;
-	base_shield = _base_shield;
-
 	base_sight = _base_sight;
-
 	base_multiplier = _base_multiplier;
+	weight = _weight
 
 func _physics_process(delta):
 	if health < 1:
@@ -56,5 +54,4 @@ func apply_sight():
 	get_node("Sight/Radius").scale*=base_sight;
 	
 func apply_damage(value: float):
-	print(value)
 	health-=value;

@@ -13,9 +13,27 @@ _global_script_classes=[ {
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
+}, {
+"base": "KinematicBody2D",
+"class": "HostileEntity",
+"language": "GDScript",
+"path": "res://scenes/characters/enemies/hostile_entity/HostileEntity.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scenes/characters/player/Player.gd"
+}, {
+"base": "Node2D",
+"class": "SpawnNode",
+"language": "GDScript",
+"path": "res://scenes/spawn_node/SpawnNode.gd"
 } ]
 _global_script_class_icons={
-"GitAPI": ""
+"GitAPI": "",
+"HostileEntity": "",
+"Player": "",
+"SpawnNode": ""
 }
 
 [application]
@@ -103,3 +121,4 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 2d/snapping/use_gpu_pixel_snap=true
+environment/default_clear_color=Color( 0, 0, 0, 1 )
