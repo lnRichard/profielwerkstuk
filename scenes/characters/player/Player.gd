@@ -26,7 +26,7 @@ var eq_spells = [
 	preload("res://scenes/spells/fireball/Fireball.tscn"),
 	preload("res://scenes/spells/flash_red/flash_red.tscn"),
 	preload("res://scenes/spells/iceshard/iceshard.tscn"),
-	preload("res://scenes/spells/fireball/Fireball.tscn")
+	preload("res://scenes/spells/freeze/freeze.tscn")
 	]
 
 var eq_cooldown = [0, 0, 0, 0]
@@ -42,7 +42,10 @@ func _process(delta):
 
 
 func _physics_process(delta):
+	if hp < 1:
+		queue_free()
 	var velocity = Vector2();
+	print(hp)
 	# PROTOTYPE FOR CASTING SPELLS
 	# IDEA IS TO ADD VARIABLES WHICH ARE THE PATHS TO THE FIREBALLS WHICH WILL BE INSTANTIATED
 	# COOL DOWN CAN BE CHECKED 
@@ -92,6 +95,7 @@ func _physics_process(delta):
 				eq_cooldown[spell] = instance.cooldown;
 				instance.direction = Vector2(10, 0).rotated(get_local_mouse_position().angle())
 				instance.position = position;
+				instance.originPlayer = true;
 				instance.get_node("AnimatedSprite").rotation = get_local_mouse_position().angle()
 				room.add_child(instance); # So that it's not relative to the player
 			state = IDLE
@@ -123,3 +127,7 @@ func input() -> Vector2:
 	
 func equip_spell(index: int, spell: String):
 	eq_spells[index] = load(spell);
+
+func apply_damage(value: float):
+	hp-=value;
+	

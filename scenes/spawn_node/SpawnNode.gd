@@ -5,6 +5,7 @@ export (int) var weight = 10;
 
 onready var parent = get_parent().get_parent()
 
+
 var held_enemies = []
 
 func _ready():
@@ -18,9 +19,12 @@ func set_weight_multiplier(new_weight_multiplier: float):
 func fit_weight():
 	var amount = parent.enemies.size();
 	var rng = RandomNumberGenerator.new();
-	rng.randomize();
+
 	for x in 3:
-		var e = parent.enemies[rng.randi_range(0, amount-1)].instance()
+		rng.randomize();
+		var index = rng.randi_range(0, amount-1);
+		print(index)
+		var e = parent.enemies[index].instance()
 		e.position = Vector2(position.x + rng.randi_range(-10, 10), position.y + rng.randi_range(-10, 10))
 		held_enemies.push_back(
 				e

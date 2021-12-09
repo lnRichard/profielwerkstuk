@@ -20,9 +20,15 @@ enum {IDLE, CHASING, ATTACKING}
 
 var state = IDLE
 
+onready var parent = get_parent();
+
+onready var spell;
+var max_cooldown;
+var cc;
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	pass 
 func _init(_base_health: float, _base_speed: float,
  _base_damage: float, _base_sight,  _base_multiplier: float, _weight: int):
 	base_health = _base_health;
@@ -35,6 +41,7 @@ func _init(_base_health: float, _base_speed: float,
 
 func _physics_process(delta):
 	if health < 1:
+		print("DEAD")
 		queue_free()
 func _on_Sight_body_entered(body):
 	if (body.name == "Player"):
@@ -55,3 +62,19 @@ func apply_sight():
 	
 func apply_damage(value: float):
 	health-=value;
+	
+func attack(body):
+	var instance = spell.instance();
+#		cc = instance.cooldown;
+	instance.direction = Vector2(10, 0).rotated(body.position.angle())
+	instance.position = position;
+	instance.originPlayer = false;
+	instance.get_node("AnimatedSprite").rotation = body.position.angle();
+	add_child(instance); # So that it's not relative to the player
+	state = CHASING;
+
+func _on_Attack_body_entered(body):
+	if (body.name == "Player"):
+		state = ATTACKING;
+		player = body;
+
