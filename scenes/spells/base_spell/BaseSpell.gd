@@ -9,13 +9,14 @@ export (int) var size;
 var direction;
 var start = 0;
 
+var originPlayer=true;
 func _ready():
 	$AnimatedSprite.hide();
-	$Area2D/CollisionShape2D.hide();
+	$Area2D/CollisionShape2D.disabled = true;
 	
 func _physics_process(delta):
 	if start==3:
-		$Area2D/CollisionShape2D.show()
+		$Area2D/CollisionShape2D.disabled = false;
 		$AnimatedSprite.show()
 		$AnimatedSprite.play();
 	else:
@@ -30,10 +31,11 @@ func _init(_cooldown: int, _damage: float, _stun: int, _speed: float, _lifetime:
 	size = _size
 
 func _on_Area2D_body_entered(body):
-	if (body is HostileEntity):
+	if (body is HostileEntity && originPlayer):
 		body.apply_damage(damage)
 		queue_free()
-	elif (body.name == "Player"):
-		pass;
+	elif (body.name == "Player" && !originPlayer):
+		body.apply_damage(damage)
+		queue_free()
 	else:
 		queue_free()

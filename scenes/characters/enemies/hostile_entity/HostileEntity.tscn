@@ -16,5 +16,10 @@ script = ExtResource( 1 )
 [node name="Radius" type="CollisionShape2D" parent="Sight"]
 shape = SubResource( 1 )
 
+[node name="Attack" type="Area2D" parent="."]
+
+[node name="AttackRadius" type="CollisionShape2D" parent="Attack"]
+
 [connection signal="body_entered" from="Sight" to="." method="_on_Sight_body_entered"]
 [connection signal="body_exited" from="Sight" to="." method="_on_Sight_body_exited"]
+[connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]

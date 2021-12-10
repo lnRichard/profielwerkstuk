@@ -6,7 +6,7 @@ func _ready():
 	apply_multiplier()
 
 func _init().(20, 1, 10, 10, 1, 1):
-	pass
+	spell = preload("res://scenes/spells/flash_red/flash_red.tscn");
 func _physics_process(delta):
 	
 	match state:
@@ -18,4 +18,4 @@ func _physics_process(delta):
 			$AnimatedSprite.play("running")
 			move_and_collide(vel)
 		ATTACKING:
-			pass
+			attack(player)

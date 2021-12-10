@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/characters/enemies/hostile_entity/HostileEntity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://sprites/characters/enemies/grunt/running/orc_warrior_run_anim_f2.png" type="Texture" id=2]
@@ -27,6 +27,9 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 3.27087, 6.1906 )
 
+[sub_resource type="CircleShape2D" id=3]
+radius = 31.2782
+
 [node name="HostileEntity" instance=ExtResource( 1 )]
 script = ExtResource( 10 )
 
@@ -36,3 +39,6 @@ animation = "running"
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 2 )
+
+[node name="AttackRadius" parent="Attack" index="0"]
+shape = SubResource( 3 )

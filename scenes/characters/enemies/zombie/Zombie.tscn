@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/characters/enemies/zombie/Zombie.gd" type="Script" id=1]
 [ext_resource path="res://sprites/characters/enemies/zombie/running/zombie_run_anim_f0.png" type="Texture" id=2]
@@ -27,6 +27,9 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 3.23297, 6.44669 )
 
+[sub_resource type="CircleShape2D" id=3]
+radius = 48.209
+
 [node name="HostileEntity" instance=ExtResource( 10 )]
 script = ExtResource( 1 )
 
@@ -37,3 +40,6 @@ animation = "idle"
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2( 0.318498, -0.51561 )
 shape = SubResource( 2 )
+
+[node name="AttackRadius" parent="Attack" index="0"]
+shape = SubResource( 3 )
