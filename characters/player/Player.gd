@@ -7,7 +7,8 @@ var last_direction = Vector2();
 
 enum ATTACK_SLOT {NONE, A, B, C, D, E, F, G}
 
-
+func _init().(20):
+	pass
 func _ready():
 	pass 
 
