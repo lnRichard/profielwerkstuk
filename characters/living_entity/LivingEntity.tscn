@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="LivingEntity" type="KinematicBody2D"]
+
+[node name="BodyCollision" type="CollisionShape2D" parent="."]
+
+[node name="AttackPoint" type="Position2D" parent="."]
