@@ -5,20 +5,21 @@ var max_health;
 var current_health;
 
 var move_speed;
+var velocity
 
-enum {IDLING, MOVING, ATTACKING}
+enum {IDLING, MOVING, ATTACKING, DASHING}
 
-# Called when the node enters the scene tree for the first time.
+var state = IDLING;
+
+
 func _ready():
-	print(123)
+	pass
 
 func _init(_max_health: float):
 	max_health = _max_health;
 	current_health = _max_health;
 
-func _physics_process(delta):
-	move();
-	
 
-func move():
-	pass
+func change_health_minus(value: float):
+	current_health-=value;
+	

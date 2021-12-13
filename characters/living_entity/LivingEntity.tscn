@@ -5,3 +5,5 @@
 [node name="BodyCollision" type="CollisionShape2D" parent="."]
 
 [node name="AttackPoint" type="Position2D" parent="."]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]

@@ -9,13 +9,31 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "LivingEntity",
+"class": "HostileEntity",
+"language": "GDScript",
+"path": "res://characters/hostile_entity/HostileEntity.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "LivingEntity",
 "language": "GDScript",
 "path": "res://characters/living_entity/LivingEntity.gd"
+}, {
+"base": "LivingEntity",
+"class": "Player",
+"language": "GDScript",
+"path": "res://characters/player/Player.gd"
+}, {
+"base": "Area2D",
+"class": "ProjectileEntity",
+"language": "GDScript",
+"path": "res://projectiles/projectile_entity/ProjectileEntity.gd"
 } ]
 _global_script_class_icons={
-"LivingEntity": ""
+"HostileEntity": "",
+"LivingEntity": "",
+"Player": "",
+"ProjectileEntity": ""
 }
 
 [application]
@@ -23,6 +41,41 @@ _global_script_class_icons={
 config/name="roguelitev2"
 run/main_scene="res://characters/hostile_entity/HostileEntity.tscn"
 config/icon="res://icon.png"
+
+[input]
+
+space={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+left_click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+right_click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+key_q={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+key_e={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_physics/layer_1="walls"
+2d_physics/layer_2="enemies"
+2d_physics/layer_3="player"
+2d_physics/layer_4="projectiles"
 
 [physics]
 
