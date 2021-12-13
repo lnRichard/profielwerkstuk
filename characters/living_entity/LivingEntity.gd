@@ -23,3 +23,6 @@ func _init(_max_health: float):
 func change_health_minus(value: float):
 	current_health-=value;
 	
+
+func attack():
+	pass

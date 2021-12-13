@@ -5,6 +5,6 @@ func _ready():
 	pass 
 
 
-
-func _init().(20, 20, 20):
+# _speed: float, _lifetime: int, _damage: float
+func _init().(750, 2000, 20):
 	pass

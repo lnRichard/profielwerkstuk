@@ -10,7 +10,7 @@ enum ATTACK_SLOT {NONE, A, B, C, D, E, F, G}
 func _init().(20):
 	pass
 func _ready():
-	pass 
+	$AnimatedSprite.play("idle")
 
 func _physics_process(delta):
 	match state:
@@ -30,8 +30,8 @@ func move():
 		$AnimatedSprite.play("idle");
 	else:
 		last_direction = velocity;
-		move_and_collide(velocity);
-		$AnimatedSprite.flip_h = velocity.x > 0;
+		move_and_collide(velocity); 
+		$AnimatedSprite.flip_h = (velocity.x < 0 && velocity.x != 0);
 		
 		
 func idle():
