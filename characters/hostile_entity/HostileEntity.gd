@@ -5,7 +5,7 @@ class_name HostileEntity
 var player;
 
 
-func _init().(20):
+func _init(_max_health: float, _move_speed: float).(_max_health, _move_speed):
 	pass
 
 func _ready():

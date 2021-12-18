@@ -4,12 +4,15 @@ class_name ProjectileEntity
 var speed;
 var lifetime;
 var damage;
+var cooldown;
+var direction = Vector2();
 
 
-func _init(_speed: float, _lifetime: int, _damage: float):
+func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
 	speed = _speed;
 	lifetime = _lifetime;
 	damage = _damage;
+	cooldown = _cooldown
 	
 
 func _physics_process(delta):
@@ -18,11 +21,11 @@ func _physics_process(delta):
 
 # https://kidscancode.org/godot_recipes/2d/2d_shooting/
 func move(delta):
-	position += transform.x * speed * delta;
+	position += direction * speed * delta;
 
 # default behaviour override if neccesarry 
 func _on_Projectile_body_entered(body):
-	body.change_health_minus(damage * (body is LivingEntity))
+	body.set_health(body.get_health() - (damage * ((body is LivingEntity) as int)));
 	queue_free();
 
 
