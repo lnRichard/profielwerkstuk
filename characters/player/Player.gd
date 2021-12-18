@@ -6,7 +6,7 @@ var last_direction = Vector2();
 
 var dash = {
 	"speed": 20,
-	"cooldown": 30,
+	"cooldown": 60,
 	"c_cooldown": 0,
 	"range": 10,
 	"duration": 0
@@ -22,13 +22,14 @@ func _ready():
 	$AnimatedSprite.play("idle")
  
 func _physics_process(delta):
+	cooldowns()
 	if Input.is_action_just_pressed("key_e"):
 		attack();
 	match state:
 		IDLING:
 			idle()
 		DASHING:
-			pass;
+			dash()
 		MOVING:
 			move();
 		ATTACKING:
@@ -53,11 +54,15 @@ func idle():
 
 
 func dash():
-	move_and_collide(last_direction * dash.speed);
-	dash.duration+=1;
 	if dash.duration >= dash.range:
 		state = IDLING;
 		dash.duration = 0;	
+		dash.c_cooldown = dash.cooldown;
+	elif dash.c_cooldown > 0:
+		return
+	else:
+		move_and_collide(last_direction * dash.speed);
+		dash.duration+=1;
 		
 func attack():
 	# TEMPORARY
@@ -70,6 +75,7 @@ func attack():
 
 func movement_input() -> Vector2:
 	if Input.is_action_just_pressed("space"):
+		$AnimatedSprite.play("idle")
 		state=DASHING
 	var velocity = Vector2();
 	if Input.is_action_pressed("ui_right"):
@@ -96,5 +102,6 @@ func attack_input():
 		
 		
 func cooldowns():
-	dash.c_cooldown-=1;
+	if dash.c_cooldown > 0:
+		dash.c_cooldown-=1;
 	
