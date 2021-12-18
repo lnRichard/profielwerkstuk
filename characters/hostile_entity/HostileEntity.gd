@@ -4,7 +4,14 @@ class_name HostileEntity
 
 var player;
 
-
+func _physics_process(delta):
+	match state:
+		MOVING:
+			move();
+		ATTACKING:
+			pass;
+		IDLING:
+			pass;
 func _init(_max_health: float, _move_speed: float).(_max_health, _move_speed):
 	pass
 
@@ -13,9 +20,13 @@ func _ready():
 
 
 func move():
+	var vel = global_position.direction_to(player.global_position)
+	$AnimatedSprite.flip_h = vel.x < 0;
+	$AnimatedSprite.play("running")
+	move_and_collide(vel)
+
+func attack():
 	pass
-
-
 # Only detects player because of collision layer
 func _on_Sight_body_entered(body):
 	player = body;
