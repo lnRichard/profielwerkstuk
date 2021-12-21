@@ -8,6 +8,9 @@
 [ext_resource path="res://projectiles/fireball/sprites/FB001.png" type="Texture" id=6]
 [ext_resource path="res://projectiles/fireball/sprites/FB003.png" type="Texture" id=7]
 
+[sub_resource type="CircleShape2D" id=2]
+radius = 4.0
+
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 3 ), ExtResource( 4 ) ],
@@ -16,17 +19,15 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 4.0
-
 [node name="Projectile" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="AnimatedSprite" parent="." index="0"]
+[node name="Collision" parent="." index="0"]
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" parent="." index="1"]
 position = Vector2( -1, 0 )
 scale = Vector2( 0.21875, 0.421875 )
 frames = SubResource( 1 )
+frame = 3
 playing = true
-
-[node name="Collision" parent="." index="1"]
-shape = SubResource( 2 )

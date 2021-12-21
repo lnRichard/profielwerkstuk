@@ -1,7 +1,9 @@
 extends LivingEntity
 class_name Player
 
+enum ATTACK_SLOT {A, B, C, D, E, F, G}
 
+onready var parent = get_parent();
 var last_direction = Vector2();
 
 var dash = {
@@ -12,9 +14,13 @@ var dash = {
 	"duration": 0
 }
 
-var projectile = {}
+var projectiles = {
+	ATTACK_SLOT.A: load("res://projectiles/fireball/Fireball.tscn")
+};
 
-enum ATTACK_SLOT {NONE, A, B, C, D, E, F, G}
+var projectile_queue;
+
+
 
 func _init().(20, 3):
 	pass
@@ -23,17 +29,18 @@ func _ready():
  
 func _physics_process(delta):
 	cooldowns()
-	if Input.is_action_just_pressed("key_e"):
-		attack();
 	match state:
 		IDLING:
 			idle()
+			attack_input()
 		DASHING:
 			dash()
 		MOVING:
 			move();
+			attack_input();
 		ATTACKING:
 			attack();
+			state=MOVING
 
 func move():
 	var velocity = movement_input()
@@ -65,12 +72,12 @@ func dash():
 		dash.duration+=1;
 		
 func attack():
-	# TEMPORARY
-	var b = preload("res://projectiles/fireball/Fireball.tscn").instance();
-	b.direction = Vector2(10, 0).rotated((get_local_mouse_position()).angle()).normalized()
-	b.get_node("AnimatedSprite").rotation = get_local_mouse_position().angle()
-	b.position = $AttackPoint.position
-	get_parent().add_child(b);
+	if projectile_queue in projectiles:
+		var b = projectiles[projectile_queue].instance();
+		b.direction = Vector2(10, 0).rotated((get_local_mouse_position()).angle()).normalized()
+		b.get_node("AnimatedSprite").rotation = get_local_mouse_position().angle()
+		b.position = $AttackPoint.position
+		parent.add_child(b);
 	
 
 func movement_input() -> Vector2:
@@ -78,27 +85,29 @@ func movement_input() -> Vector2:
 		$AnimatedSprite.play("idle")
 		state=DASHING
 	var velocity = Vector2();
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("key_d"):
 		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("key_a"):
 		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("key_s"):
 		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("key_w"):
 		velocity.y -= 1
 	return velocity.normalized();
 
 func attack_input():
 	if Input.is_action_just_pressed("right_click"):
-		return ATTACK_SLOT.A ;
+		projectile_queue = ATTACK_SLOT.A;
+		state = ATTACKING
 	elif Input.is_action_just_pressed("left_click"):
-		return ATTACK_SLOT.B;
+		projectile_queue = ATTACK_SLOT.B;
+		state = ATTACKING
 	elif Input.is_action_just_pressed("key_e"):
-		return ATTACK_SLOT.C
+		projectile_queue = ATTACK_SLOT.C
+		state = ATTACKING
 	elif Input.is_action_just_pressed("key_q"):
-		return ATTACK_SLOT.D
-	else:
-		return ATTACK_SLOT.NONE
+		projectile_queue = ATTACK_SLOT.D
+		state = ATTACKING
 		
 		
 func cooldowns():
