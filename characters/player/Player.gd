@@ -14,9 +14,7 @@ var dash = {
 	"duration": 0
 }
 
-var projectiles = {
-	ATTACK_SLOT.A: load("res://projectiles/fireball/Fireball.tscn")
-};
+var projectiles = {};
 
 var projectile_queue;
 
@@ -25,6 +23,7 @@ var projectile_queue;
 func _init().(20, 3):
 	pass
 func _ready():
+	add_spell_arsenal("res://projectiles/fireball/Fireball.tscn", ATTACK_SLOT.A)
 	$AnimatedSprite.play("idle")
  
 func _physics_process(delta):
@@ -72,8 +71,9 @@ func dash():
 		dash.duration+=1;
 		
 func attack():
-	if projectile_queue in projectiles:
-		var b = projectiles[projectile_queue].instance();
+	if projectile_queue in projectiles && projectiles[projectile_queue].c_cooldown == 0:
+		projectiles[projectile_queue].c_cooldown = projectiles[projectile_queue].cooldown;
+		var b = projectiles[projectile_queue].projectile.instance();
 		b.direction = Vector2(10, 0).rotated((get_local_mouse_position()).angle()).normalized()
 		b.get_node("AnimatedSprite").rotation = get_local_mouse_position().angle()
 		b.position = $AttackPoint.position
@@ -113,4 +113,17 @@ func attack_input():
 func cooldowns():
 	if dash.c_cooldown > 0:
 		dash.c_cooldown-=1;
+	for c in projectiles.values():
+		if c.c_cooldown > 0:
+			c.c_cooldown-=1;
 	
+	
+func add_spell_arsenal(_projectile_path: String, _slot: int):
+	var temp = load(_projectile_path).instance();
+	var cooldown = temp.cooldown;
+	temp.queue_free();
+	projectiles[_slot] = {
+		"projectile": load(_projectile_path),
+		"cooldown": cooldown,
+		"c_cooldown": 0
+	}
