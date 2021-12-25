@@ -81,7 +81,7 @@ func attack():
 	
 
 func movement_input() -> Vector2:
-	if Input.is_action_just_pressed("space"):
+	if Input.is_action_just_pressed("space") && dash.c_cooldown == 0:
 		$AnimatedSprite.play("idle")
 		state=DASHING
 	var velocity = Vector2();
