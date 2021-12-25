@@ -25,7 +25,8 @@ func move(delta):
 
 # default behaviour override if neccesarry 
 func _on_Projectile_body_entered(body):
-	body.set_health(body.get_health() - (damage * ((body is LivingEntity) as int)));
+	if body is LivingEntity:
+		body.set_health(body.get_health() - damage);
 	queue_free();
 
 
