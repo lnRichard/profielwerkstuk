@@ -3,10 +3,13 @@ extends Area2D
 
 signal PlayerTouch;
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	pass # Replace with function body.
+	$AnimatedSprite.play("idle");
+	self.connect("PlayerTouch", get_parent().get_parent() , "_exit")
+
 
 
 func _on_Exit_body_entered(body):
 	emit_signal("PlayerTouch")
+	$AnimatedSprite.play("close")
