@@ -23,7 +23,7 @@ func place_tiles():
 			if c < tile_cap:
 				$PlainDungeonAutoTile.set_cell(x, y, 0);
 			if c < entrance_exit_cap && !entrance_set:
-				$Entrance.position = Vector2(x*16, y*16);
+				$Entrance.position = Vector2((x+1)*16, (y+1)*16);
 				print(Vector2(x*16, y*16))
 				entrance_set = true;
 	for x in range(dungeon_size.x-1, -1, -1):
