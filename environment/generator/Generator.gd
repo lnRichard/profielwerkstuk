@@ -17,14 +17,12 @@ onready var astar = AStar2D.new()
 
 var et_p;
 var ex_p;
-var points = [];
 func _ready():
 	randomize()
 	noise.seed = randi();
 	noise.octaves = 5.0;
 	noise.period = 5;
 	place_tiles()
-	valid_path();
 	
 func place_tiles():
 	for x in dungeon_size.x:
@@ -32,12 +30,27 @@ func place_tiles():
 			var c = noise.get_noise_2d(x, y);
 			if c < tile_cap:
 				var thispoint = (x*dungeon_size.x)+y;
-				astar.add_point(thispoint, Vector2(x, y))
+				astar.add_point(thispoint, Vector2(x*16, y*16))
 				autotile.set_cell(x, y, 0);
-				if astar.has_point(((x-1)*dungeon_size.x)+y):
+				if astar.has_point(((x-1)*dungeon_size.x)+y):				
 					astar.connect_points(thispoint, ((x-1)*dungeon_size.x)+y)
+				else:
+					if astar.has_point(((x-2)*dungeon_size.x)+y):
+						if astar.has_point(((x-3)*dungeon_size.x)+y):
+							pass
+						else:
+							print(2)
+							astar.remove_point(((x-2)*dungeon_size.x)+y);
 				if astar.has_point((x*dungeon_size.x)+y-1):
 					astar.connect_points(thispoint, ((x)*dungeon_size.x)+y-1)
+				else:
+					if astar.has_point(((x)*dungeon_size.x)+y-2):
+						if astar.has_point(((x)*dungeon_size.x)+y-3):
+							pass
+						else:
+							print(2)
+							astar.remove_point(((x)*dungeon_size.x)+y-2);
+				
 			if c < entrance_exit_cap && !entrance_set:
 				$Entrance.position = Vector2((x+1)*16, (y+1)*16);
 				print($Entrance.position)
@@ -55,6 +68,10 @@ func place_tiles():
 		if exit_set:
 			break
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
-
-func valid_path():
-	print(astar.get_id_path(et_p, ex_p))
+	if !valid_path():
+		place_tiles()
+func valid_path() -> bool:
+	if !astar.get_id_path(et_p, ex_p):
+		return false
+	$Line2D.points = astar.get_point_path(et_p, ex_p);
+	return true;
