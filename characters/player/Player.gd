@@ -48,7 +48,7 @@ func move():
 		$AnimatedSprite.play("idle");
 	else:
 		last_direction = velocity;
-		move_and_collide(velocity * move_speed); 
+		move_and_slide(velocity * move_speed * 50); 
 		$AnimatedSprite.flip_h = (velocity.x < 0 && velocity.x != 0);
 		
 		
@@ -64,11 +64,13 @@ func dash():
 		state = IDLING;
 		dash.duration = 0;	
 		dash.c_cooldown = dash.cooldown;
+		$BodyCollision.scale = Vector2(1, 1)
 	elif dash.c_cooldown > 0:
 		return
 	else:
-		move_and_collide(last_direction * dash.speed);
+		move_and_slide(50 * last_direction * dash.speed);
 		dash.duration+=1;
+		$BodyCollision.scale = Vector2(0.1, 0.1)
 		
 func attack():
 	if projectile_queue in projectiles && projectiles[projectile_queue].c_cooldown == 0:
