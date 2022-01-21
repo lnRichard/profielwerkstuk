@@ -30,7 +30,7 @@ func place_tiles():
 			var c = noise.get_noise_2d(x, y);
 			if c < tile_cap:
 				var thispoint = (x*dungeon_size.x)+y;
-				astar.add_point(thispoint, Vector2(x*16, y*16))
+				astar.add_point(thispoint, Vector2(x*16 + 8, y*16 + 8))
 				autotile.set_cell(x, y, 0);
 				if astar.has_point(((x-1)*dungeon_size.x)+y):				
 					astar.connect_points(thispoint, ((x-1)*dungeon_size.x)+y)
