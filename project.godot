@@ -42,6 +42,10 @@ config/name="roguelitev2"
 run/main_scene="res://main/Main.tscn"
 config/icon="res://icon.png"
 
+[global]
+
+physic=false
+
 [input]
 
 space={
@@ -97,6 +101,8 @@ key_d={
 2d_physics/layer_3="player"
 2d_physics/layer_4="projectiles"
 2d_physics/layer_5="gates"
+2d_physics/layer_6="sight_radius"
+2d_physics/layer_7="attack_radius"
 
 [physics]
 

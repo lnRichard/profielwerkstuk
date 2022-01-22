@@ -23,6 +23,7 @@ func _ready():
 	add_child(player)
 
 func _exit():
+	passed_levels+=1;
 	remove_child(room);
 	if passed_levels % 3 != 0:
 		room = generator.instance();

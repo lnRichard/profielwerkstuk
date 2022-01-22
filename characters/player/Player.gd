@@ -10,7 +10,7 @@ var dash = {
 	"speed": 20,
 	"cooldown": 60,
 	"c_cooldown": 0,
-	"range": 10,
+	"range": 5,
 	"duration": 0
 }
 
@@ -28,6 +28,7 @@ func _ready():
  
 func _physics_process(delta):
 	cooldowns()
+	print("Plauer Pos: ", position)
 	match state:
 		IDLING:
 			idle()

@@ -7,6 +7,8 @@ var damage;
 var cooldown;
 var direction = Vector2();
 
+var ticks = 0;
+
 
 func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
 	speed = _speed;
@@ -16,6 +18,9 @@ func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
 	
 
 func _physics_process(delta):
+	ticks+=1;
+	if ticks > lifetime:
+		queue_free()
 	move(delta);
 	
 
