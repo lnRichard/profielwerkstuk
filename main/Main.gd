@@ -5,9 +5,7 @@ onready var player = preload("res://characters/player/Player.tscn").instance();
 onready var generator = preload("res://environment/generator/Generator.tscn");
 onready var RNG = RandomNumberGenerator.new();
 onready var boss_rooms = [
-	preload("res://environment/rooms/template/Template.tscn"),
-	
-	
+		
 ]	
 
 var room;
