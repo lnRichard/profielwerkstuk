@@ -3,6 +3,10 @@ class_name Player
 
 enum ATTACK_SLOT {A, B, C, D, E, F, G}
 
+
+
+signal PlayerDeath;
+
 onready var parent = get_parent();
 var last_direction = Vector2();
 
@@ -28,7 +32,7 @@ func _ready():
  
 func _physics_process(delta):
 	cooldowns()
-	print("Plauer Pos: ", position)
+	print(current_health)
 	match state:
 		IDLING:
 			idle()
@@ -130,3 +134,11 @@ func add_spell_arsenal(_projectile_path: String, _slot: int):
 		"cooldown": cooldown,
 		"c_cooldown": 0
 	}
+
+
+
+func death():
+	if current_health < 0:
+		emit_signal("PlayerDeath");
+		queue_free();
+		

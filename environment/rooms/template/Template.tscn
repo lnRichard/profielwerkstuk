@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://environment/gates/exit/Exit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://environment/dungeon/plain_dungeon/PlainDungeon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://environment/gates/entrance/Entrance.tscn" type="PackedScene" id=3]
 [ext_resource path="res://characters/enemies/grunt/Grunt.tscn" type="PackedScene" id=4]
-[ext_resource path="res://characters/player/Player.tscn" type="PackedScene" id=5]
 
 [node name="Room" type="Node2D"]
 
@@ -16,7 +15,4 @@
 position = Vector2( 81, -4 )
 
 [node name="Grunt" parent="." instance=ExtResource( 4 )]
-position = Vector2( 59, 40 )
-
-[node name="Player" parent="." instance=ExtResource( 5 )]
-position = Vector2( -8, -63 )
+position = Vector2( 190, 1 )

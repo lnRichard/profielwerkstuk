@@ -39,7 +39,6 @@ func place_tiles():
 						if astar.has_point(((x-3)*dungeon_size.x)+y):
 							pass
 						else:
-							print(2)
 							astar.remove_point(((x-2)*dungeon_size.x)+y);
 				if astar.has_point((x*dungeon_size.x)+y-1):
 					astar.connect_points(thispoint, ((x)*dungeon_size.x)+y-1)
@@ -48,20 +47,17 @@ func place_tiles():
 						if astar.has_point(((x)*dungeon_size.x)+y-3):
 							pass
 						else:
-							print(2)
 							astar.remove_point(((x)*dungeon_size.x)+y-2);
 				
 			if c < entrance_exit_cap && !entrance_set:
 				$Entrance.position = Vector2((x+1)*16, (y+1)*16);
-				print($Entrance.position)
 				entrance_set = true;
 				et_p = (x*dungeon_size.x)+y;
 	for x in range(dungeon_size.x-1, -1, -1):
 		for y in range(dungeon_size.y-1, -1, -1):
 			var c = noise.get_noise_2d(x, y);
 			if c < entrance_exit_cap && !exit_set:
-				$Exit.position = Vector2(x*16, (y-1)*16);
-				print($Exit.position);
+				$Exit.position = Vector2(x*16, (y)*16);
 				exit_set = true;
 				ex_p = (x*dungeon_size.x)+y;
 				break;
