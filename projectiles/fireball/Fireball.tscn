@@ -1,33 +1,87 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://projectiles/projectile_entity/ProjectileEntity.tscn" type="PackedScene" id=1]
-[ext_resource path="res://projectiles/fireball/Fireball.gd" type="Script" id=2]
-[ext_resource path="res://projectiles/fireball/sprites/FB004.png" type="Texture" id=3]
-[ext_resource path="res://projectiles/fireball/sprites/FB005.png" type="Texture" id=4]
-[ext_resource path="res://projectiles/fireball/sprites/FB002.png" type="Texture" id=5]
-[ext_resource path="res://projectiles/fireball/sprites/FB001.png" type="Texture" id=6]
-[ext_resource path="res://projectiles/fireball/sprites/FB003.png" type="Texture" id=7]
+[ext_resource path="res://projectiles/fireball/sprites/60.png" type="Texture" id=2]
+[ext_resource path="res://projectiles/fireball/sprites/57.png" type="Texture" id=3]
+[ext_resource path="res://projectiles/fireball/sprites/59.png" type="Texture" id=4]
+[ext_resource path="res://projectiles/fireball/sprites/56.png" type="Texture" id=5]
+[ext_resource path="res://projectiles/fireball/sprites/58.png" type="Texture" id=6]
+[ext_resource path="res://projectiles/fireball/sprites/15.png" type="Texture" id=7]
+[ext_resource path="res://projectiles/fireball/sprites/16.png" type="Texture" id=8]
+[ext_resource path="res://projectiles/fireball/sprites/6.png" type="Texture" id=9]
+[ext_resource path="res://projectiles/fireball/sprites/17.png" type="Texture" id=10]
+[ext_resource path="res://projectiles/fireball/sprites/18.png" type="Texture" id=11]
+[ext_resource path="res://projectiles/fireball/sprites/19.png" type="Texture" id=12]
+[ext_resource path="res://projectiles/fireball/sprites/20.png" type="Texture" id=13]
+[ext_resource path="res://projectiles/fireball/sprites/2.png" type="Texture" id=14]
+[ext_resource path="res://projectiles/fireball/sprites/5.png" type="Texture" id=15]
+[ext_resource path="res://projectiles/fireball/sprites/3.png" type="Texture" id=16]
+[ext_resource path="res://projectiles/fireball/sprites/1.png" type="Texture" id=17]
+[ext_resource path="res://projectiles/fireball/sprites/4.png" type="Texture" id=18]
+[ext_resource path="res://projectiles/fireball/sprites/7.png" type="Texture" id=19]
+[ext_resource path="res://projectiles/fireball/sprites/8.png" type="Texture" id=20]
+[ext_resource path="res://projectiles/fireball/sprites/9.png" type="Texture" id=21]
+[ext_resource path="res://projectiles/fireball/sprites/10.png" type="Texture" id=22]
+[ext_resource path="res://projectiles/fireball/sprites/11.png" type="Texture" id=23]
+[ext_resource path="res://projectiles/fireball/sprites/12.png" type="Texture" id=24]
+[ext_resource path="res://projectiles/fireball/sprites/13.png" type="Texture" id=25]
+[ext_resource path="res://projectiles/fireball/sprites/14.png" type="Texture" id=26]
+[ext_resource path="res://projectiles/fireball/sprites/51.png" type="Texture" id=27]
+[ext_resource path="res://projectiles/fireball/sprites/52.png" type="Texture" id=28]
+[ext_resource path="res://projectiles/fireball/sprites/53.png" type="Texture" id=29]
+[ext_resource path="res://projectiles/fireball/sprites/42.png" type="Texture" id=30]
+[ext_resource path="res://projectiles/fireball/sprites/43.png" type="Texture" id=31]
+[ext_resource path="res://projectiles/fireball/sprites/44.png" type="Texture" id=32]
+[ext_resource path="res://projectiles/fireball/sprites/45.png" type="Texture" id=33]
+[ext_resource path="res://projectiles/fireball/sprites/46.png" type="Texture" id=34]
+[ext_resource path="res://projectiles/fireball/sprites/47.png" type="Texture" id=35]
+[ext_resource path="res://projectiles/fireball/sprites/23.png" type="Texture" id=36]
+[ext_resource path="res://projectiles/fireball/sprites/25.png" type="Texture" id=37]
+[ext_resource path="res://projectiles/fireball/sprites/29.png" type="Texture" id=38]
+[ext_resource path="res://projectiles/fireball/sprites/32.png" type="Texture" id=39]
+[ext_resource path="res://projectiles/fireball/sprites/27.png" type="Texture" id=40]
+[ext_resource path="res://projectiles/fireball/sprites/31.png" type="Texture" id=41]
+[ext_resource path="res://projectiles/fireball/sprites/21.png" type="Texture" id=42]
+[ext_resource path="res://projectiles/fireball/sprites/22.png" type="Texture" id=43]
+[ext_resource path="res://projectiles/fireball/sprites/33.png" type="Texture" id=44]
+[ext_resource path="res://projectiles/fireball/sprites/24.png" type="Texture" id=45]
+[ext_resource path="res://projectiles/fireball/sprites/26.png" type="Texture" id=46]
+[ext_resource path="res://projectiles/fireball/sprites/28.png" type="Texture" id=47]
+[ext_resource path="res://projectiles/fireball/sprites/30.png" type="Texture" id=48]
+[ext_resource path="res://projectiles/fireball/sprites/48.png" type="Texture" id=49]
+[ext_resource path="res://projectiles/fireball/sprites/49.png" type="Texture" id=50]
+[ext_resource path="res://projectiles/fireball/sprites/50.png" type="Texture" id=51]
+[ext_resource path="res://projectiles/fireball/sprites/54.png" type="Texture" id=52]
+[ext_resource path="res://projectiles/fireball/sprites/55.png" type="Texture" id=53]
+[ext_resource path="res://projectiles/fireball/sprites/38.png" type="Texture" id=54]
+[ext_resource path="res://projectiles/fireball/sprites/36.png" type="Texture" id=55]
+[ext_resource path="res://projectiles/fireball/sprites/39.png" type="Texture" id=56]
+[ext_resource path="res://projectiles/fireball/sprites/40.png" type="Texture" id=57]
+[ext_resource path="res://projectiles/fireball/sprites/41.png" type="Texture" id=58]
+[ext_resource path="res://projectiles/fireball/sprites/35.png" type="Texture" id=59]
+[ext_resource path="res://projectiles/fireball/sprites/34.png" type="Texture" id=60]
+[ext_resource path="res://projectiles/fireball/sprites/37.png" type="Texture" id=61]
+[ext_resource path="res://projectiles/fireball/Fireball.gd" type="Script" id=62]
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 4.0
+[sub_resource type="CircleShape2D" id=1]
+radius = 8.0
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"frames": [ ExtResource( 17 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 15 ), ExtResource( 9 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 36 ), ExtResource( 45 ), ExtResource( 37 ), ExtResource( 46 ), ExtResource( 40 ), ExtResource( 47 ), ExtResource( 38 ), ExtResource( 48 ), ExtResource( 41 ), ExtResource( 39 ), ExtResource( 44 ), ExtResource( 60 ), ExtResource( 59 ), ExtResource( 55 ), ExtResource( 61 ), ExtResource( 54 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 49 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 52 ), ExtResource( 53 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 2 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[node name="Projectile" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="Fireball" instance=ExtResource( 1 )]
+script = ExtResource( 62 )
 
 [node name="Collision" parent="." index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="1"]
-position = Vector2( -1, 0 )
-scale = Vector2( 0.21875, 0.421875 )
-frames = SubResource( 1 )
-frame = 3
+frames = SubResource( 2 )
+frame = 31
+speed_scale = 7.0
 playing = true

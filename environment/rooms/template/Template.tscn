@@ -11,4 +11,3 @@
 [node name="Exit" parent="." instance=ExtResource( 1 )]
 
 [node name="Entrance" parent="." instance=ExtResource( 3 )]
-position = Vector2( 81, -4 )
