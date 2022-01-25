@@ -14,10 +14,7 @@ func _init(_max_health: float, _move_speed: float, _score: int).(_max_health, _m
 	
 
 func connect_death():
-	print(get_parent().get_parent())
 	self.connect("EnemyDeath", get_parent().get_parent(), "_enemy_death")
-	if is_connected("EnemyDeath", get_parent().get_parent(), "_enemy_death"):
-		print("AOIWDJAOWIDJ")
 	
 func work_em():
 	cooldowns();
@@ -91,6 +88,5 @@ func _on_Attack_body_exited(body):
 
 func death():
 	if current_health < 0:
-		print("score ", score)
 		emit_signal("EnemyDeath", score);
 		queue_free();
