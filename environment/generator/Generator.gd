@@ -69,5 +69,5 @@ func place_tiles():
 func valid_path() -> bool:
 	if !astar.get_id_path(et_p, ex_p):
 		return false
-	$Line2D.points = astar.get_point_path(et_p, ex_p);
+#	$Line2D.points = astar.get_point_path(et_p, ex_p);
 	return true;

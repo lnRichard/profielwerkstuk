@@ -19,22 +19,25 @@ var startscreen;
 var quit_screen;
 
 func _ready():
-	startscreen = preload("res://gui/start_screen/StartScreen.tscn").instance();
-	add_child(startscreen)
+	_start_game()
 	
 
 func _start_game():
-	remove_child(startscreen)
 	room = generator.instance()
 	add_child(room)
 	player.position = room.get_node("Entrance").position;
 	add_child(player)	
 
 func _exit():
-	total_score+=100;
+	
+	yield(get_tree().create_timer(1.0), "timeout")
+	move_to_next_room()
 	passed_levels+=1;
+	total_score+=100;
+
+func move_to_next_room():
 	remove_child(room);
-	if passed_levels % 3 != 0:
+	if passed_levels % 3 == 0:
 		room = generator.instance();
 	else:
 		RNG.randomize();
@@ -43,17 +46,14 @@ func _exit():
 	add_child(room);
 	move_child(room, 0);
 	player.position = room.get_node("Entrance").position;
-
-func _input(event):
-	if Input.is_action_just_pressed("key_a"):
-		quit_screen = preload("res://gui/menu_screen/MenuScreen.tscn").instance();
-		add_child(quit_screen)
-
-func _continue_game():
-	remove_child(quit_screen)		
+	
+		
 
 func _game_over():
-	pass
+	var restart = preload("res://gui/restart_menu/RestartMenu.tscn");
+	Global.highscore = total_score
+	get_tree().change_scene_to(restart);
 	
 func _enemy_death(score):
 	total_score+=score;
+
