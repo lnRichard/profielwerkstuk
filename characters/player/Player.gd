@@ -24,15 +24,19 @@ var projectile_queue;
 
 
 
-func _init().(20, 3):
+
+
+func _init().(100, 3):
 	pass
 func _ready():
 	add_spell_arsenal("res://projectiles/fireball/Fireball.tscn", ATTACK_SLOT.A)
 	$AnimatedSprite.play("idle")
+	connect("PlayerDeath", get_parent(), "_game_over")
  
 func _physics_process(delta):
 	cooldowns()
-	print(current_health)
+	health()
+	death()
 	match state:
 		IDLING:
 			idle()
@@ -109,10 +113,10 @@ func attack_input():
 	elif Input.is_action_just_pressed("left_click"):
 		projectile_queue = ATTACK_SLOT.B;
 		state = ATTACKING
-	elif Input.is_action_just_pressed("key_e"):
+	elif Input.is_action_just_pressed("key_f"):
 		projectile_queue = ATTACK_SLOT.C
 		state = ATTACKING
-	elif Input.is_action_just_pressed("key_q"):
+	elif Input.is_action_just_pressed("key_r"):
 		projectile_queue = ATTACK_SLOT.D
 		state = ATTACKING
 		
@@ -136,9 +140,11 @@ func add_spell_arsenal(_projectile_path: String, _slot: int):
 	}
 
 
-
+func health():
+	$Camera/ProgressBar.value = current_health/max_health * 100;
 func death():
-	if current_health < 0:
+	if current_health <= 0:
 		emit_signal("PlayerDeath");
 		queue_free();
+	
 		

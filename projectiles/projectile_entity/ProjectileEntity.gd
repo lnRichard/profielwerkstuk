@@ -16,6 +16,8 @@ func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
 	damage = _damage;
 	cooldown = _cooldown
 	
+func _ready():
+	$Label.text = String(damage);
 
 func _physics_process(delta):
 	ticks+=1;
@@ -32,8 +34,17 @@ func move(delta):
 func _on_Projectile_body_entered(body):
 	if body is LivingEntity:
 		body.set_health(body.get_health() - damage);
-	queue_free();
+		_damage_indicator();
+	else:
+		queue_free()
 
-
+func _damage_indicator():
+	$Label.visible = true;
+	var tween = get_node("Tween");
+	tween.interpolate_callback(self, 1, "queue_free")
+	set_physics_process(false)
+	$Collision.queue_free()
+	$AnimatedSprite.visible = false;
+	tween.start();
 func _on_Projectile_body_exited(body):
 	pass
