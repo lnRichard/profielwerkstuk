@@ -41,10 +41,13 @@ func _on_Projectile_body_entered(body):
 func _damage_indicator():
 	$Label.visible = true;
 	var tween = get_node("Tween");
-	tween.interpolate_callback(self, 1, "queue_free")
+	tween.interpolate_callback(self, 1.5, "queue_free")
 	set_physics_process(false)
 	$Collision.queue_free()
 	$AnimatedSprite.visible = false;
 	tween.start();
+	
 func _on_Projectile_body_exited(body):
 	pass
+
+

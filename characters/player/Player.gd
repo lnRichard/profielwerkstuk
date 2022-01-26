@@ -30,6 +30,9 @@ func _init().(100, 3):
 	pass
 func _ready():
 	add_spell_arsenal("res://projectiles/fireball/Fireball.tscn", ATTACK_SLOT.A)
+	add_spell_arsenal("res://projectiles/iceball/Iceball.tscn", ATTACK_SLOT.B)
+	add_spell_arsenal("res://projectiles/small_star/SmallStar.tscn", ATTACK_SLOT.C)
+	add_spell_arsenal("res://projectiles/zippy_zip/ZippyZip.tscn", ATTACK_SLOT.D)
 	$AnimatedSprite.play("idle")
 	connect("PlayerDeath", get_parent(), "_game_over")
  
@@ -74,9 +77,11 @@ func dash():
 		dash.duration = 0;	
 		dash.c_cooldown = dash.cooldown;
 		$BodyCollision.scale = Vector2(1, 1)
+		immortal=false;
 	elif dash.c_cooldown > 0:
 		return
 	else:
+		immortal = true;
 		move_and_slide(50 * last_direction * dash.speed);
 		dash.duration+=1;
 		$BodyCollision.scale = Vector2(0.1, 0.1)

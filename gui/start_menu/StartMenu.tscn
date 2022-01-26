@@ -34,19 +34,19 @@ __meta__ = {
 
 [node name="Start" type="Button" parent="VBoxContainer"]
 margin_right = 285.0
-margin_bottom = 41.251
+margin_bottom = 42.251
 text = "Start"
 
 [node name="Quit" type="Button" parent="VBoxContainer"]
-margin_top = 45.0
+margin_top = 46.0
 margin_right = 285.0
-margin_bottom = 86.251
+margin_bottom = 88.251
 text = "Quit"
 
 [node name="Options" type="Button" parent="VBoxContainer"]
-margin_top = 90.0
+margin_top = 92.0
 margin_right = 285.0
-margin_bottom = 131.251
+margin_bottom = 134.251
 text = "Options"
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_Start_pressed"]

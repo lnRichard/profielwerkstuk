@@ -87,6 +87,6 @@ func _on_Attack_body_exited(body):
 #	ap.position = position + pos;
 
 func death():
-	if current_health < 0:
+	if current_health <= 0:
 		emit_signal("EnemyDeath", score);
 		queue_free();
