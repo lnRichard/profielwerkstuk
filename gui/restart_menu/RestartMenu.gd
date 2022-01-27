@@ -1,13 +1,10 @@
 extends Control
 
 
-var score = 0
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$VBoxContainer/Score.text = "Score: "  + score as String
-	score = Global.highscore
+	$VBoxContainer/Score.text = "Score: "  + Global.highscore as String
 
 
 func _on_Quit_pressed():

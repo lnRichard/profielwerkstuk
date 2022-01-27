@@ -13,3 +13,7 @@ func _on_Quit_pressed():
 
 func _on_Options_pressed():
 	pass # Replace with function body.
+
+
+func _on_Highscore_pressed():
+	pass # Replace with function body.

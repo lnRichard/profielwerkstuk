@@ -13,7 +13,6 @@ func _ready():
 	var temp = projectile.instance();
 	cooldown = temp.cooldown;
 	temp.queue_free();
-	connect_death()
 
 # attack() is called when player enters the attack radius, for this attack 
 # it will be a simple melee attack
