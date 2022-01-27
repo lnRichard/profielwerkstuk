@@ -16,7 +16,7 @@ onready var astar = AStar2D.new()
 
 
 var enemy = preload("res://characters/enemies/grunt/Grunt.tscn");
-var enemy_cap = -0.5;
+var enemy_cap = -0.4;
 
 var et_p;
 var ex_p;
@@ -31,11 +31,6 @@ func place_tiles():
 	for x in dungeon_size.x:
 		for y in dungeon_size.y:
 			var c = noise.get_noise_2d(x, y);
-			if c < enemy_cap:
-				var i = enemy.instance();
-				i.position = Vector2(x*16 + 8, y*16 + 8)
-				add_child(i);
-#				move_child(i, 0)
 			if c < tile_cap:
 				var thispoint = (x*dungeon_size.x)+y;
 				astar.add_point(thispoint, Vector2(x*16 + 8, y*16 + 8))
@@ -61,6 +56,17 @@ func place_tiles():
 				$Entrance.position = Vector2((x+1)*16, (y+1)*16);
 				entrance_set = true;
 				et_p = (x*dungeon_size.x)+y;
+	for x in dungeon_size.x:
+		for y in dungeon_size.y:
+			if noise.get_noise_2d(x, y) < enemy_cap:
+				var coords = Vector2(x*16 + 8, y*16 + 8);
+				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
+					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
+						var i = enemy.instance();
+						# add enemy cap?
+						i.position = coords;
+						add_child(i);
+				
 	for x in range(dungeon_size.x-1, -1, -1):
 		for y in range(dungeon_size.y-1, -1, -1):
 			var c = noise.get_noise_2d(x, y);

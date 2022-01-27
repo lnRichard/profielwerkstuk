@@ -33,7 +33,7 @@ func _exit():
 	yield(get_tree().create_timer(1.0), "timeout")
 	move_to_next_room()
 	passed_levels+=1;
-	total_score+=100;
+	Global.highscore+=100;
 
 func move_to_next_room():
 	remove_child(room);
@@ -51,7 +51,6 @@ func move_to_next_room():
 
 func _game_over():
 	var restart = preload("res://gui/restart_menu/RestartMenu.tscn");
-	Global.highscore = total_score
 	get_tree().change_scene_to(restart);
 	
 func _enemy_death(score):
