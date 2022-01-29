@@ -49,7 +49,7 @@ func place_tiles():
 						if astar.has_point(((x - 3) * dungeon_size.x) + y):
 							pass
 						else:
-							astar.remove_point(((x - 2)*dungeon_size.x) + y)
+							astar.remove_point(((x - 2) * dungeon_size.x) + y)
 
 				if astar.has_point((x * dungeon_size.x) + y - 1):
 					astar.connect_points(thispoint, (x * dungeon_size.x) + y - 1)
