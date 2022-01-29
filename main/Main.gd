@@ -22,8 +22,11 @@ func _ready():
 
 # Start the game
 func _start_game():
+	# Generate a new room
 	room = generator.instance()
 	add_child(room)
+
+	# Send player to entrance
 	player.position = room.get_node("Entrance").position
 	add_child(player)	
 
@@ -37,12 +40,18 @@ func _exit():
 # Player moves to the next room
 func move_to_next_room():
 	remove_child(room)
+	
+	# Check new room type
 	if passed_levels % 3 == 0:
+		# Default room
 		room = generator.instance()
 	else:
+		# Boss room
 		RNG.randomize()
 		var result = RNG.randi_range(0, boss_rooms.size() - 1)
 		room = boss_rooms[result].instance()
+
+	# Add room and move player
 	add_child(room)
 	move_child(room, 0)
 	player.position = room.get_node("Entrance").position
@@ -53,7 +62,7 @@ func _game_over():
 	camera.global_position = player.global_position
 	add_child(camera)
 	player.queue_free()
-	
+
 	yield(get_tree().create_timer(2.0), "timeout")
 	var restart = preload("res://gui/restart_menu/RestartMenu.tscn")
 	get_tree().change_scene_to(restart)

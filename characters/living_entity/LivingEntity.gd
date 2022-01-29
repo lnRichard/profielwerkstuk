@@ -3,12 +3,12 @@ class_name LivingEntity
 
 # States
 enum {IDLING, MOVING, ATTACKING, DASHING, FROZEN, UNLOADED}
+var state = IDLING # State the entity is in
 
 # Generic
 var max_health # Maximum health
 var move_speed # Move speed of the entity
 var current_health setget set_health, get_health # Current health
-var state = IDLING # State the entity is in
 var invulnerable = false # If the entity cannot take damage
 
 # Knockback()

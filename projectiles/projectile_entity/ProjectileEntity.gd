@@ -68,7 +68,7 @@ func _damage_indicator(killing_blow: bool, damage):
 	elif damage == 0:
 		label.get_node("Label").text = text
 		label.show_value(killing_blow, Color(1, 1, 1))
-	elif damage < 0:
+	else:
 		text.erase(0, 1)
 		label.get_node("Label").text = text
 		label.show_value(killing_blow, Color(0.12, 0.9, 0.12))
