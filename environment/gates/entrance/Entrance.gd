@@ -10,12 +10,14 @@ func _ready():
 func _physics_process(delta):
 	match count:
 		0:
+			$Light2D.enabled = true
 			$AnimatedSprite.play("open");
 		1:
 			$AnimatedSprite.play("idle");
 		2:
 			$AnimatedSprite.play("close");
 		3:
+			$Light2D.enabled = false
 			$AnimatedSprite.hide()
 			set_physics_process(false)
 func _on_AnimatedSprite_animation_finished():

@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "EditorPlugin",
+"class": "GodotSfxr",
+"language": "GDScript",
+"path": "res://addons/godot_sfxr/GodotSfxr.gd"
+}, {
 "base": "LivingEntity",
 "class": "HostileEntity",
 "language": "GDScript",
@@ -28,12 +33,31 @@ _global_script_classes=[ {
 "class": "ProjectileEntity",
 "language": "GDScript",
 "path": "res://projectiles/projectile_entity/ProjectileEntity.gd"
+}, {
+"base": "Object",
+"class": "SfxrGenerator",
+"language": "GDScript",
+"path": "res://addons/godot_sfxr/SfxrGenerator.gd"
+}, {
+"base": "Object",
+"class": "SfxrGlobals",
+"language": "GDScript",
+"path": "res://addons/godot_sfxr/SfxrGlobals.gd"
+}, {
+"base": "AudioStreamPlayer",
+"class": "SfxrStreamPlayer",
+"language": "GDScript",
+"path": "res://addons/godot_sfxr/SfxrStreamPlayer.gd"
 } ]
 _global_script_class_icons={
+"GodotSfxr": "",
 "HostileEntity": "",
 "LivingEntity": "",
 "Player": "",
-"ProjectileEntity": ""
+"ProjectileEntity": "",
+"SfxrGenerator": "",
+"SfxrGlobals": "",
+"SfxrStreamPlayer": ""
 }
 
 [application]
@@ -51,6 +75,10 @@ Global="*res://main/global.gd"
 
 window/size/resizable=false
 window/size/fullscreen=true
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/godot_sfxr/plugin.cfg" )
 
 [global]
 
@@ -125,6 +153,7 @@ key_r={
 2d_physics/layer_6="sight_radius"
 2d_physics/layer_7="attack_radius"
 2d_physics/layer_8="explosion_radius"
+2d_physics/layer_9="soft_collisions"
 
 [physics]
 

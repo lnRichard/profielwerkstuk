@@ -19,10 +19,7 @@ func _on_ExplosionArea_body_entered(body):
 	targets.append(body)
 
 func _on_Projectile_body_entered(body):
+	._on_Projectile_body_entered(body)
 	if body is LivingEntity:
 		for t in targets:
-			print(t)
 			t.set_health(t.get_health() - damage);
-		_damage_indicator();
-	else:
-		queue_free()

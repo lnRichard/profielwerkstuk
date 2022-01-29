@@ -7,7 +7,7 @@ var current_health setget set_health, get_health;
 var move_speed;
 var velocity
 
-enum {IDLING, MOVING, ATTACKING, DASHING}
+enum {IDLING, MOVING, ATTACKING, DASHING, FROZEN}
 
 var state = IDLING;
 var immortal = false;
@@ -21,13 +21,21 @@ func _init(_max_health: float, _move_speed: float):
 	current_health = _max_health;
 	move_speed = _move_speed;
 
+var delta;
 
+
+var knockback = Vector2.ZERO;
+var friction = 200;
+func knockback(delta):
+	knockback = knockback.move_toward(Vector2.ZERO, friction * delta)
+	knockback = move_and_slide(knockback)
+	
+func _physics_process(delta):
+	knockback(delta)
+
+# Override this function
 func freeze(time: float):
-	$AnimatedSprite.stop();
-	set_physics_process(false);
-	yield(get_tree().create_timer(time), "timeout")	
-	set_physics_process(true)
-	$AnimatedSprite.play("moving")	
+	pass
 
 func set_health(value: float):
 	if immortal:
@@ -41,5 +49,11 @@ func get_health() -> float:
 func attack():
 	pass
 
+
+func spawn_death():
+	var death = preload("res://characters/living_entity/death/DeathEffect.tscn").instance();
+	death.global_position = global_position;
+	get_parent().add_child(death)
+	death.get_node("DeathEffect").play()
 
 

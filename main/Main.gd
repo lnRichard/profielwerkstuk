@@ -36,7 +36,7 @@ func _exit():
 	Global.highscore+=100;
 
 func move_to_next_room():
-	remove_child(room);
+	remove_child(room)
 	if passed_levels % 3 == 0:
 		room = generator.instance();
 	else:
@@ -46,10 +46,10 @@ func move_to_next_room():
 	add_child(room);
 	move_child(room, 0);
 	player.position = room.get_node("Entrance").position;
-	
-		
+
 
 func _game_over():
+	yield(get_tree().create_timer(2.0), "timeout")
 	var restart = preload("res://gui/restart_menu/RestartMenu.tscn");
 	get_tree().change_scene_to(restart);
 	

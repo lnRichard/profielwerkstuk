@@ -16,8 +16,6 @@ func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
 	damage = _damage;
 	cooldown = _cooldown
 	
-func _ready():
-	$Label.text = String(damage);
 
 func _physics_process(delta):
 	ticks+=1;
@@ -29,24 +27,24 @@ func _physics_process(delta):
 # https://kidscancode.org/godot_recipes/2d/2d_shooting/
 func move(delta):
 	position += direction * speed * delta;
-
+	
 # default behaviour override if neccesarry 
 func _on_Projectile_body_entered(body):
 	if body is LivingEntity:
+		body.friction = 200;
 		body.set_health(body.get_health() - damage);
-		_damage_indicator();
+		if damage != 0:
+			_damage_indicator(body.get_health() <= 0);
 	else:
 		queue_free()
 
-func _damage_indicator():
-	$Label.visible = true;
-	var tween = get_node("Tween");
-	tween.interpolate_callback(self, 1.5, "queue_free")
-	set_physics_process(false)
-	$Collision.queue_free()
-	$AnimatedSprite.visible = false;
-	tween.start();
-	
+func _damage_indicator(killing_blow: bool):
+	queue_free()
+	var label = preload("res://projectiles/damage_indicator/DamageIndicator.tscn").instance();
+	label.get_node("Label").text = String(damage);
+	label.global_position = global_position;
+	get_parent().add_child(label)
+	label.show_value(killing_blow)
 func _on_Projectile_body_exited(body):
 	pass
 

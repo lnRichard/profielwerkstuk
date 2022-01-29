@@ -5,7 +5,7 @@ var entrance_set = false;
 
 
 onready var noise = OpenSimplexNoise.new();
-var dungeon_size = Vector2(100, 100);
+var dungeon_size = Vector2(50, 50);
 
 var tile_cap = 0.2;
 var entrance_exit_cap = -0.5;
@@ -16,8 +16,8 @@ onready var astar = AStar2D.new()
 
 
 var enemy = preload("res://characters/enemies/grunt/Grunt.tscn");
-var enemy_cap = -0.4;
-
+var enemy_cap = -0.2;
+var enemy_count = 0;
 var et_p;
 var ex_p;
 func _ready():
@@ -28,6 +28,7 @@ func _ready():
 	place_tiles()
 	
 func place_tiles():
+	enemy_count = 0;
 	for x in dungeon_size.x:
 		for y in dungeon_size.y:
 			var c = noise.get_noise_2d(x, y);
@@ -53,9 +54,14 @@ func place_tiles():
 							astar.remove_point(((x)*dungeon_size.x)+y-2);
 				
 			if c < entrance_exit_cap && !entrance_set:
-				$Entrance.position = Vector2((x+1)*16, (y+1)*16);
-				entrance_set = true;
-				et_p = (x*dungeon_size.x)+y;
+				if y == dungeon_size.y:
+					$Entrance.position = Vector2((x+1)*16, (y-2)*16);
+					entrance_set = true;
+					et_p = (x*dungeon_size.x)+y;
+				else:
+					$Entrance.position = Vector2((x+1)*16, (y+1)*16);
+					entrance_set = true;
+					et_p = (x*dungeon_size.x)+y;					
 	for x in dungeon_size.x:
 		for y in dungeon_size.y:
 			if noise.get_noise_2d(x, y) < enemy_cap:
@@ -63,7 +69,7 @@ func place_tiles():
 				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
 					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
 						var i = enemy.instance();
-						# add enemy cap?
+						enemy_count+=1;
 						i.position = coords;
 						add_child(i);
 				
@@ -78,7 +84,8 @@ func place_tiles():
 		if exit_set:
 			break
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
-	if !valid_path():
+	if !valid_path() || enemy_count < 20:
+		print("invalid")
 		place_tiles()
 func valid_path() -> bool:
 	if !astar.get_id_path(et_p, ex_p):
