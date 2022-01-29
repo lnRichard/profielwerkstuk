@@ -38,65 +38,65 @@ func place_tiles():
 			# Generate tiles
 			var c = noise.get_noise_2d(x, y)
 			if c < tile_cap:
-				var thispoint = (x*dungeon_size.x)+y
-				astar.add_point(thispoint, Vector2(x*16 + 8, y*16 + 8))
+				var thispoint = (x * dungeon_size.x) + y
+				astar.add_point(thispoint, Vector2(x * 16 + 8, y * 16 + 8))
 				autotile.set_cell(x, y, 0)
 
-				if astar.has_point(((x-1)*dungeon_size.x)+y):				
-					astar.connect_points(thispoint, ((x-1)*dungeon_size.x)+y)
+				if astar.has_point(((x - 1) * dungeon_size.x) + y):				
+					astar.connect_points(thispoint, ((x - 1)*dungeon_size.x) + y)
 				else:
-					if astar.has_point(((x-2)*dungeon_size.x)+y):
-						if astar.has_point(((x-3)*dungeon_size.x)+y):
+					if astar.has_point(((x - 2) * dungeon_size.x) + y):
+						if astar.has_point(((x - 3) * dungeon_size.x) + y):
 							pass
 						else:
-							astar.remove_point(((x-2)*dungeon_size.x)+y)
+							astar.remove_point(((x - 2)*dungeon_size.x) + y)
 
-				if astar.has_point((x*dungeon_size.x)+y-1):
-					astar.connect_points(thispoint, ((x)*dungeon_size.x)+y-1)
+				if astar.has_point((x * dungeon_size.x) + y - 1):
+					astar.connect_points(thispoint, (x * dungeon_size.x) + y - 1)
 				else:
-					if astar.has_point(((x)*dungeon_size.x)+y-2):
-						if astar.has_point(((x)*dungeon_size.x)+y-3):
+					if astar.has_point((x * dungeon_size.x) + y - 2):
+						if astar.has_point((x * dungeon_size.x) + y - 3):
 							pass
 						else:
-							astar.remove_point(((x)*dungeon_size.x)+y-2)
+							astar.remove_point((x * dungeon_size.x) + y - 2)
 
 			# Generate entrance
 			if c < entrance_exit_cap && !entrance_set:
 				if x == dungeon_size.x:
-					$Entrance.position = Vector2((x-5)*16, (y+1)*16)
+					$Entrance.position = Vector2((x - 5) * 16, (y + 1) * 16)
 					entrance_set = true
-					entrance_point = (x*dungeon_size.x)+y
+					entrance_point = (x * dungeon_size.x) + y
 				if y == dungeon_size.y:
-					$Entrance.position = Vector2((x+1)*16, (y-5)*16)
+					$Entrance.position = Vector2((x + 1) * 16, (y - 5) * 16)
 					entrance_set = true
-					entrance_point = (x*dungeon_size.x)+y
+					entrance_point = (x * dungeon_size.x) + y
 				else:
-					$Entrance.position = Vector2((x+1)*16, (y+1)*16)
+					$Entrance.position = Vector2((x + 1) * 16, (y + 1) * 16)
 					entrance_set = true
-					entrance_point = (x*dungeon_size.x)+y
+					entrance_point = (x * dungeon_size.x) + y
 
 	# Spawn enemies
 	for x in dungeon_size.x:
 		for y in dungeon_size.y:
 			if noise.get_noise_2d(x, y) < enemy_cap:
-				var coords = Vector2(x*16 + 8, y*16 + 8)
+				var coords = Vector2(x * 16 + 8, y * 16 + 8)
 				if enemy_count > 50:
 					pass
 				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
 					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
 						var i = enemy.instance()
-						enemy_count+=1
+						enemy_count += 1
 						i.position = coords
 						add_child(i)
 
 	# Generate exit
-	for x in range(dungeon_size.x-1, -1, -1):
-		for y in range(dungeon_size.y-1, -1, -1):
+	for x in range(dungeon_size.x -1, -1, -1):
+		for y in range(dungeon_size.y -1, -1, -1):
 			var c = noise.get_noise_2d(x, y)
 			if c < entrance_exit_cap && !exit_set:
-				$Exit.position = Vector2(x*16, (y)*16)
+				$Exit.position = Vector2(x * 16, y * 16)
 				exit_set = true
-				exit_point = (x*dungeon_size.x)+y
+				exit_point = (x * dungeon_size.x) + y
 				break
 
 		# Break if exit has been set
