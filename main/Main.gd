@@ -80,17 +80,16 @@ func get_level():
 # set level var
 func set_level(value: int):
 	# Create levelup label
-	var levelup = preload("res://projectiles/damage_indicator/DamageIndicator.tscn").instance()
+	var levelup = preload("res://indicator/Indicator.tscn").instance()
 	var label = levelup.get_node("Label")
 	
 	# Style the label
 	label.text = "Level Up!"
-	label.add_color_override("font_color", Color(0.64, 0.67, 2.3))
 	levelup.global_position = player.global_position
 
 	# Add the label
 	add_child(levelup)
-	levelup.show_value(false)
+	levelup.show_value(false, Color(0.64, 0.67, 2.3))
 	
 	# Update player stats
 	player_lvl = value

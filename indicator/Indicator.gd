@@ -11,10 +11,14 @@ var spread = PI/2 # How much the label spreads
 
 
 # Shows a indicator
-func show_value(killing_blow):
+func show_value(killing_blow, color = null):
+	# Change color if color is set
+	if color:
+		label.add_color_override("font_color", color)
+
 	# How much the indicator should spread
 	var movement = Vector2.UP.rotated(rand_range(-spread / 2, spread / 2)) * 50
-	
+
 	# Interpolate the position
 	tween.interpolate_property(label, "rect_position",
 			label.rect_position, label.rect_position + movement,
@@ -27,8 +31,7 @@ func show_value(killing_blow):
 
 	# If killing block
 	if killing_blow:
-		modulate = Color(1, 0, 0)
-		# Modulate the rectangle scale
+		# Interpolate the rectangle scale
 		tween.interpolate_property(label, "rect_scale",
 			label.rect_scale*2, label.rect_scale,
 			0.4, Tween.TRANS_BACK, Tween.EASE_IN)

@@ -44,20 +44,29 @@ func _on_Projectile_body_entered(body):
 		body.set_health(body.get_health() - damage)
 		if damage != 0:
 			# Spawn damage indicator
-			_damage_indicator(body.get_health() <= 0)
+			_damage_indicator(body.get_health() <= 0, damage)
 	else:
 		queue_free()
 
 # Creates a damage indicator
-func _damage_indicator(killing_blow: bool):
+func _damage_indicator(killing_blow: bool, damage):
 	queue_free()
 	# Create the label
-	var label = preload("res://projectiles/damage_indicator/DamageIndicator.tscn").instance()
+	var label = preload("res://indicator/Indicator.tscn").instance()
 
 	# Style the lobal
-	label.get_node("Label").text = String(damage)
 	label.global_position = global_position
 
 	# Append the label
 	get_parent().add_child(label)
-	label.show_value(killing_blow)
+	var text = String(damage)
+	if damage > 0:
+		label.get_node("Label").text = text
+		label.show_value(killing_blow)
+	elif damage == 0:
+		label.get_node("Label").text = text
+		label.show_value(killing_blow, Color(1, 1, 1))
+	elif damage < 0:
+		text.erase(0, 1)
+		label.get_node("Label").text = text
+		label.show_value(killing_blow, Color(0.12, 0.9, 0.12))

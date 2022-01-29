@@ -37,5 +37,5 @@ func _on_Projectile_body_entered(body):
 			
 			# Spawn damage indicators
 			if damage != 0:
-				_damage_indicator(t.get_health() <= 0)
+				_damage_indicator(t.get_health() <= 0, damage)
 	queue_free()
