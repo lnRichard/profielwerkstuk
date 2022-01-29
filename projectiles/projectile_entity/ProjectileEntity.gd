@@ -1,51 +1,74 @@
 extends Area2D
 class_name ProjectileEntity
 
-var speed;
-var lifetime;
-var damage;
-var cooldown;
-var direction = Vector2();
+# Generic
+var speed # Speed of the projectile
+var lifetime # How long the projectile may live
+var damage # Damage of projectile
+var cooldown # Cooldown of projectile
 
-var ticks = 0;
+# _physics_process()
+var ticks = 0 # How long the projectile has been alive
 
+# move()
+var direction = Vector2() # Moving direction of projectile
 
+# _damage_indicator()
+var indicator = preload("res://indicator/Indicator.tscn")
+
+# Initialize the projectile
 func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
-	speed = _speed;
-	lifetime = _lifetime;
-	damage = _damage;
+	speed = _speed
+	lifetime = _lifetime
+	damage = _damage
 	cooldown = _cooldown
-	
 
+# Projectile physics
 func _physics_process(delta):
-	ticks+=1;
+	ticks += 1
+
+	# Kill the projectile if it has lived for too long
 	if ticks > lifetime:
 		queue_free()
-	move(delta);
-	
 
-# https://kidscancode.org/godot_recipes/2d/2d_shooting/
+	# Move the projectile
+	move(delta)
+
+# Moves the projectile position
 func move(delta):
-	position += direction * speed * delta;
-	
-# default behaviour override if neccesarry 
+	position += direction * speed * delta
+
+# Generic projectile behavior
 func _on_Projectile_body_entered(body):
 	if body is LivingEntity:
-		body.friction = 200;
-		body.set_health(body.get_health() - damage);
+		# If living entity deal damage
+		body.friction = 200
+		body.set_health(body.get_health() - damage)
 		if damage != 0:
-			_damage_indicator(body.get_health() <= 0);
+			# Spawn damage indicator
+			_damage_indicator(body.get_health() <= 0, damage)
 	else:
 		queue_free()
 
-func _damage_indicator(killing_blow: bool):
+# Creates a damage indicator
+func _damage_indicator(killing_blow: bool, damage):
 	queue_free()
-	var label = preload("res://projectiles/damage_indicator/DamageIndicator.tscn").instance();
-	label.get_node("Label").text = String(damage);
-	label.global_position = global_position;
+	# Create the label
+	var label = indicator.instance()
+
+	# Style the lobal
+	label.global_position = global_position
+
+	# Append the label
 	get_parent().add_child(label)
-	label.show_value(killing_blow)
-func _on_Projectile_body_exited(body):
-	pass
-
-
+	var text = String(damage)
+	if damage > 0:
+		label.get_node("Label").text = text
+		label.show_value(killing_blow)
+	elif damage == 0:
+		label.get_node("Label").text = text
+		label.show_value(killing_blow, Color(1, 1, 1))
+	else:
+		text.erase(0, 1)
+		label.get_node("Label").text = text
+		label.show_value(killing_blow, Color(0.12, 0.9, 0.12))

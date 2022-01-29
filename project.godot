@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "EditorPlugin",
-"class": "GodotSfxr",
-"language": "GDScript",
-"path": "res://addons/godot_sfxr/GodotSfxr.gd"
-}, {
 "base": "LivingEntity",
 "class": "HostileEntity",
 "language": "GDScript",
@@ -33,31 +28,12 @@ _global_script_classes=[ {
 "class": "ProjectileEntity",
 "language": "GDScript",
 "path": "res://projectiles/projectile_entity/ProjectileEntity.gd"
-}, {
-"base": "Object",
-"class": "SfxrGenerator",
-"language": "GDScript",
-"path": "res://addons/godot_sfxr/SfxrGenerator.gd"
-}, {
-"base": "Object",
-"class": "SfxrGlobals",
-"language": "GDScript",
-"path": "res://addons/godot_sfxr/SfxrGlobals.gd"
-}, {
-"base": "AudioStreamPlayer",
-"class": "SfxrStreamPlayer",
-"language": "GDScript",
-"path": "res://addons/godot_sfxr/SfxrStreamPlayer.gd"
 } ]
 _global_script_class_icons={
-"GodotSfxr": "",
 "HostileEntity": "",
 "LivingEntity": "",
 "Player": "",
-"ProjectileEntity": "",
-"SfxrGenerator": "",
-"SfxrGlobals": "",
-"SfxrStreamPlayer": ""
+"ProjectileEntity": ""
 }
 
 [application]
@@ -80,6 +56,7 @@ window/size/fullscreen=true
 
 physic=false
 Window=false
+layer=false
 
 [input]
 

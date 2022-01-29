@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://gui/fonts/AnakCute.tres" type="DynamicFont" id=1]
-[ext_resource path="res://projectiles/damage_indicator/DamageIndicator.gd" type="Script" id=2]
+[ext_resource path="res://indicator/Indicator.gd" type="Script" id=2]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
@@ -12,7 +12,7 @@ script = ExtResource( 2 )
 margin_left = -18.0
 margin_top = -17.0
 margin_bottom = 1.0
-custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_color = Color( 0.901961, 0.117647, 0.117647, 1 )
 custom_fonts/font = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

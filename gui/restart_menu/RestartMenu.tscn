@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://gui/restart_menu/RestartMenu.gd" type="Script" id=1]
 [ext_resource path="res://gui/fonts/AnakCute.tres" type="DynamicFont" id=2]
 [ext_resource path="res://gui/themes/kenneyUI.tres" type="Theme" id=3]
+[ext_resource path="res://trees/fog.tres" type="Shader" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 4 )
+shader_param/color = Vector3( 0.35, 0.48, 0.95 )
+shader_param/OCTAVES = 4
 
 [node name="Control" type="Control"]
 anchor_left = 0.5
@@ -63,6 +70,12 @@ margin_top = 90.0
 margin_right = 324.0
 margin_bottom = 132.251
 text = "Quit"
+
+[node name="FogBackground" type="Sprite" parent="."]
+material = SubResource( 1 )
+position = Vector2( 441, 270.5 )
+scale = Vector2( 46.1563, 29.0156 )
+texture = ExtResource( 5 )
 
 [connection signal="pressed" from="VBoxContainer/Restart" to="." method="_on_Restart_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]

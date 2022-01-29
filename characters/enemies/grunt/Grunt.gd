@@ -1,44 +1,50 @@
 extends HostileEntity
 
-onready var projectile;
-onready var parent = get_parent();
-var cooldown;
-var c_cooldown = 0;
+# Generic
+onready var projectile = preload("res://projectiles/melee/Melee.tscn")
+onready var parent = get_parent()
 
+# Attack()
+var current_cooldown = 0 # Current cooldown of attack
+var cooldown # Cooldown of the attack
+
+
+# _max_health: float, _move_speed: float, _score: int
 func _init().(200.0, 100.0, 10):
 	pass
 
+# Initializes the grunt
 func _ready():
-	projectile = preload("res://projectiles/melee/Melee.tscn");
-	var temp = projectile.instance();
-	cooldown = temp.cooldown;
-	temp.queue_free();
+	# Fetches the attack cooldown
+	var temp = projectile.instance()
+	cooldown = temp.cooldown
+	temp.queue_free()
 
-# attack() is called when player enters the attack radius, for this attack 
-# it will be a simple melee attack
+# Called when the player enters the attack radius
 func attack():
-	if c_cooldown == 0:
-		c_cooldown = cooldown;
-		var origin = origin_proj();
-		var b = projectile.instance();
-		b.direction =  10* origin #Vector2(10, 0).rotated((player.position).angle()).normalized()
+	if current_cooldown == 0:
+		# Reset the cooldown
+		current_cooldown = cooldown
+
+		# Instances the projectile
+		var to_player: Vector2 = dir_to_player()
+		var b = projectile.instance()
+		b.direction =  10 * to_player #Vector2(10, 0).rotated((player.position).angle()).normalized()
+
+		# Fetch the animated sprite
 		var asprite = b.get_node("AnimatedSprite")
-		asprite.rotation = position.angle_to_point(origin)
-		asprite.flip_h = origin.x < 0;
-		b.position = position + 20* origin;
-		parent.add_child(b);
+		asprite.rotation = position.angle_to_point(to_player)
+		asprite.flip_h = to_player.x < 0
+		b.position = position + 20 * to_player
 
+		# Append the child
+		parent.add_child(b)
+
+# Reduces the cooldown
 func cooldowns():
-	if c_cooldown > 0:
-		c_cooldown-=1;
+	if current_cooldown > 0:
+		current_cooldown -= 1
 
-
-
-func origin_proj() -> Vector2:
-	return position.direction_to(player.position);
-#	var cur_pos = position;
-#	var player_pos = player.position;
-#	var direction = cur_pos.direction_to(player_pos)
-#	return direction
-	
-	
+# Fetch direction to player
+func dir_to_player() -> Vector2:
+	return position.direction_to(player.position)	

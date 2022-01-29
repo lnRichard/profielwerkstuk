@@ -1,82 +1,102 @@
 extends LivingEntity
 class_name HostileEntity
 
-var score;
+# [!] TODO: Fix enemies only entering MOVING state when the player EXITS and RE-ENTERS their
+# visual range after the raycast in move() fails and their state is set to IDLE.
 
-var player;
+# Generic
+var rng = RandomNumberGenerator.new() # RNG instance
+var freeze_time = 0 # Time the enemy has left being frozen
+var player # Reference to the player
+var score # Score value the enemy awards
+var xp # Xp the enemy awards
 
-var freeze_time = 0
+# Attack()
+var target = Vector2(0, 0) # Target for new path gen
+var pathSpeed = 1 # Speed for current path
+var count = 0 # Count towards new path gen
 
-var rng = RandomNumberGenerator.new();
-
-var xp;
-
-func _physics_process(delta):
-	cooldowns();
-	var velocity;
-	match state:
-		MOVING:
-			velocity = move();
-		ATTACKING:
-			velocity = Vector2.ZERO;
-			attack()
-		IDLING:
-			velocity = idle()	
-		FROZEN:
-			frozen(delta)
-			velocity = Vector2.ZERO
-		UNLOADED:
-			return
-	move_and_slide(velocity)
-	._physics_process(delta)
+# Idle()
+var point = get_transform()
+var moving = false
+var idle_timeout = 120
 
 
+# On enemy creation
 func _init(_max_health: float, _move_speed: float, _score: int).(_max_health, _move_speed):
 	xp = _score
 	score = _score
 	state = UNLOADED
 
+# Updates enemy physics
+func _physics_process(delta):
+	cooldowns()
+	ai(delta)
 
-#Override this with Astar if smart enemy;
-var target = Vector2(0, 0);
-var speedAdd = 1
-var count = 0;
-func move():
-	var space_state = get_world_2d().direct_space_state
-	if !player:
-		return Vector2.ZERO
-	var result = space_state.intersect_ray(global_position, player.global_position, [self], collision_mask)
-	if result:
-		if result is Player:
-			state = IDLING
-			return Vector2.ZERO
+
+# ENEMY LOGIC
+
+# Handles the enemy AI
+func ai(delta):
+	match state:
+		MOVING:
+			move()
+		ATTACKING:
+			attack()
+		IDLING:
+			idle()
+		FROZEN:
+			frozen(delta)
+		UNLOADED:
+			return
 	
+	# Call parent
+	._physics_process(delta)
+
+# Currently in non-astar form
+func move():
+	# Initialize raycast
+	var space_state = get_world_2d().direct_space_state
+
+	# Check if player is not set
+	if not player:
+		return
+
+	# Raycast
+	var result = space_state.intersect_ray(global_position, player.global_position, [self], collision_mask)
+	if result and not result is Player:
+		# Did not detect player
+		state = IDLING
+		return
+
 	count += 1
+	# Detects if new path towards player should be generated
 	if count == 60:
 		target = global_position.direction_to(player.global_position)
-		speedAdd = rng.randi_range(0, 30)
+		pathSpeed = rng.randi_range(0, 30)
 		count = rng.randi_range(0, 30)
-	$AnimatedSprite.flip_h = target.x < 0;
-	$AnimatedSprite.play("running")
-	return target * (30 + speedAdd);
 
-#Override this and add attack behaviour
+	# Moves enemy towards player
+	$AnimatedSprite.flip_h = target.x < 0
+	$AnimatedSprite.play("running")
+	move_and_slide(target * (30 + pathSpeed))
+
+# Enemy-specific override function
 func attack():
 	pass
 
-#Override this and add cooldowns
+# Enemy-specific override function
 func cooldowns():
 	pass
 
-
 # move between two spots 
-var point = global_position
-var moving = false
-var idle_timeout = 120
-func idle(): 
+func idle():
 	idle_timeout += 1
+	# Checks if a new idle state should be generated
 	if idle_timeout >= 120:
 		idle_timeout = 0
+
+		# Checks if the idle state is moving or not
 		if rng.randi_range(1, 8) <= 7:
 			$AnimatedSprite.play("running")
 			point = global_position + Vector2(rng.randi_range(-20, 20), rng.randi_range(-20, 20))
@@ -85,79 +105,115 @@ func idle():
 			$AnimatedSprite.play("idle")
 			moving = false
 
+	# Moving idle state
 	if moving:
 		$AnimatedSprite.play("running")
-		var v = global_position.direction_to(point);
-		$AnimatedSprite.flip_h = v.x < 0;
-# warning-ignore:return_value_discarded
+		var v = global_position.direction_to(point)
+		$AnimatedSprite.flip_h = v.x < 0
+		
+		# Timeout idle state when target point has been reached
 		if global_position.distance_to(point) <= 5:
 			idle_timeout = 120
-		return v * 50;
-	else:
-		$AnimatedSprite.play("idle")
-	return Vector2.ZERO
 
-func frozen(_delta):
-	$AnimatedSprite.modulate = Color(0, 0.6, 1, 1);
-	freeze_time -= _delta
+		# Return the velocity
+		move_and_slide(v * 50)
+	else:
+		# Stand still and idle
+		$AnimatedSprite.play("idle")
+
+# Called if the enemy is frozen
+func frozen(delta):
+	$AnimatedSprite.modulate = frozen_color
+	freeze_time -= delta
+	
+	# Remove freeze effect if timer is over
 	if freeze_time <= 0:
+		set_health(current_health)
 		$AnimatedSprite.play("running")
 		state = IDLING
 		freeze_time = 0
-	return Vector2.ZERO
 
-# DETECTING PLAYER AND ADJUSTING STATE OF ENEMY	
 
-# Only detects player because of collision layer
+# PLAYER DETECTION AND STATE MANAGEMENT
+
+# Called using player collision player
 func _on_Sight_body_entered(body):
-	player = body;
-	state = MOVING;
+	player = body
+	state = MOVING
 
-# Only detects player because of collision layer
+# Called using player collision player
 func _on_Sight_body_exited(_body):
-	state = IDLING;
-	player = null;
+	state = IDLING
+	player = null
 
-
+# Called using player collision player
 func _on_Attack_body_entered(body):
+	# Do not attack if frozen
 	if state != FROZEN:
-		player = body;
-		state = ATTACKING;
+		player = body
+		state = ATTACKING
 		$AnimatedSprite.play("idle")
 
-
+# Called using player collision player
 func _on_Attack_body_exited(_body):
+	# Do not attack if frozen
 	if state != FROZEN:
-		state = MOVING;
+		state = MOVING
 		$AnimatedSprite.play("running")		
 
 
+# MISC FUNCTIONS
+
+# Set the health of the entity to a specific value
 func set_health(value):
 	.set_health(value)
+
+	# Check if the enemy is dead
 	if current_health <= 0:
-		spawn_death()
-		Global.highscore+=score;
-		var parentparent = get_parent().get_parent()
-		parentparent.xp = parentparent.xp + xp
-		queue_free();
-		return
-	var redness
+		death_effect()
+		Global.highscore+=score
+		var main = get_parent().get_parent()
+		main.xp = main.xp + xp
+		queue_free()
+	else:
+		update_healthbar()
+		$AnimatedSprite.modulate = Color(1, 0, 0)
+		$Tween.interpolate_callback(self, 0.1, "untint")
+		$Tween.start()
+
+# Remove enemy tint
+func untint():
+	if state != FROZEN:
+		update_redness()
+	else:
+		$AnimatedSprite.modulate = frozen_color
+
+# Updatestint of the enemy
+func update_redness():
+	# Calculate enemy tint
+	var redness = 0
 	if current_health <= 0:
 		redness = 0.5
 	elif current_health == max_health:
-		redness = 1;
+		redness = 1
 	else:
-		redness = (max_health * 2) / current_health
+		redness = max_health / current_health
 		if redness < 0.5:
-			redness = 0.5		
-	$AnimatedSprite.modulate = Color(redness, 1, 1, 1);
+			redness = 0.5
 
+	# Change enemy color
+	$AnimatedSprite.modulate = Color(redness, 1, 1, 1)
+
+# Updates the healthbar of the entity
+func update_healthbar():
+	# Modify progressbar
 	if max_health <= 0:
-		$ProgressBar.value = 0;
+		$ProgressBar.value = 0
 	else:
-		$ProgressBar.value = current_health/max_health * 100;
+		$ProgressBar.value = current_health/max_health * 100
+
+# Called when enemy is intially frozen
 func freeze(time: float):
 	$AnimatedSprite.stop()
 	freeze_time = time
 	state = FROZEN
-
