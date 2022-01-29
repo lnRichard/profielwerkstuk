@@ -13,6 +13,8 @@ var ticks = 0 # How long the projectile has been alive
 # move()
 var direction = Vector2() # Moving direction of projectile
 
+# _damage_indicator()
+var indicator = preload("res://indicator/Indicator.tscn")
 
 # Initialize the projectile
 func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
@@ -52,7 +54,7 @@ func _on_Projectile_body_entered(body):
 func _damage_indicator(killing_blow: bool, damage):
 	queue_free()
 	# Create the label
-	var label = preload("res://indicator/Indicator.tscn").instance()
+	var label = indicator.instance()
 
 	# Style the lobal
 	label.global_position = global_position
