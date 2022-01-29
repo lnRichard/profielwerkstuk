@@ -22,9 +22,7 @@ var projectiles = {};
 
 var projectile_queue;
 
-
-
-
+var freeze_time = 0
 
 func _init().(100, 3):
 	pass
@@ -35,8 +33,9 @@ func _ready():
 	add_spell_arsenal("res://projectiles/zippy_zip/ZippyZip.tscn", ATTACK_SLOT.D)
 	$AnimatedSprite.play("idle")
 	connect("PlayerDeath", get_parent(), "_game_over")
- 
+
 func _physics_process(delta):
+	._physics_process(delta)
 	cooldowns()
 	health()
 	death()
@@ -45,6 +44,7 @@ func _physics_process(delta):
 			idle()
 			attack_input()
 		DASHING:
+			$DashParticles.emitting = true
 			dash()
 		MOVING:
 			move();
@@ -52,6 +52,8 @@ func _physics_process(delta):
 		ATTACKING:
 			attack();
 			state=MOVING
+		FROZEN:
+			frozen(delta)
 
 func move():
 	var velocity = movement_input()
@@ -78,6 +80,7 @@ func dash():
 		dash.c_cooldown = dash.cooldown;
 		$BodyCollision.scale = Vector2(1, 1)
 		immortal=false;
+		$DashParticles.emitting = false
 	elif dash.c_cooldown > 0:
 		return
 	else:
@@ -95,6 +98,15 @@ func attack():
 		b.position = $AttackPoint.position
 		parent.add_child(b);
 	
+func frozen(_delta):
+	$AnimatedSprite.modulate = Color(0, 0.6, 1, 1);
+	freeze_time -= _delta
+	if freeze_time <= 0:
+		$AnimatedSprite.play("running")
+		$AnimatedSprite.modulate = Color(1, 1, 1, 1);
+		state = MOVING
+		freeze_time = 0
+	return
 
 func movement_input() -> Vector2:
 	if Input.is_action_just_pressed("space") && dash.c_cooldown == 0:
@@ -149,7 +161,11 @@ func health():
 	$Camera/ProgressBar.value = current_health/max_health * 100;
 func death():
 	if current_health <= 0:
+		spawn_death()
 		emit_signal("PlayerDeath");
 		queue_free();
-	
-		
+
+func freeze(time: float):
+	$AnimatedSprite.stop()
+	freeze_time = time
+	state = FROZEN

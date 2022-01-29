@@ -1,14 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://gui/start_menu/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://gui/themes/kenneyUI.tres" type="Theme" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://trees/fog.tres" type="Shader" id=4]
+[ext_resource path="res://addons/godot_sfxr/SfxrStreamPlayer.gd" type="Script" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 4 )
 shader_param/color = Vector3( 0.35, 0.48, 0.95 )
 shader_param/OCTAVES = 4
+
+[sub_resource type="AudioStreamGenerator" id=2]
+buffer_length = 0.0349887
 
 [node name="StartMenu" type="Control"]
 anchor_left = 0.5
@@ -67,6 +71,37 @@ material = SubResource( 1 )
 position = Vector2( 441, 270.5 )
 scale = Vector2( 46.1563, 29.0156 )
 texture = ExtResource( 3 )
+
+[node name="ClickSfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 2 )
+script = ExtResource( 5 )
+wave/type = 3
+sample_params/sound_vol = 0.5
+sample_params/sample_rate = 44100.0
+envelope/attack_time = 0.0309408
+envelope/sustain_time = 0.0926915
+envelope/punch_time = 0.422058
+envelope/decay_time = 0.076662
+frequency/start_frequency = 0.964525
+frequency/min_freq_cutoff = 0.0
+frequency/slide = 0.477169
+frequency/delta_slide = 0.0
+vibrato/depth = 0.298924
+vibrato/speed = 0.55521
+arpeggiation/frequency_mult = -0.730319
+arpeggiation/change_speed = 0.709983
+duty_cycle/duty_cycle = 0.0
+duty_cycle/sweep = 0.0
+retrigger/rate = 0.0
+flanger/offset = 0.0
+flanger/sweep = 0.0
+low_pass_filter/cutoff_frequency = 1.0
+low_pass_filter/cutoff_sweep = 0.0
+low_pass_filter/resonance = 0.0
+high_pass_filter/cutoff_frequency = 0.941134
+high_pass_filter/cutoff_sweep = 0.0
+actions/generator = null
+actions/play = null
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]

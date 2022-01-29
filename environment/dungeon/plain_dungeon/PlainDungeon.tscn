@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://environment/dungeon/plain_dungeon/sprites/mytile.png" type="Texture" id=1]
 
@@ -65,6 +65,51 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 [sub_resource type="NavigationPolygon" id=50]
 vertices = PoolVector2Array( 0, 4, 12, 4, 12, 12, 0, 12 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+
+[sub_resource type="OccluderPolygon2D" id=56]
+polygon = PoolVector2Array( 4, 16, 4, 4, 12, 4, 12, 16, 16, 16, 16, 0, 0, 0, 0, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=57]
+polygon = PoolVector2Array( 4, 16, 0, 16, 0, 16, 0, 0, 16, 0, 16, 16, 12, 16, 12, 0, 4, 0 )
+
+[sub_resource type="OccluderPolygon2D" id=58]
+polygon = PoolVector2Array( 4, 0, 0, 0, 0, 16, 16, 16, 16, 0, 12, 0, 12, 12, 4, 12 )
+
+[sub_resource type="OccluderPolygon2D" id=59]
+polygon = PoolVector2Array( 4, 4, 4, 12, 12, 12, 12, 4, 12, 0, 16, 0, 16, 16, 0, 16, 0, 0, 12, 0, 12, 4 )
+
+[sub_resource type="OccluderPolygon2D" id=60]
+polygon = PoolVector2Array( 4, 4, 16, 4, 16, 4, 16, 0, 0, 0, 0, 16, 4, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=52]
+polygon = PoolVector2Array( 4, 0, 0, 0, 0, 16, 4, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=61]
+polygon = PoolVector2Array( 4, 12, 4, 0, 0, 0, 0, 16, 16, 16, 16, 12 )
+
+[sub_resource type="OccluderPolygon2D" id=62]
+polygon = PoolVector2Array( 4, 4, 16, 4, 16, 0, 0, 0, 0, 16, 16, 16, 16, 12, 4, 12 )
+
+[sub_resource type="OccluderPolygon2D" id=53]
+polygon = PoolVector2Array( 16, 4, 0, 4, 0, 0, 16, 0 )
+
+[sub_resource type="OccluderPolygon2D" id=54]
+polygon = PoolVector2Array( 16, 12, 0, 12, 0, 16, 16, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=63]
+polygon = PoolVector2Array( 0, 4, 16, 4, 16, 0, 0, 0, 0, 16, 16, 16, 16, 12, 0, 12 )
+
+[sub_resource type="OccluderPolygon2D" id=64]
+polygon = PoolVector2Array( 12, 4, 12, 4, 12, 16, 16, 16, 16, 0, 0, 0, 0, 4 )
+
+[sub_resource type="OccluderPolygon2D" id=55]
+polygon = PoolVector2Array( 12, 16, 16, 16, 16, 0, 12, 0 )
+
+[sub_resource type="OccluderPolygon2D" id=65]
+polygon = PoolVector2Array( 12, 0, 12, 0, 16, 0, 16, 16, 0, 16, 0, 12, 12, 12 )
+
+[sub_resource type="OccluderPolygon2D" id=66]
+polygon = PoolVector2Array( 0, 4, 12, 4, 12, 12, 0, 12, 0, 16, 16, 16, 16, 0, 0, 0 )
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( -176, 0, -176, 0, -176, 16, -176, 16 )
@@ -166,6 +211,7 @@ points = PoolVector2Array( 16, 12, 12, 12, 12, 0, 16, 0 )
 points = PoolVector2Array( 0, 0, 12, 0, 12, 4, 0, 4 )
 
 [sub_resource type="TileSet" id=1]
+resource_local_to_scene = true
 0/name = "mytile.png 0"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
@@ -177,7 +223,7 @@ points = PoolVector2Array( 0, 0, 12, 0, 12, 4, 0, 4 )
 0/autotile/icon_coordinate = Vector2( 0, 0 )
 0/autotile/tile_size = Vector2( 16, 16 )
 0/autotile/spacing = 0
-0/autotile/occluder_map = [  ]
+0/autotile/occluder_map = [ Vector2( 0, 0 ), SubResource( 56 ), Vector2( 0, 1 ), SubResource( 57 ), Vector2( 0, 2 ), SubResource( 58 ), Vector2( 0, 3 ), SubResource( 59 ), Vector2( 1, 0 ), SubResource( 60 ), Vector2( 1, 1 ), SubResource( 52 ), Vector2( 1, 2 ), SubResource( 61 ), Vector2( 1, 3 ), SubResource( 62 ), Vector2( 2, 0 ), SubResource( 53 ), Vector2( 2, 2 ), SubResource( 54 ), Vector2( 2, 3 ), SubResource( 63 ), Vector2( 3, 0 ), SubResource( 64 ), Vector2( 3, 1 ), SubResource( 55 ), Vector2( 3, 2 ), SubResource( 65 ), Vector2( 3, 3 ), SubResource( 66 ) ]
 0/autotile/navpoly_map = [ Vector2( 0, 0 ), SubResource( 35 ), Vector2( 0, 1 ), SubResource( 36 ), Vector2( 0, 2 ), SubResource( 37 ), Vector2( 0, 3 ), SubResource( 38 ), Vector2( 1, 0 ), SubResource( 39 ), Vector2( 1, 1 ), SubResource( 40 ), Vector2( 1, 2 ), SubResource( 41 ), Vector2( 1, 3 ), SubResource( 42 ), Vector2( 2, 0 ), SubResource( 43 ), Vector2( 2, 1 ), SubResource( 44 ), Vector2( 2, 2 ), SubResource( 45 ), Vector2( 2, 3 ), SubResource( 46 ), Vector2( 3, 0 ), SubResource( 47 ), Vector2( 3, 1 ), SubResource( 51 ), Vector2( 3, 2 ), SubResource( 49 ), Vector2( 3, 3 ), SubResource( 50 ) ]
 0/autotile/priority_map = [  ]
 0/autotile/z_index_map = [  ]
@@ -393,3 +439,4 @@ points = PoolVector2Array( 0, 0, 12, 0, 12, 4, 0, 4 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
+tile_data = PoolIntArray( -1835021, 0, 196608 )
