@@ -20,7 +20,7 @@ func _on_ExplosionArea_body_entered(body):
 
 func _on_Projectile_body_entered(body):
 	for t in targets:
-		if t:
-			t.friction = 200;
+		if is_instance_valid(t):
+			t.friction = 200;			
 			t.set_health(t.get_health() - damage);
 	queue_free()

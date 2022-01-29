@@ -24,7 +24,9 @@ var projectile_queue;
 
 var freeze_time = 0
 
-func _init().(100, 3):
+
+
+func _init().(100000, 3):
 	pass
 func _ready():
 	add_spell_arsenal("res://projectiles/fireball/Fireball.tscn", ATTACK_SLOT.A)
@@ -163,9 +165,20 @@ func death():
 	if current_health <= 0:
 		spawn_death()
 		emit_signal("PlayerDeath");
-		queue_free();
 
 func freeze(time: float):
 	$AnimatedSprite.stop()
 	freeze_time = time
 	state = FROZEN
+	
+	
+func set_health(value):
+	.set_health(value);
+	$AnimatedSprite.modulate = Color(2, 0, 0)
+	$Tween.interpolate_callback(self, 0.1, "remove_whiteness")
+	$Tween.start();
+	
+func remove_whiteness():
+	$AnimatedSprite.modulate = Color(1, 1, 1);
+
+

@@ -76,10 +76,6 @@ Global="*res://main/global.gd"
 window/size/resizable=false
 window/size/fullscreen=true
 
-[editor_plugins]
-
-enabled=PoolStringArray( "res://addons/godot_sfxr/plugin.cfg" )
-
 [global]
 
 physic=false
@@ -153,7 +149,6 @@ key_r={
 2d_physics/layer_6="sight_radius"
 2d_physics/layer_7="attack_radius"
 2d_physics/layer_8="explosion_radius"
-2d_physics/layer_10="load_area"
 
 [physics]
 
@@ -161,5 +156,6 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"
