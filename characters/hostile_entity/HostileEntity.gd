@@ -181,13 +181,14 @@ func set_health(value):
 		$Tween.interpolate_callback(self, 0.1, "untint")
 		$Tween.start()
 
-# Remove player tint
+# Remove enemy tint
 func untint():
 	if state != FROZEN:
 		update_redness()
 	else:
 		$AnimatedSprite.modulate = frozen_color
 
+# Updatestint of the enemy
 func update_redness():
 	# Calculate enemy tint
 	var redness = 0
