@@ -7,7 +7,7 @@ var current_health setget set_health, get_health;
 var move_speed;
 var velocity
 
-enum {IDLING, MOVING, ATTACKING, DASHING, FROZEN}
+enum {IDLING, MOVING, ATTACKING, DASHING, FROZEN, UNLOADED}
 
 var state = IDLING;
 var immortal = false;
