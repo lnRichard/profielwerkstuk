@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://characters/living_entity/LivingEntity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://characters/hostile_entity/HostileEntity.gd" type="Script" id=2]
 [ext_resource path="res://gui/healthbar/HealthBar.tscn" type="PackedScene" id=3]
-[ext_resource path="res://colliders/SoftCollision.tscn" type="PackedScene" id=4]
 
 [node name="HostileEntity" instance=ExtResource( 1 )]
 collision_layer = 2
@@ -28,11 +27,7 @@ margin_bottom = 17.0
 
 [node name="Navigation2D" type="Navigation2D" parent="." index="6"]
 
-[node name="SoftCollision" parent="." index="7" instance=ExtResource( 4 )]
-
 [connection signal="body_entered" from="Sight" to="." method="_on_Sight_body_entered"]
 [connection signal="body_exited" from="Sight" to="." method="_on_Sight_body_exited"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
 [connection signal="body_exited" from="Attack" to="." method="_on_Attack_body_exited"]
-
-[editable path="SoftCollision"]

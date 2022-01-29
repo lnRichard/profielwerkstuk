@@ -66,6 +66,8 @@ func place_tiles():
 		for y in dungeon_size.y:
 			if noise.get_noise_2d(x, y) < enemy_cap:
 				var coords = Vector2(x*16 + 8, y*16 + 8);
+				if enemy_count > 50:
+					pass
 				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
 					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
 						var i = enemy.instance();
@@ -85,8 +87,7 @@ func place_tiles():
 			break
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
 	if !valid_path() || enemy_count < 20:
-		print("invalid")
-		place_tiles()
+		get_tree().reload_current_scene()
 func valid_path() -> bool:
 	if !astar.get_id_path(et_p, ex_p):
 		return false

@@ -10,33 +10,29 @@ var freeze_time = 0
 var rng = RandomNumberGenerator.new();
 
 func _physics_process(delta):
-	work_em(delta);
-	._physics_process(delta)
-
-
-func _init(_max_health: float, _move_speed: float, _score: int).(_max_health, _move_speed):
-	score = _score
-	
-	
-func work_em(delta):	
 	cooldowns();
 	var velocity;
 	match state:
 		MOVING:
 			velocity = move();
 		ATTACKING:
-#			hek();
+			velocity = Vector2.ZERO;
 			attack()
-			velocity = Vector2.ZERO
 		IDLING:
 			velocity = idle()	
 		FROZEN:
 			frozen(delta)
 			velocity = Vector2.ZERO
-
-	if $SoftCollision.is_colliding():
-		velocity += $SoftCollision.get_push_vector() * delta * 400
+		UNLOADED:
+			return
 	move_and_slide(velocity)
+	._physics_process(delta)
+
+
+func _init(_max_health: float, _move_speed: float, _score: int).(_max_health, _move_speed):
+	score = _score
+	state = UNLOADED
+
 
 #Override this with Astar if smart enemy;
 var target = Vector2(0, 0);
@@ -68,6 +64,7 @@ func attack():
 #Override this and add cooldowns
 func cooldowns():
 	pass
+
 
 # move between two spots 
 var point = global_position
@@ -142,6 +139,8 @@ func set_health(value):
 	var redness
 	if current_health <= 0:
 		redness = 0.5
+	elif current_health == max_health:
+		redness = 1;
 	else:
 		redness = (max_health * 2) / current_health
 		if redness < 0.5:
