@@ -14,7 +14,7 @@ var pathSpeed = 1 # Speed for current path
 var count = 0 # Count towards new path gen
 
 # Idle()
-var point = global_position
+var point = get_transform()
 var moving = false
 var idle_timeout = 120
 
