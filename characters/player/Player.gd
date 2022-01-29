@@ -172,7 +172,7 @@ func attack():
 
 # The player is frozen
 func frozen(_delta):
-	$AnimatedSprite.modulate = Color(0, 0.6, 1, 1)
+	$AnimatedSprite.modulate = frozen_color
 	freeze_time -= _delta
 	
 	# Check if the player is not longer frozen

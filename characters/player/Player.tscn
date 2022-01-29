@@ -103,7 +103,5 @@ initial_velocity = 19.0
 angular_velocity = -180.0
 scale_amount_curve = SubResource( 3 )
 
-[node name="Tween" type="Tween" parent="." index="6"]
-
 [connection signal="body_entered" from="Camera/LoadArea" to="Camera/LoadArea" method="_on_LoadArea_body_entered"]
 [connection signal="body_exited" from="Camera/LoadArea" to="Camera/LoadArea" method="_on_LoadArea_body_exited"]

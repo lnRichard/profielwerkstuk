@@ -10,4 +10,4 @@ func _on_LoadArea_body_entered(body):
 # Unload entities outside the load area
 func _on_LoadArea_body_exited(body):
 	body.state = UNLOADED
-	body.update_health()
+	body.update_redness()

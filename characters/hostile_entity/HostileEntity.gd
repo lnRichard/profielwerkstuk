@@ -123,7 +123,7 @@ func idle():
 
 # Called if the enemy is frozen
 func frozen(delta):
-	$AnimatedSprite.modulate = Color(0, 0.6, 1, 1)
+	$AnimatedSprite.modulate = frozen_color
 	freeze_time -= delta
 	
 	# Remove freeze effect if timer is over
@@ -176,9 +176,19 @@ func set_health(value):
 		main.xp = main.xp + xp
 		queue_free()
 	else:
-		update_health()
+		update_healthbar()
+		$AnimatedSprite.modulate = Color(1, 0, 0)
+		$Tween.interpolate_callback(self, 0.1, "untint")
+		$Tween.start()
 
-func update_health():
+# Remove player tint
+func untint():
+	if state != FROZEN:
+		update_redness()
+	else:
+		$AnimatedSprite.modulate = frozen_color
+
+func update_redness():
 	# Calculate enemy tint
 	var redness = 0
 	if current_health <= 0:
@@ -186,13 +196,15 @@ func update_health():
 	elif current_health == max_health:
 		redness = 1
 	else:
-		redness = (max_health * 2) / current_health
+		redness = max_health / current_health
 		if redness < 0.5:
 			redness = 0.5
 
 	# Change enemy color
 	$AnimatedSprite.modulate = Color(redness, 1, 1, 1)
 
+# Updates the healthbar of the entity
+func update_healthbar():
 	# Modify progressbar
 	if max_health <= 0:
 		$ProgressBar.value = 0

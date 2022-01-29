@@ -10,6 +10,7 @@ var max_health # Maximum health
 var move_speed # Move speed of the entity
 var current_health setget set_health, get_health # Current health
 var invulnerable = false # If the entity cannot take damage
+var frozen_color = Color(0, 0.6, 1, 1)
 
 # Knockback()
 var knockback = Vector2.ZERO # Knockback amount
