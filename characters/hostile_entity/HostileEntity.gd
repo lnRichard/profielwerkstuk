@@ -9,6 +9,8 @@ var freeze_time = 0
 
 var rng = RandomNumberGenerator.new();
 
+var xp;
+
 func _physics_process(delta):
 	cooldowns();
 	var velocity;
@@ -30,6 +32,7 @@ func _physics_process(delta):
 
 
 func _init(_max_health: float, _move_speed: float, _score: int).(_max_health, _move_speed):
+	xp = _score
 	score = _score
 	state = UNLOADED
 
@@ -134,6 +137,8 @@ func set_health(value):
 	if current_health <= 0:
 		spawn_death()
 		Global.highscore+=score;
+		var parentparent = get_parent().get_parent()
+		parentparent.xp = parentparent.xp + xp
 		queue_free();
 		return
 	var redness

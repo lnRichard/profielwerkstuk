@@ -5,7 +5,7 @@ var entrance_set = false;
 
 
 onready var noise = OpenSimplexNoise.new();
-var dungeon_size = Vector2(50, 50);
+var dungeon_size = Vector2(25, 25);
 
 var tile_cap = 0.2;
 var entrance_exit_cap = -0.5;
@@ -54,8 +54,12 @@ func place_tiles():
 							astar.remove_point(((x)*dungeon_size.x)+y-2);
 				
 			if c < entrance_exit_cap && !entrance_set:
+				if x == dungeon_size.x:
+					$Entrance.position = Vector2((x-5)*16, (y+1)*16);
+					entrance_set = true;
+					et_p = (x*dungeon_size.x)+y;					
 				if y == dungeon_size.y:
-					$Entrance.position = Vector2((x+1)*16, (y-2)*16);
+					$Entrance.position = Vector2((x+1)*16, (y-5)*16);
 					entrance_set = true;
 					et_p = (x*dungeon_size.x)+y;
 				else:
@@ -89,7 +93,7 @@ func place_tiles():
 	if !valid_path() || enemy_count < 20:
 		get_tree().reload_current_scene()
 func valid_path() -> bool:
-	if !astar.get_id_path(et_p, ex_p):
+	if !et_p || !ex_p || !astar.get_id_path(et_p, ex_p):
 		return false
 #	$Line2D.points = astar.get_point_path(et_p, ex_p);
 	return true;

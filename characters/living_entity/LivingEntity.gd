@@ -27,6 +27,8 @@ var delta;
 var knockback = Vector2.ZERO;
 var friction = 200;
 func knockback(delta):
+	if knockback == Vector2.ZERO:
+		return
 	knockback = knockback.move_toward(Vector2.ZERO, friction * delta)
 	knockback = move_and_slide(knockback)
 	
