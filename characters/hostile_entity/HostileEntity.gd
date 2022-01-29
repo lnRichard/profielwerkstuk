@@ -1,6 +1,9 @@
 extends LivingEntity
 class_name HostileEntity
 
+# [!] TODO: Fix enemies only entering MOVING state when the player EXITS and RE-ENTERS their
+# visual range after the raycast in move() fails and their state is set to IDLE.
+
 # Generic
 var rng = RandomNumberGenerator.new() # RNG instance
 var freeze_time = 0 # Time the enemy has left being frozen
