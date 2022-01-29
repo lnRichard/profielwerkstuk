@@ -1,61 +1,60 @@
 extends KinematicBody2D
 class_name LivingEntity
 
-var max_health;
-var current_health setget set_health, get_health;
-
-var move_speed;
-var velocity
-
+# States
 enum {IDLING, MOVING, ATTACKING, DASHING, FROZEN, UNLOADED}
 
-var state = IDLING;
-var immortal = false;
-var frozen = false;
+# Generic
+var max_health # Maximum health
+var move_speed # Move speed of the entity
+var current_health setget set_health, get_health # Current health
+var state = IDLING # State the entity is in
+var invulnerable = false # If the entity cannot take damage
 
-func _ready():
-	pass
+# Knockback()
+var knockback = Vector2.ZERO # Knockback amount
+var friction = 200 # Current friction
 
+
+# Initialize the entity
 func _init(_max_health: float, _move_speed: float):
-	max_health = _max_health;
-	current_health = _max_health;
-	move_speed = _move_speed;
+	max_health = _max_health
+	current_health = _max_health
+	move_speed = _move_speed
 
-var delta;
-
-
-var knockback = Vector2.ZERO;
-var friction = 200;
-func knockback(delta):
-	if knockback == Vector2.ZERO:
-		return
-	knockback = knockback.move_toward(Vector2.ZERO, friction * delta)
-	knockback = move_and_slide(knockback)
-	
+# Physics of the entity
 func _physics_process(delta):
 	knockback(delta)
 
-# Override this function
+# Handles entity knockback
+func knockback(delta):
+	if knockback == Vector2.ZERO:
+		return
+
+	# Reduce and apply knockback
+	knockback = knockback.move_toward(Vector2.ZERO, friction * delta)
+	knockback = move_and_slide(knockback)
+
+# Entity-specific override function
 func freeze(time: float):
 	pass
 
-func set_health(value: float):
-	if immortal:
-		return
-	else:
-		current_health = value;
-func get_health() -> float:
-	return current_health;
-	
-
+# Entity-specific override function
 func attack():
 	pass
 
+# Check health
+func set_health(value: float):
+	if not invulnerable:
+		current_health = value
 
-func spawn_death():
-	var death = preload("res://characters/living_entity/death/DeathEffect.tscn").instance();
-	death.global_position = global_position;
+# Returns health
+func get_health() -> float:
+	return current_health
+
+# Creates a death effect
+func death_effect():
+	var death = preload("res://characters/living_entity/death/DeathEffect.tscn").instance()
+	death.global_position = global_position
 	get_parent().add_child(death)
 	death.get_node("DeathEffect").play()
-
-
