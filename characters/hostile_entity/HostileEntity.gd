@@ -22,11 +22,11 @@ var moving := false
 var idle_timeout := 120
 
 # On enemy creation
-func _init(_max_health: float, _move_speed: float, _score: int).(_max_health, _move_speed):
+func _init(_max_health: float, _move_speed: float, _score: int, _xp: int).(_max_health, _move_speed):
 	# TODO: Fix bug where "LoadArea" does not follow camera due to limits
 	rng.randomize()
-	xp = _score
 	score = _score
+	xp = _xp
 	state = UNLOADED
 
 # Updates enemy physics

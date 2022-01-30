@@ -48,3 +48,7 @@ func _on_Projectile_body_entered(body: CollisionObject2D):
 		queue_free()
 	else:
 		queue_free()
+
+# Generic projectile behavior
+func _on_Projectile_body_exited(body: CollisionObject2D):
+	pass

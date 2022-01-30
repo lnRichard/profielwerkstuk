@@ -13,22 +13,31 @@ func _ready():
 func _init().(100, 2000, 200, 30):
 	pass
 
-# Entity is susceptible to the explosion
-func _on_ExplosionArea_body_entered(body: LivingEntity):
+# Target is susceptible to the explosion
+func _on_ExplosionArea_body_entered(body: CollisionObject2D):
+	print("enter")
 	targets.append(body)
 
-# Entity is not longer susceptible to the explosion
-func _on_ExplosionArea_body_exited(body: LivingEntity):
+# Target is not longer susceptible to the explosion
+func _on_ExplosionArea_body_exited(body: CollisionObject2D):
 	targets.remove(targets.bsearch(body))
 
 # Override logic function
 func _on_Projectile_body_entered(body: CollisionObject2D):
-	# Hits all entities in explosion radius
-	for t in targets:
-		# Checks if entity has not already died
-		if is_instance_valid(t):
+	# Hits all target in explosion radius
+	for target in targets:
 
-			# Update entity fiction and health
-			t.friction = 200			
-			t.set_health(t.get_health() - damage)
+		# Checks if target has not been removed
+		if is_instance_valid(target):
+
+			# If target is an entity
+			if target is LivingEntity:
+				# Update entity fiction and health
+				target.friction = 200			
+				target.set_health(target.get_health() - damage)
+
+			# If target is a destroyable
+			elif target is Destroyable:
+				# Destroy the prop
+				target.destroy()
 	queue_free()

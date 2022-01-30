@@ -1,4 +1,7 @@
 extends Destroyable
 class_name Crate
 
-# TODO: Implement
+
+# Initialize the crate
+func _init().(10, 1000):
+	pass
