@@ -112,11 +112,13 @@ func place_portals(gen_parameters):
 # Places the entrance
 func place_entrance(rng: RandomNumberGenerator) -> bool:
 	# Get entrance pos
-	var x = rng.randi_range(0, dungeon_size.x - 1)
-	var y = rng.randi_range(0, dungeon_size.y - 1)
+	var x = rng.randi_range(1, dungeon_size.x - 2) # Offset so the portals don't spawn on the edges
+	var y = rng.randi_range(1, dungeon_size.y - 2) # Offset so the portals don't spawn on the edges
 
 	# Check if tile is valid
-	if map_state[x][y] != map_states.TILE:
+	if map_state[x][y] != map_states.TILE or map_state[x][y + 1] != map_states.TILE or map_state[x][y - 1] != map_states.TILE:
+		return false
+	elif map_state[x + 1][y] != map_states.TILE or map_state[x - 2][y] != map_states.TILE:
 		return false
 
 	# Calculate coord
@@ -132,11 +134,13 @@ func place_entrance(rng: RandomNumberGenerator) -> bool:
 # Places the exit
 func place_exit(rng: RandomNumberGenerator) -> bool:
 	# Get entrance pos
-	var x = rng.randi_range(0, dungeon_size.x - 1)
-	var y = rng.randi_range(0, dungeon_size.y - 1)
+	var x = rng.randi_range(1, dungeon_size.x - 2) # Offset so the portals don't spawn on the edges
+	var y = rng.randi_range(1, dungeon_size.y - 2) # Offset so the portals don't spawn on the edges
 
 	# Check if tile is valid
-	if map_state[x][y] != map_states.TILE:
+	if map_state[x][y] != map_states.TILE or map_state[x][y + 1] != map_states.TILE or map_state[x][y - 1] != map_states.TILE:
+		return false
+	elif map_state[x + 1][y] != map_states.TILE or map_state[x - 2][y] != map_states.TILE:
 		return false
 
 	# Calculate coord
