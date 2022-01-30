@@ -8,7 +8,8 @@ var entrance_set := false # Entrance has been generated
 # Settings
 var dungeon_size := Vector2(25, 25) # Size of the dungeon
 var tile_cap := 0.2 # Treshold for tile spawn
-var entrance_exit_cap := -0.5 # Treshold for entrance spawn
+var exit_cap := -0.5 # Treshold for exit spawn
+var entrance_cap := -0.5 # Treshold for entrance spawn
 
 # Onready
 onready var autotile := $Map # Tilemap of the dungeon
@@ -36,11 +37,8 @@ func _ready():
 		"current_level": Global.passed_levels
 	}
 
-	# Initialize the map
-	randomize()
-	noise.seed = randi()
-	noise.octaves = 5.0
-	noise.period = 5
+	# Randomize the noise
+	randomize_noise()
 
 	# Generate map
 	while !valid_path():
@@ -58,10 +56,7 @@ func _ready():
 
 # Reset the map state
 func reset_map():
-	randomize()
-	noise.seed = randi()
-	noise.octaves = rand_range(5.0, 9.0)
-	noise.period = 5
+	randomize_noise()
 
 	# Empty dungeon
 	map_state = []
@@ -77,6 +72,12 @@ func reset_map():
 	entrance_set = false
 	exit_set = false
 
+# Randomises the noise function
+func randomize_noise():
+	randomize()
+	noise.seed = randi()
+	noise.octaves = rand_range(5.0, 9.0)
+	noise.period = 5
 
 # Generate the dungeon
 func place_tiles():
@@ -91,26 +92,18 @@ func place_tiles():
 				map_state[x][y] = map_states.TILE
 
 			# Generate entrance
-			if c < entrance_exit_cap && !entrance_set:
+			if c < exit_cap && !entrance_set:
 				$Entrance.position = Vector2(x * 16 + 8, y * 16 + 8)
 				entrance_set = true
 				entrance_point = (x * dungeon_size.x) + y
 				map_state[x][y] = map_states.ENTRANCE
 
-	# Generate exit
-	for x in range(dungeon_size.x -1, -1, -1):
-		for y in range(dungeon_size.y -1, -1, -1):
-			var c = noise.get_noise_2d(x, y)
-			if c < entrance_exit_cap && !exit_set:
+			# Generate exit
+			if c < exit_cap && !exit_set:
 				$Exit.position = Vector2(x * 16, y * 16)
 				exit_set = true
 				exit_point = (x * dungeon_size.x) + y
 				map_state[x][y] = map_states.EXIT
-				break
-
-		# Break if exit has been set
-		if exit_set:
-			break
 
 	# Validate entrance to exit path and enemy count
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
