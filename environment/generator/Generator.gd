@@ -92,7 +92,9 @@ func place_tiles():
 
 	# Validate entrance to exit path and enemy count
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
+	get_parent().add_child(Global.player)
 	if !valid_path() || enemy_count < 20:
+		get_parent().remove_child(Global.player)
 		get_tree().change_scene("res://main/Main.tscn")
 
 # Checks if the path is valid

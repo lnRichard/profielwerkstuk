@@ -77,6 +77,8 @@ func health_indicator(killing_blow: bool, health_change: float):
 	label.global_position = global_position
 
 	# Append the label
+	if !get_parent():
+		return
 	get_parent().add_child(label)
 	var text = String(health_change)
 	if health_change > 0:
