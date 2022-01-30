@@ -155,9 +155,6 @@ func place_exit(rng: RandomNumberGenerator) -> bool:
 
 # Checks if the path from both portals is valid
 func valid_path() -> bool:
-	print(entrance_point)
-	print(exit_point)
-	print(astar.get_id_path(entrance_point, exit_point))
 	if !entrance_point || !exit_point || (!(astar.get_id_path(entrance_point, exit_point)) and false):
 		return false
 	return true
