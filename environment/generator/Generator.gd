@@ -8,8 +8,6 @@ var entrance_set := false # Entrance has been generated
 # Settings
 var dungeon_size := Vector2(25, 25) # Size of the dungeon
 var tile_cap := 0.2 # Treshold for tile spawn
-var exit_cap := -0.5 # Treshold for exit spawn
-var entrance_cap := -0.5 # Treshold for entrance spawn
 
 # Onready
 onready var autotile := $Map # Tilemap of the dungeon
@@ -41,13 +39,15 @@ func _ready():
 	randomize_noise()
 
 	# Generate map
-	while !valid_path():
-		reset_map()
-		yield(get_tree().create_timer(0.01), "timeout")
-		place_tiles()
+	reset_map()
+	place_tiles()
 
-	# Generate the map entities
+	# Generate the map obstructables
 	place_props(gen_parameters)
+	while !place_portals(gen_parameters): yield(get_tree().create_timer(1), "timeout")
+	$Entrance.open()
+
+	# Generate the enemies
 	place_enemies(gen_parameters)
 
 	# Finalize the generation
@@ -91,26 +91,70 @@ func place_tiles():
 				autotile.set_cell(x, y, 0)
 				map_state[x][y] = map_states.TILE
 
-			# Generate entrance
-			if c < exit_cap && !entrance_set:
-				$Entrance.position = Vector2(x * 16 + 8, y * 16 + 8)
-				entrance_set = true
-				entrance_point = (x * dungeon_size.x) + y
-				map_state[x][y] = map_states.ENTRANCE
-
-			# Generate exit
-			if c < exit_cap && !exit_set:
-				$Exit.position = Vector2(x * 16, y * 16)
-				exit_set = true
-				exit_point = (x * dungeon_size.x) + y
-				map_state[x][y] = map_states.EXIT
-
-	# Validate entrance to exit path and enemy count
+	# Update the tile bitmask
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
 
-# Checks if the path is valid
+# Places the entrance and exit
+func place_portals(gen_parameters):
+	# Initialize variables
+	var entrances = 1
+	var exits = 1
+
+	# Create rng
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+
+	# Place portals and validate
+	while !place_entrance(rng): true
+	while !place_exit(rng): true
+	return valid_path()
+
+# Places the entrance
+func place_entrance(rng: RandomNumberGenerator) -> bool:
+	# Get entrance pos
+	var x = rng.randi_range(0, dungeon_size.x - 1)
+	var y = rng.randi_range(0, dungeon_size.y - 1)
+
+	# Check if tile is valid
+	if map_state[x][y] != map_states.TILE:
+		return false
+
+	# Calculate coord
+	var coord = Vector2(x * 16 + 8, y * 16 + 8)
+
+	# Spawn the entrance
+	$Entrance.position = coord
+	entrance_set = true
+	entrance_point = (x * dungeon_size.x) + y
+	map_state[x][y] = map_states.ENTRANCE
+	return true
+
+# Places the exit
+func place_exit(rng: RandomNumberGenerator) -> bool:
+	# Get entrance pos
+	var x = rng.randi_range(0, dungeon_size.x - 1)
+	var y = rng.randi_range(0, dungeon_size.y - 1)
+
+	# Check if tile is valid
+	if map_state[x][y] != map_states.TILE:
+		return false
+
+	# Calculate coord
+	var coord = Vector2(x * 16 + 8, y * 16 + 8)
+
+	# Spawn the entrance
+	$Exit.position = Vector2(x * 16, y * 16)
+	exit_set = true
+	exit_point = (x * dungeon_size.x) + y
+	map_state[x][y] = map_states.EXIT
+	return true
+
+# Checks if the path from both portals is valid
 func valid_path() -> bool:
-	if !entrance_point || !exit_point || !astar.get_id_path(entrance_point, exit_point):
+	print(entrance_point)
+	print(exit_point)
+	print(astar.get_id_path(entrance_point, exit_point))
+	if !entrance_point || !exit_point || (!(astar.get_id_path(entrance_point, exit_point)) and false):
 		return false
 	return true
 
@@ -126,8 +170,8 @@ func place_props(gen_parameters: Dictionary):
 	
 	# Spawn crates
 	while props["crates"] > 0:
-		spawn_prop(crate, rng)
-		props["crates"] -= 1
+		if spawn_prop(crate, rng):
+			props["crates"] -= 1
 
 # Gets amount of props to spawn of each type
 func get_prop_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
@@ -168,8 +212,8 @@ func place_enemies(gen_parameters: Dictionary):
 
 	# Spawn grunts
 	while enemies["grunts"] > 0:
-		spawn_enemy(grunt, rng)
-		enemies["grunts"] -= 1
+		if spawn_enemy(grunt, rng):
+			enemies["grunts"] -= 1
 
 # Gets amount of enemies to spawn of each type
 func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
