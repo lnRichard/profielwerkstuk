@@ -4,13 +4,10 @@ extends Node2D
 onready var noise := OpenSimplexNoise.new() # Noise function
 var exit_set := false # Exit has been generated
 var entrance_set := false # Entrance has been generated
-var enemy_count := 0 # Amount of enemies generated
-var enemy_min := 20 # Min amount of enemies
 
 # Settings
 var dungeon_size := Vector2(25, 25) # Size of the dungeon
 var tile_cap := 0.2 # Treshold for tile spawn
-var enemy_cap := 0.2 # Treshold for enemy spawn
 var entrance_exit_cap := -0.5 # Treshold for entrance spawn
 
 # Onready
@@ -83,7 +80,6 @@ func reset_map():
 
 # Generate the dungeon
 func place_tiles():
-	enemy_count = 0
 	for x in dungeon_size.x:
 		for y in dungeon_size.y:
 			# Generate tiles
