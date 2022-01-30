@@ -23,7 +23,7 @@ var idle_timeout := 120
 
 # On enemy creation
 func _init(_max_health: float, _move_speed: float, _score: int).(_max_health, _move_speed):
-	$AnimatedSprite.play("idle") # TODO: Fix bug where "LoadArea" does not follow camera due to limits
+	# TODO: Fix bug where "LoadArea" does not follow camera due to limits
 	rng.randomize()
 	xp = _score
 	score = _score
@@ -34,6 +34,8 @@ func _physics_process(delta: float):
 	cooldowns()
 	ai(delta)
 
+func _ready():
+	$AnimatedSprite.play("idle")
 
 # ENEMY LOGIC
 
@@ -181,8 +183,7 @@ func set_health(value: float):
 	if current_health <= 0:
 		death_effect()
 		Global.highscore += score
-		var main = get_parent().get_parent()
-		main.xp = main.xp + xp
+		Global.xp = Global.xp + xp
 		queue_free()
 	else:
 		update_healthbar()

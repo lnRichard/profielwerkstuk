@@ -208,7 +208,6 @@ func add_spell_arsenal(projectile_path: String, slot: int):
 # Set the player's health
 func set_health(value: float):
 	.set_health(value)
-	Global.last_health = value;
 	health()
 
 	death()	

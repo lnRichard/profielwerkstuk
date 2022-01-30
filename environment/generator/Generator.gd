@@ -5,11 +5,13 @@ onready var noise := OpenSimplexNoise.new() # Noise function
 var exit_set := false # Exit has been generated
 var entrance_set := false # Entrance has been generated
 var enemy_count := 0 # Amount of enemies generated
+var enemy_min := 20 # Min amount of enemies
+
 
 # Settings
 var dungeon_size := Vector2(25, 25) # Size of the dungeon
 var tile_cap := 0.2 # Treshold for tile spawn
-var enemy_cap := -0.2 # Treshold for enemy spawn
+var enemy_cap := 0.2 # Treshold for enemy spawn
 var entrance_exit_cap := -0.5 # Treshold for entrance spawn
 
 
@@ -23,6 +25,7 @@ var entrance_point: int # Location of the entrance
 var exit_point: int # Location of the exit
 
 
+
 # Initialize the generator
 func _ready():
 	randomize()
@@ -30,7 +33,23 @@ func _ready():
 	noise.octaves = 5.0
 	noise.period = 5
 	place_tiles()
+	while !valid_path():
+		reset_map()
+		yield(get_tree().create_timer(0.01), "timeout")
+		place_tiles()
+	get_parent().player.global_position = $Entrance.position
+	place_enemies()
 
+func reset_map():
+	randomize()
+	noise.seed = randi()
+	noise.octaves = rand_range(5.0, 9.0)
+	noise.period = 5
+	for x in dungeon_size.x:
+		for y in dungeon_size.y:
+			autotile.set_cell(x, y, -1)
+	entrance_set = false
+	exit_set = false
 # Generate the dungeon
 func place_tiles():
 	enemy_count = 0
@@ -58,23 +77,11 @@ func place_tiles():
 				exit_point = (x * dungeon_size.x) + y
 				break
 
-	# Spawn enemies
-	for x in dungeon_size.x:
-		for y in dungeon_size.y:
-			if noise.get_noise_2d(x, y) < enemy_cap:
-				var coords = Vector2(x * 16 + 8, y * 16 + 8)
-				if enemy_count > 50:
-					pass
-				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
-					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
-						var i = grunt.instance()
-						enemy_count += 1
-						i.position = coords
-						add_child(i)
-	$Entrance.position.x+=16 if $Entrance.position.x == 0 else 0;
-	$Entrance.position.x-=16 if $Entrance.position.x == dungeon_size.x else 0;
-	$Exit.position.y+=16 if $Exit.position.y == 0 else 0;
-	$Exit.position.y-=16 if $Exit.position.y == dungeon_size.y else 0;
+
+#	$Entrance.position.x+=16 if $Entrance.position.x == 0 else 0;
+#	$Entrance.position.x-=16 if $Entrance.position.x == dungeon_size.x else 0;
+#	$Exit.position.y+=16 if $Exit.position.y == 0 else 0;
+#	$Exit.position.y-=16 if $Exit.position.y == dungeon_size.y else 0;
 	
 	# Generate exit
 	for x in range(dungeon_size.x -1, -1, -1):
@@ -92,10 +99,6 @@ func place_tiles():
 
 	# Validate entrance to exit path and enemy count
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
-	get_parent().add_child(Global.player)
-	if !valid_path() || enemy_count < 20:
-		get_parent().remove_child(Global.player)
-		get_tree().change_scene("res://main/Main.tscn")
 
 # Checks if the path is valid
 func valid_path() -> bool:
@@ -104,3 +107,35 @@ func valid_path() -> bool:
 
 #	$Line2D.points = astar.gentrance_pointoint_path(entrance_point, exit_point)
 	return true
+
+
+
+func place_enemies():
+	# var space state;
+	var space_state = get_world_2d().direct_space_state # State of the map
+	
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var enemies_num = rng.randi_range(10, 20)
+	
+	rng.randomize()
+	for i in range(enemies_num):
+		var x = rng.randi_range(0, dungeon_size.x)
+		var y = rng.randi_range(0, dungeon_size.y)
+	
+		var coord = Vector2(x*16 + 8, y*16 + 8)
+		
+		var gamerray = space_state.intersect_point(coord, 32, [])
+		print(gamerray)
+		if gamerray.empty():
+			var e = grunt.instance()
+			add_child(e)
+			e.position = coord
+		
+	
+	
+		# Spawn enemies
+	
+#				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
+#					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
+

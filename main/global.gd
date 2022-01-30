@@ -5,13 +5,11 @@ extends Node
 var highscore = 0
 var passed_levels = 0
 
-onready var player = preload("res://characters/player/Player.tscn").instance();
+var player; 
 
 var player_lvl = 1 setget set_level, get_level
 var xp = 0 setget set_xp, get_xp
 
-func _ready():
-	print(123)
 
 # Get xp var
 func get_xp():

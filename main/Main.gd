@@ -1,7 +1,7 @@
 extends Node
 
 # Onready
-onready var player = Global.player
+onready var player := preload("res://characters/player/Player.tscn").instance();
 onready var generator := preload("res://environment/generator/Generator.tscn")
 onready var RNG := RandomNumberGenerator.new()
 onready var boss_rooms := []
@@ -16,16 +16,15 @@ var total_score = 0 # Total score this game
 # Initialize the game
 func _ready():
 	_start_game()
+	Global.player = player
 
 # Start the game
 func _start_game():
-	print(player)
 	# Generate a new room
 	room = generator.instance()
 	add_child(room)
 
 	# Send player to entrance
-	print(room.get_node("Entrance").position)
 	player.position = room.get_node("Entrance").position
 	add_child(player)
 
@@ -41,14 +40,14 @@ func move_to_next_room():
 	remove_child(room)
 	
 	# Check new room type
-	if Global.passed_levels % 3 == 0:
+#	if Global.passed_levels % 3 == 0:
 		# Default room
-		room = generator.instance()
-	else:
-		# Boss room
-		RNG.randomize()
-		var result = RNG.randi_range(0, boss_rooms.size() - 1)
-		room = boss_rooms[result].instance()
+	room = generator.instance()
+#	else:
+#		# Boss room
+#		RNG.randomize()
+#		var result = RNG.randi_range(0, boss_rooms.size() - 1)
+#		room = boss_rooms[result].instance()
 
 	# Add room and move player
 	add_child(room)
