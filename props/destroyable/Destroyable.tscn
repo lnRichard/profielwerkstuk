@@ -4,6 +4,7 @@
 [ext_resource path="res://props/prop/Prop.tscn" type="PackedScene" id=2]
 
 [node name="Destroyable" instance=ExtResource( 2 )]
+collision_layer = 768
 script = ExtResource( 1 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

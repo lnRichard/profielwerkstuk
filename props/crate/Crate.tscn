@@ -25,6 +25,7 @@ animations = [ {
 extents = Vector2( 6, 6 )
 
 [node name="Crate" instance=ExtResource( 7 )]
+collision_layer = 768
 script = ExtResource( 6 )
 
 [node name="AnimatedSprite" parent="." index="0"]
