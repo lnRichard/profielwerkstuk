@@ -18,6 +18,9 @@ func _ready():
 
 # Start the game
 func _start_game():
+	# Reset level counter
+	Global.passed_levels = 0
+
 	# Generate a new room
 	room = generator.instance()
 	add_child(room)
