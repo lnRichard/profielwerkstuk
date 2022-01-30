@@ -19,6 +19,7 @@ var map_state := []
 
 # Enemies
 var grunt := preload("res://characters/enemies/grunt/Grunt.tscn") # Grunt enemy to spawn
+var masked_grunt := preload("res://characters/enemies/masked_grunt/MaskedGrunt.tscn") # Exploding grunt enemy to spawn
 
 # Props
 var crate := preload("res://props/crate/Crate.tscn")
@@ -94,20 +95,8 @@ func place_tiles():
 				# Update astar connections
 				if astar.has_point(((x - 1) * dungeon_size.x) + y):				
 					astar.connect_points(thispoint, ((x - 1) * dungeon_size.x) + y)
-				else:
-					if astar.has_point(((x - 2) * dungeon_size.x) + y):
-						if astar.has_point(((x - 3)*dungeon_size.x) + y):
-							pass
-						else:
-							astar.remove_point(((x - 2) * dungeon_size.x) + y);
 				if astar.has_point((x * dungeon_size.x) + y - 1):
 					astar.connect_points(thispoint, (x * dungeon_size.x) + y - 1)
-				else:
-					if astar.has_point((x * dungeon_size.x) + y - 2):
-						if astar.has_point((x * dungeon_size.x) + y - 3):
-							pass
-						else:
-							astar.remove_point((x * dungeon_size.x) + y - 2);
 
 	# Update the tile bitmask
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
@@ -233,11 +222,15 @@ func place_enemies(gen_parameters: Dictionary):
 	while enemies["grunts"] > 0:
 		if spawn_enemy(grunt, rng):
 			enemies["grunts"] -= 1
+	while enemies["masked_grunt"] > 0:
+		if spawn_enemy(masked_grunt, rng):
+			enemies["masked_grunt"] -= 1
 
 # Gets amount of enemies to spawn of each type
 func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return {
-		"grunts": rng.randi_range(5 + 5 * gen_parameters["current_level"], 10 + 5 * gen_parameters["current_level"])
+		"grunts": rng.randi_range(5 + 5 * gen_parameters["current_level"], 10 + 5 * gen_parameters["current_level"]),
+		"masked_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1)
 	}
 
 # Spawns a specific enemy instance
