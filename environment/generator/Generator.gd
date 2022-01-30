@@ -89,11 +89,6 @@ func place_tiles():
 				entrance_point = (x * dungeon_size.x) + y
 				map_state[x][y] = map_states.ENTRANCE
 
-#	$Entrance.position.x+=16 if $Entrance.position.x == 0 else 0;
-#	$Entrance.position.x-=16 if $Entrance.position.x == dungeon_size.x else 0;
-#	$Exit.position.y+=16 if $Exit.position.y == 0 else 0;
-#	$Exit.position.y-=16 if $Exit.position.y == dungeon_size.y else 0;
-
 	# Generate exit
 	for x in range(dungeon_size.x -1, -1, -1):
 		for y in range(dungeon_size.y -1, -1, -1):
@@ -138,12 +133,13 @@ func place_enemies():
 		# Calculate coord
 		var coord = Vector2(x * 16 + 8, y * 16 + 8)
 
+		# Do not generate around entrance
+		if $Entrance.position.x + (5 * 16) >= coord.x and $Entrance.position.x - (5 * 16) <= coord.x:
+			if $Entrance.position.y + (5 * 16) >= coord.y and $Entrance.position.y - (5 * 16) <= coord.y:
+				continue
+
 		# Spawn the enemy
 		var enemy = grunt.instance()
 		add_child(enemy)
 		enemy.position = coord
 		enemies_to_gen -= 1
-
-#				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
-#					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
-
