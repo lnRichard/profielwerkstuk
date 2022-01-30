@@ -35,7 +35,7 @@
 [ext_resource path="res://projectiles/lifesteal_machinegun/sprites/5.png" type="Texture" id=33]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 3.0
+radius = 2.0
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -57,7 +57,7 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="1"]
 frames = SubResource( 2 )
-frame = 12
+frame = 9
 speed_scale = 5.0
 playing = true
 

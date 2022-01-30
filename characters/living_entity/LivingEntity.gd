@@ -17,8 +17,12 @@ var freeze_time := 0.0 # Time the enemy has left being frozen
 var knockback := Vector2.ZERO # Knockback amount
 var friction := 200 # Current friction
 
+# death_effect()
+var death_effect = preload("res://effects/death_effect/DeathEffect.tscn") # Death effect
+
 # health_indicator()
 var indicator := preload("res://indicator/Indicator.tscn")
+
 
 # Initialize the entity
 func _init(_max_health: float, _move_speed: float):
@@ -63,10 +67,10 @@ func get_health() -> float:
 
 # Creates a death effect
 func death_effect():
-	var death = preload("res://characters/living_entity/death/DeathEffect.tscn").instance()
-	death.global_position = global_position
-	get_parent().add_child(death)
-	death.get_node("DeathEffect").play()
+	var effect = death_effect.instance()
+	effect.global_position = global_position
+	get_parent().add_child(effect)
+	effect.get_node("DeathEffect").play()
 
 # Creates an health indicator
 func health_indicator(killing_blow: bool, health_change: float):
@@ -77,6 +81,8 @@ func health_indicator(killing_blow: bool, health_change: float):
 	label.global_position = global_position
 
 	# Append the label
+	if !get_parent():
+		return
 	get_parent().add_child(label)
 	var text = String(health_change)
 	if health_change > 0:

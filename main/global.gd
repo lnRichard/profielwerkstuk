@@ -2,11 +2,42 @@ extends Node
 
 # Highest score the player has achieved
 
-var highscore = 0
+# Game stats
+var highscore = 0 # Highest score achieved
+var passed_levels = 0 # Amount of levels passed
 
-var passed_levels = 0;
+# Player reference
+var player; # Reference to the player
 
-var player_lvl = 1;
-var xp = 0;
+# Player stats
+var player_lvl = 1 setget set_level, get_level # Player's current level
+var xp = 0 setget set_xp, get_xp # Player's xp
 
-var last_health = 0;
+
+# Get xp var
+func get_xp():
+	return xp
+
+# Set xp var
+func set_xp(value: int):
+	xp = value
+	# Levelup while xp is enough
+	while xp > player_lvl * 25:
+		set_level(player_lvl + 1)
+
+# set level var
+func set_level(value: int):
+	if not player:
+		return
+
+	# Create levelup label
+	player.indicator("Level Up!", Color(0.64, 0.67, 2.3), true)
+
+	# Update player stats
+	player_lvl = value
+	player.max_health += 50
+	player.current_health = player.max_health
+
+# Get the player's current level
+func get_level():
+	return player_lvl

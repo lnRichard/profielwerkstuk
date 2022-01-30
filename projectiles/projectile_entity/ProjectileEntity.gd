@@ -43,5 +43,12 @@ func _on_Projectile_body_entered(body: CollisionObject2D):
 		body.set_health(body.get_health() - damage)
 		if damage != 0:
 			queue_free()
+	elif body is Destroyable:
+		body.destroy()
+		queue_free()
 	else:
 		queue_free()
+
+# Generic projectile behavior
+func _on_Projectile_body_exited(body: CollisionObject2D):
+	pass

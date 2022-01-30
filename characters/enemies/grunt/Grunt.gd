@@ -10,7 +10,7 @@ var cooldown: int # Cooldown of the attack
 
 
 # _max_health: float, _move_speed: float, _score: int
-func _init().(200.0, 100.0, 10):
+func _init().(200.0, 100.0, 10, 10):
 	pass
 
 # Initializes the grunt

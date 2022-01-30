@@ -272,7 +272,7 @@ shape = SubResource( 62 )
 
 [node name="AnimatedSprite" parent="." index="1"]
 frames = SubResource( 61 )
-frame = 19
+frame = 41
 speed_scale = 5.0
 playing = true
 
@@ -281,7 +281,7 @@ custom_fonts/font = SubResource( 64 )
 
 [node name="ExplosionArea" type="Area2D" parent="." index="4"]
 collision_layer = 128
-collision_mask = 6
+collision_mask = 518
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea" index="0"]
 shape = SubResource( 63 )
