@@ -8,8 +8,9 @@ var count := 0 # Counter value increases after each animation
 func _ready():
 	pass
 
-# Checks what state the protal is in
-func _physics_process(delta: float):
+# Animation has finished
+func _on_AnimatedSprite_animation_finished():
+	count += 1
 	match count:
 		0:
 			$Light2D.enabled = true
@@ -22,7 +23,3 @@ func _physics_process(delta: float):
 			$Light2D.enabled = false
 			$AnimatedSprite.hide()
 			set_physics_process(false)
-
-# Animation has finished
-func _on_AnimatedSprite_animation_finished():
-	count += 1
