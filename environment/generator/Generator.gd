@@ -1,25 +1,25 @@
 extends Node2D
 
 # place_tiles()
-onready var noise = OpenSimplexNoise.new() # Noise function
-var exit_set = false # Exit has been generated
-var entrance_set = false # Entrance has been generated
-var enemy_count = 0 # Amount of enemies generated
+onready var noise := OpenSimplexNoise.new() # Noise function
+var exit_set := false # Exit has been generated
+var entrance_set := false # Entrance has been generated
+var enemy_count := 0 # Amount of enemies generated
 
 # Settings
-var dungeon_size = Vector2(25, 25) # Size of the dungeon
-var tile_cap = 0.2 # Tile cap of the dungeon
-var enemy_cap = -0.2
-var entrance_exit_cap = -0.5 # Entrance exit cap
+var dungeon_size := Vector2(25, 25) # Size of the dungeon
+var tile_cap := 0.2 # Treshold for tile spawn
+var enemy_cap := -0.2 # Treshold for enemy spawn
+var entrance_exit_cap := -0.5 # Treshold for entrance spawn
 
 # Onready
-onready var autotile = $Map
-onready var astar = AStar2D.new()
+onready var autotile := $Map # Tilemap of the dungeon
+onready var astar := AStar2D.new() # AStar pathfinding instance
 
 # Misc
-var enemy = preload("res://characters/enemies/grunt/Grunt.tscn")
-var entrance_point # 
-var exit_point
+var grunt := preload("res://characters/enemies/grunt/Grunt.tscn") # Grunt enemy to spawn
+var entrance_point: int # Location of the entrance
+var exit_point: int # Location of the exit
 
 
 # Initialize the generator
@@ -42,38 +42,38 @@ func place_tiles():
 				astar.add_point(thispoint, Vector2(x * 16 + 8, y * 16 + 8))
 				autotile.set_cell(x, y, 0)
 
-				if astar.has_point(((x - 1) * dungeon_size.x) + y):				
-					astar.connect_points(thispoint, ((x - 1)*dungeon_size.x) + y)
-				else:
-					if astar.has_point(((x - 2) * dungeon_size.x) + y):
-						if astar.has_point(((x - 3) * dungeon_size.x) + y):
-							pass
-						else:
-							astar.remove_point(((x - 2) * dungeon_size.x) + y)
+				#if astar.has_point(((x - 1) * dungeon_size.x) + y):				
+				#	astar.connect_points(thispoint, ((x - 1)*dungeon_size.x) + y)
+				#else:
+				#	if astar.has_point(((x - 2) * dungeon_size.x) + y):
+				#		if astar.has_point(((x - 3) * dungeon_size.x) + y):
+				#			pass
+				#		else:
+				#			astar.remove_point(((x - 2) * dungeon_size.x) + y)
 
-				if astar.has_point((x * dungeon_size.x) + y - 1):
-					astar.connect_points(thispoint, (x * dungeon_size.x) + y - 1)
-				else:
-					if astar.has_point((x * dungeon_size.x) + y - 2):
-						if astar.has_point((x * dungeon_size.x) + y - 3):
-							pass
-						else:
-							astar.remove_point((x * dungeon_size.x) + y - 2)
+				#if astar.has_point((x * dungeon_size.x) + y - 1):
+				#	astar.connect_points(thispoint, (x * dungeon_size.x) + y - 1)
+				#else:
+				#	if astar.has_point((x * dungeon_size.x) + y - 2):
+				#		if astar.has_point((x * dungeon_size.x) + y - 3):
+				#			pass
+				#		else:
+				#			astar.remove_point((x * dungeon_size.x) + y - 2)
 
 			# Generate entrance
 			if c < entrance_exit_cap && !entrance_set:
-				if x == dungeon_size.x:
-					$Entrance.position = Vector2((x - 5) * 16, (y + 1) * 16)
-					entrance_set = true
-					entrance_point = (x * dungeon_size.x) + y
-				if y == dungeon_size.y:
-					$Entrance.position = Vector2((x + 1) * 16, (y - 5) * 16)
-					entrance_set = true
-					entrance_point = (x * dungeon_size.x) + y
-				else:
-					$Entrance.position = Vector2((x + 1) * 16, (y + 1) * 16)
-					entrance_set = true
-					entrance_point = (x * dungeon_size.x) + y
+				#if x == dungeon_size.x:
+				#	$Entrance.position = Vector2((x - 5) * 16, (y + 1) * 16)
+				#	entrance_set = true
+				#	entrance_point = (x * dungeon_size.x) + y
+				#if y == dungeon_size.y:
+				#	$Entrance.position = Vector2((x + 1) * 16, (y - 5) * 16)
+				#	entrance_set = true
+				#	entrance_point = (x * dungeon_size.x) + y
+				#else:
+				$Entrance.position = Vector2((x + 1) * 16, (y + 1) * 16)
+				entrance_set = true
+				entrance_point = (x * dungeon_size.x) + y
 
 	# Spawn enemies
 	for x in dungeon_size.x:
@@ -84,7 +84,7 @@ func place_tiles():
 					pass
 				if $Entrance.position.x + (10 * 16) < coords.x || $Entrance.position.x - (10 * 16) > coords.x:
 					if $Entrance.position.y + (10 * 16) < coords.y || $Entrance.position.x - (10 * 16) > coords.y:
-						var i = enemy.instance()
+						var i = grunt.instance()
 						enemy_count += 1
 						i.position = coords
 						add_child(i)

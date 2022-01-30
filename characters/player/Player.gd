@@ -1,18 +1,15 @@
 extends LivingEntity
 class_name Player
 
-# [!] TODO: Fix health flash when frozen
-
 # States
 enum ATTACK_SLOT {A, B, C, D, E, F, G} # Slots of attacking
 signal PlayerDeath # Signals if player has died
 
 # Generic
-onready var parent = get_parent() # Parent
-var freeze_time = 0 # Time left frozen
+onready var parent := get_parent() # Parent
 
 # Attack()
-var projectiles = {} # Dict of projectiles
+var projectiles := {} # Dict of projectiles
 var projectile_queue # Projectile queue
 
 # Dash()
@@ -41,7 +38,7 @@ func _ready():
 	connect("PlayerDeath", get_parent(), "_game_over")
 
 # Player physics
-func _physics_process(delta):
+func _physics_process(delta: float):
 	._physics_process(delta)
 	cooldowns()
 	movement(delta)
@@ -84,7 +81,7 @@ func attack_input():
 # MOVEMENT
 
 # Handles player movement
-func movement(delta):
+func movement(delta: float):
 	match state:
 		IDLING:
 			idle()
@@ -160,8 +157,6 @@ func attack():
 		# Perform raycast
 		var space_state = get_world_2d().direct_space_state
 		var result = space_state.intersect_ray(global_position, b.global_position, [self], 0b00000000000000000001)
-		print(global_position, b.global_position)
-		print(result)
 		if result:
 			# Hit invalid spot
 			b.queue_free()
@@ -171,14 +166,14 @@ func attack():
 		parent.add_child(b)
 
 # The player is frozen
-func frozen(_delta):
+func frozen(delta: float):
 	$AnimatedSprite.modulate = frozen_color
-	freeze_time -= _delta
+	freeze_time -= delta
 	
 	# Check if the player is not longer frozen
 	if freeze_time <= 0:
-		$AnimatedSprite.play("running")
 		$AnimatedSprite.modulate = Color(1, 1, 1, 1)
+		$AnimatedSprite.play("running")
 		state = MOVING
 		freeze_time = 0
 
@@ -194,21 +189,24 @@ func cooldowns():
 			c.c_cooldown -= 1
 
 # Add spell the the player's arsenal
-func add_spell_arsenal(_projectile_path: String, _slot: int):
-	var temp = load(_projectile_path).instance()
+func add_spell_arsenal(projectile_path: String, slot: int):
+	var temp = load(projectile_path).instance()
 	var cooldown = temp.cooldown
 	temp.queue_free()
-	projectiles[_slot] = {
-		"projectile": load(_projectile_path),
+	
+	# Add new projectile to it's slot
+	projectiles[slot] = {
+		"projectile": load(projectile_path),
 		"cooldown": cooldown,
 		"c_cooldown": 0
 	}
 
 # Set the player's health
-func set_health(value):
+func set_health(value: float):
 	.set_health(value)
 	health()
 	death()
+
 	$AnimatedSprite.modulate = Color(1, 0, 0)
 	$Tween.interpolate_callback(self, 0.1, "untint")
 	$Tween.start()
@@ -226,9 +224,3 @@ func death():
 	if current_health <= 0:
 		death_effect()
 		emit_signal("PlayerDeath")
-
-# Freeze the player
-func freeze(time: float):
-	$AnimatedSprite.stop()
-	freeze_time = time
-	state = FROZEN

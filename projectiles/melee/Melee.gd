@@ -10,7 +10,7 @@ func _init().(0, 50, 20, 60):
 	pass
 
 # Override logic function 
-func _on_Projectile_body_entered(body):
+func _on_Projectile_body_entered(body: CollisionObject2D):
 	._on_Projectile_body_entered(body)
 
 	# Knockback entity

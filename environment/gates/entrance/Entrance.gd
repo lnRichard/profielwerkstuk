@@ -9,7 +9,7 @@ func _ready():
 	pass
 
 # Checks what state the protal is in
-func _physics_process(delta):
+func _physics_process(delta: float):
 	match count:
 		0:
 			$Light2D.enabled = true

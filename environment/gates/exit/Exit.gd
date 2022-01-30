@@ -4,7 +4,7 @@ extends Area2D
 signal PlayerTouch
 
 # _on_Exit_body_entered()
-var active = false # Checks if the portal can be entered
+var active := false # Checks if the portal can be entered
 
 
 # Initialize portal
@@ -17,7 +17,7 @@ func _ready():
 	$Tween.start()
 
 # Player enters the portal
-func _on_Exit_body_entered(body):
+func _on_Exit_body_entered(body: Player):
 	if active:
 		emit_signal("PlayerTouch")
 		$AnimatedSprite.play("close")
