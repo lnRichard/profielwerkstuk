@@ -6,11 +6,9 @@ onready var generator := preload("res://environment/generator/Generator.tscn")
 onready var RNG := RandomNumberGenerator.new()
 onready var boss_rooms := []
 
-
 # Misc
 var room # Current room
 var total_score = 0 # Total score this game
-
 
 
 # Initialize the game

@@ -18,7 +18,7 @@ onready var autotile := $Map # Tilemap of the dungeon
 onready var astar := AStar2D.new() # AStar pathfinding instance
 
 # Map state
-enum map_states {EMPTY, TILE, ENTRANCE, EXIT}
+enum map_states {EMPTY, TILE, ENTRANCE, EXIT, ENEMY}
 var map_state := []
 
 # Misc
@@ -26,8 +26,14 @@ var grunt := preload("res://characters/enemies/grunt/Grunt.tscn") # Grunt enemy 
 var entrance_point: int # Location of the entrance
 var exit_point: int # Location of the exit
 
+
 # Generates the map on initialization
 func _ready():
+	# Initialize the generator
+	var gen_parameters = {
+		"current_level": Global.passed_levels
+	}
+
 	# Initialize the map
 	randomize()
 	noise.seed = randi()
@@ -40,11 +46,11 @@ func _ready():
 		yield(get_tree().create_timer(0.01), "timeout")
 		place_tiles()
 
-	# Spwan enemies on the valid map
-	get_parent().player.global_position = $Entrance.position
-	place_enemies()
+	# Generate the map entities
+	place_enemies(gen_parameters)
 
-	# Free map state from memory
+	# Finalize the generation
+	get_parent().player.global_position = $Entrance.position
 	map_state.clear()
 
 # Reset the map state
@@ -114,32 +120,47 @@ func valid_path() -> bool:
 	return true
 
 # Spawns the enemies on the map
-func place_enemies():
+func place_enemies(gen_parameters: Dictionary):
 	# var space state;
 	var space_state = get_world_2d().direct_space_state # State of the map
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 
-	var enemies_to_gen = rng.randi_range(10, 20)
-	while enemies_to_gen > 0:
-		# Get enemy pos
-		var x = rng.randi_range(0, dungeon_size.x - 1)
-		var y = rng.randi_range(0, dungeon_size.y - 1)
+	# Get enemy counts
+	var enemies = get_enemy_count(gen_parameters, rng)
 
-		# Check if tile is valid
-		if map_state[x][y] != map_states.TILE:
-			continue
+	# Spawn grunts
+	while enemies["grunts"] > 0:
+		spawn_enemy(grunt, rng)
+		enemies["grunts"] -= 1
 
-		# Calculate coord
-		var coord = Vector2(x * 16 + 8, y * 16 + 8)
+# Gets amount of enemies to spawn of each type
+func get_enemy_count(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+	return {
+		"grunts": rng.randi_range(5 + 5 * gen_parameters["current_level"], 10 + 5 * gen_parameters["current_level"])
+	}
 
-		# Do not generate around entrance
-		if $Entrance.position.x + (5 * 16) >= coord.x and $Entrance.position.x - (5 * 16) <= coord.x:
-			if $Entrance.position.y + (5 * 16) >= coord.y and $Entrance.position.y - (5 * 16) <= coord.y:
-				continue
+# Spawns a specific enemy instance
+func spawn_enemy(type: PackedScene, rng: RandomNumberGenerator) -> bool:
+	# Get enemy pos
+	var x = rng.randi_range(0, dungeon_size.x - 1)
+	var y = rng.randi_range(0, dungeon_size.y - 1)
 
-		# Spawn the enemy
-		var enemy = grunt.instance()
-		add_child(enemy)
-		enemy.position = coord
-		enemies_to_gen -= 1
+	# Check if tile is valid
+	if map_state[x][y] != map_states.TILE:
+		return false
+
+	# Calculate coord
+	var coord = Vector2(x * 16 + 8, y * 16 + 8)
+
+	# Do not generate around entrance
+	if $Entrance.position.x + (5 * 16) >= coord.x and $Entrance.position.x - (5 * 16) <= coord.x:
+		if $Entrance.position.y + (5 * 16) >= coord.y and $Entrance.position.y - (5 * 16) <= coord.y:
+			return false
+
+	# Spawn the enemy
+	var enemy = type.instance()
+	add_child(enemy)
+	enemy.position = coord
+	map_state[x][y] = map_states.ENEMY
+	return true

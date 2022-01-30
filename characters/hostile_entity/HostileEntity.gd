@@ -61,7 +61,7 @@ func move():
 	count += 1
 
 	# Idle when player is not seen
-	if player_hidden or not player:
+	if player_hidden:
 		# Check if player is seen again
 		if count == 60:
 			player_hidden = visual_check()
@@ -70,6 +70,11 @@ func move():
 		idle()
 		return
 	
+	# Player doesn't exist
+	elif not player:
+		state = IDLING
+		return
+
 	# Detects if new path towards player should be generated
 	if count == 60:
 		player_hidden = visual_check()

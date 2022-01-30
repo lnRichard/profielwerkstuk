@@ -2,20 +2,22 @@ extends Node
 
 # Highest score the player has achieved
 
-var highscore = 0
-var passed_levels = 0
+# Game stats
+var highscore = 0 # Highest score achieved
+var passed_levels = 0 # Amount of levels passed
 
-var player; 
+# Player reference
+var player; # Reference to the player
 
-var player_lvl = 1 setget set_level, get_level
-var xp = 0 setget set_xp, get_xp
+# Player stats
+var player_lvl = 1 setget set_level, get_level # Player's current level
+var xp = 0 setget set_xp, get_xp # Player's xp
 
 
 # Get xp var
 func get_xp():
 	return xp
-	
-	
+
 # Set xp var
 func set_xp(value: int):
 	xp = value
@@ -32,9 +34,7 @@ func set_level(value: int):
 	player_lvl = value
 	player.max_health+=100
 	player.current_health = player.max_health
-	
-	
+
+# Get the player's current level
 func get_level():
 	return player_lvl
-
-
