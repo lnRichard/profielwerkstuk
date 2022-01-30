@@ -15,7 +15,6 @@ func _init().(100, 2000, 25, 30):
 
 # Target is susceptible to the explosion
 func _on_ExplosionArea_body_entered(body: CollisionObject2D):
-	print("enter")
 	targets.append(body)
 
 # Target is not longer susceptible to the explosion
