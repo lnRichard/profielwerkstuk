@@ -8,8 +8,9 @@ onready var parent := get_parent()
 var current_cooldown := 0 # Current cooldown of attack
 var cooldown: int # Cooldown of the attack
 
+# Attack()
+var danger = 0 # Closeness to exploding
 
-var danger = 0
 
 # _max_health: float, _move_speed: float, _score: int
 func _init().(200.0, 100.0, 10, 10):
@@ -24,7 +25,6 @@ func _ready():
 
 # Called when the player enters the attack radius
 func attack():
-	print(danger)
 	danger+=2
 	if danger > 60:
 		var explosion = projectile.instance()
@@ -32,10 +32,10 @@ func attack():
 		parent.add_child(explosion)
 		set_health(0)
 
+# Reduce cooldowns
 func cooldowns():
 	if danger > 0:
 		danger-=1	
-
 
 # Fetch direction to player
 func dir_to_player() -> Vector2:

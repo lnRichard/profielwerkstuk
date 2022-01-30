@@ -2,7 +2,7 @@ extends ProjectileEntity
 
 # _on_Projectile_body_entered()
 var targets = [] # Targets that will get exploded on hit
-
+var exploded = false # Explosion has happened
 
 # Initialize small star projectile
 func _ready():
@@ -10,7 +10,7 @@ func _ready():
 	pass
 
 # _speed: float, _lifetime: int, _damage: float, _cooldown: int
-func _init().(0, 2000, 1, 30):
+func _init().(0, 2000, 100, 30):
 	pass
 
 # Target is susceptible to the explosion
@@ -23,11 +23,13 @@ func _on_ExplosionArea_body_exited(body: CollisionObject2D):
 
 func _physics_process(delta):
 	._physics_process(delta)
-	yield(get_tree().create_timer(1.0), "timeout")
-	queue_free()
-# Override logic function
-func _on_Projectile_body_entered(body: CollisionObject2D):
-#	yield(get_tree().create_timer(0.001), "timeout")
+	if not exploded:
+		exploded = true
+		yield(get_tree().create_timer(0.1), "timeout")
+		explode()
+
+# Explodes the projectile
+func explode():
 	# Hits all target in explosion radius
 	for target in targets:
 
@@ -45,3 +47,7 @@ func _on_Projectile_body_entered(body: CollisionObject2D):
 				# Destroy the prop
 				target.destroy()
 	queue_free()
+
+# Override logic function
+func _on_Projectile_body_entered(body: CollisionObject2D):
+	pass
