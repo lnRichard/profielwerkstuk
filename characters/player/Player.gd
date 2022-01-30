@@ -33,7 +33,7 @@ func _ready():
 	add_spell_arsenal("res://projectiles/fireball/Fireball.tscn", ATTACK_SLOT.A)
 	add_spell_arsenal("res://projectiles/iceball/Iceball.tscn", ATTACK_SLOT.B)
 	add_spell_arsenal("res://projectiles/small_star/SmallStar.tscn", ATTACK_SLOT.C)
-	add_spell_arsenal("res://projectiles/zippy_zip/ZippyZip.tscn", ATTACK_SLOT.D)
+	add_spell_arsenal("res://projectiles/lifesteal_machinegun/LifestealMachinegun.tscn", ATTACK_SLOT.D)
 	$AnimatedSprite.play("idle")
 	connect("PlayerDeath", get_parent(), "_game_over")
 
@@ -153,7 +153,11 @@ func attack():
 		b.direction = Vector2.RIGHT.rotated((get_local_mouse_position()).angle()).normalized()
 		b.get_node("AnimatedSprite").rotation = get_local_mouse_position().angle()
 		b.position = $AttackPoint.position
-
+		
+		#Lifestealmachinegun
+		if b is LifestealMachinegun:
+			b.player = self;
+		
 		# Perform raycast
 		var space_state = get_world_2d().direct_space_state
 		var result = space_state.intersect_ray(global_position, b.global_position, [self], 0b00000000000000000001)
@@ -204,12 +208,15 @@ func add_spell_arsenal(projectile_path: String, slot: int):
 # Set the player's health
 func set_health(value: float):
 	.set_health(value)
+	Global.last_health = value;
 	health()
-	death()
 
-	$AnimatedSprite.modulate = Color(1, 0, 0)
-	$Tween.interpolate_callback(self, 0.1, "untint")
-	$Tween.start()
+	death()	
+	if value < current_health:
+		$AnimatedSprite.modulate = Color(1, 0, 0)
+		$Tween.interpolate_callback(self, 0.1, "untint")
+		$Tween.start()
+
 
 # Remove player tint
 func untint():

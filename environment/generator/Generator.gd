@@ -12,6 +12,7 @@ var tile_cap := 0.2 # Treshold for tile spawn
 var enemy_cap := -0.2 # Treshold for enemy spawn
 var entrance_exit_cap := -0.5 # Treshold for entrance spawn
 
+
 # Onready
 onready var autotile := $Map # Tilemap of the dungeon
 onready var astar := AStar2D.new() # AStar pathfinding instance
@@ -36,44 +37,26 @@ func place_tiles():
 	for x in dungeon_size.x:
 		for y in dungeon_size.y:
 			# Generate tiles
-			var c = noise.get_noise_2d(x, y)
+			var c = noise.get_noise_2d(x, y) # -1.0 to 1.0
 			if c < tile_cap:
 				var thispoint = (x * dungeon_size.x) + y
 				astar.add_point(thispoint, Vector2(x * 16 + 8, y * 16 + 8))
 				autotile.set_cell(x, y, 0)
 
-				#if astar.has_point(((x - 1) * dungeon_size.x) + y):				
-				#	astar.connect_points(thispoint, ((x - 1)*dungeon_size.x) + y)
-				#else:
-				#	if astar.has_point(((x - 2) * dungeon_size.x) + y):
-				#		if astar.has_point(((x - 3) * dungeon_size.x) + y):
-				#			pass
-				#		else:
-				#			astar.remove_point(((x - 2) * dungeon_size.x) + y)
-
-				#if astar.has_point((x * dungeon_size.x) + y - 1):
-				#	astar.connect_points(thispoint, (x * dungeon_size.x) + y - 1)
-				#else:
-				#	if astar.has_point((x * dungeon_size.x) + y - 2):
-				#		if astar.has_point((x * dungeon_size.x) + y - 3):
-				#			pass
-				#		else:
-				#			astar.remove_point((x * dungeon_size.x) + y - 2)
 
 			# Generate entrance
 			if c < entrance_exit_cap && !entrance_set:
-				#if x == dungeon_size.x:
-				#	$Entrance.position = Vector2((x - 5) * 16, (y + 1) * 16)
-				#	entrance_set = true
-				#	entrance_point = (x * dungeon_size.x) + y
-				#if y == dungeon_size.y:
-				#	$Entrance.position = Vector2((x + 1) * 16, (y - 5) * 16)
-				#	entrance_set = true
-				#	entrance_point = (x * dungeon_size.x) + y
-				#else:
-				$Entrance.position = Vector2((x + 1) * 16, (y + 1) * 16)
+				$Entrance.position = Vector2(x * 16 + 8, y * 16 + 8)
 				entrance_set = true
 				entrance_point = (x * dungeon_size.x) + y
+	for x in range(dungeon_size.x -1, -1, -1):
+		for y in range(dungeon_size.y -1, -1, -1):
+			var c = noise.get_noise_2d(x, y)
+			if c < entrance_exit_cap && !exit_set:
+				$Exit.position = Vector2(x * 16, y * 16)
+				exit_set = true
+				exit_point = (x * dungeon_size.x) + y
+				break
 
 	# Spawn enemies
 	for x in dungeon_size.x:
@@ -88,7 +71,11 @@ func place_tiles():
 						enemy_count += 1
 						i.position = coords
 						add_child(i)
-
+	$Entrance.position.x+=16 if $Entrance.position.x == 0 else 0;
+	$Entrance.position.x-=16 if $Entrance.position.x == dungeon_size.x else 0;
+	$Exit.position.y+=16 if $Exit.position.y == 0 else 0;
+	$Exit.position.y-=16 if $Exit.position.y == dungeon_size.y else 0;
+	
 	# Generate exit
 	for x in range(dungeon_size.x -1, -1, -1):
 		for y in range(dungeon_size.y -1, -1, -1):
@@ -106,7 +93,7 @@ func place_tiles():
 	# Validate entrance to exit path and enemy count
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
 	if !valid_path() || enemy_count < 20:
-		get_tree().reload_current_scene()
+		get_tree().change_scene("res://main/Main.tscn")
 
 # Checks if the path is valid
 func valid_path() -> bool:

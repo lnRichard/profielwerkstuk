@@ -7,17 +7,24 @@ onready var RNG := RandomNumberGenerator.new()
 onready var boss_rooms := []
 
 # XP and Levels
-var xp := 0 setget set_xp, get_xp
-var player_lvl := 1 setget set_level, get_level
+var xp setget set_xp, get_xp
+var player_lvl setget set_level, get_level
 
 # Misc
-var room: Object # Current room
-var passed_levels := 0 # Amount of levels completed
-var total_score := 0 # Total score this game
+var room # Current room
+var total_score = 0 # Total score this game
+
 
 
 # Initialize the game
 func _ready():
+	xp = Global.xp;
+	player_lvl = Global.player_lvl
+	player.max_health = 200 + player_lvl * 100; 
+	if Global.passed_levels == 0:
+		player.current_health = player.max_health
+	else:
+		player.current_health = Global.last_health
 	_start_game()
 
 # Start the game
@@ -34,7 +41,7 @@ func _start_game():
 func _exit():
 	yield(get_tree().create_timer(1.0), "timeout")
 	move_to_next_room()
-	passed_levels+=1
+	Global.passed_levels+=1
 	Global.highscore+=100
 
 # Player moves to the next room
@@ -42,7 +49,7 @@ func move_to_next_room():
 	remove_child(room)
 	
 	# Check new room type
-	if passed_levels % 3 == 0:
+	if Global.passed_levels % 3 == 0:
 		# Default room
 		room = generator.instance()
 	else:
@@ -88,6 +95,7 @@ func get_level() -> int:
 
 # set level var
 func set_level(value: int):
+	print(player_lvl)
 	# Create levelup label
 	player.indicator("Level Up!", Color(0.64, 0.67, 2.3), true)
 
