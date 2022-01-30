@@ -264,7 +264,7 @@ font_data = ExtResource( 5 )
 [sub_resource type="CircleShape2D" id=63]
 radius = 43.1045
 
-[node name="Projectile" instance=ExtResource( 1 )]
+[node name="Smallstar" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 
 [node name="Collision" parent="." index="0"]
@@ -272,7 +272,7 @@ shape = SubResource( 62 )
 
 [node name="AnimatedSprite" parent="." index="1"]
 frames = SubResource( 61 )
-frame = 41
+frame = 46
 speed_scale = 5.0
 playing = true
 
