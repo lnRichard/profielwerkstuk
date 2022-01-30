@@ -18,7 +18,7 @@ var knockback := Vector2.ZERO # Knockback amount
 var friction := 200 # Current friction
 
 # death_effect()
-var death_effect = preload("res://characters/living_entity/death/DeathEffect.tscn") # Death effect
+var death_effect = preload("res://effects/death_effect/DeathEffect.tscn") # Death effect
 
 # health_indicator()
 var indicator := preload("res://indicator/Indicator.tscn")

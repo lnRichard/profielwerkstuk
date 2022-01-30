@@ -2,7 +2,7 @@ extends KinematicBody2D
 class_name Prop
 
 # death_effect()
-var death_effect = preload("res://characters/living_entity/death/DeathEffect.tscn") # Death effect
+var death_effect = preload("res://effects/death_effect/DeathEffect.tscn") # Death effect
 
 
 # Creates a death effect
