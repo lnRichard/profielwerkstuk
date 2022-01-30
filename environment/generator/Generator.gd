@@ -91,6 +91,24 @@ func place_tiles():
 				autotile.set_cell(x, y, 0)
 				map_state[x][y] = map_states.TILE
 
+				# Update astar connections
+				if astar.has_point(((x - 1) * dungeon_size.x) + y):				
+					astar.connect_points(thispoint, ((x - 1) * dungeon_size.x) + y)
+				else:
+					if astar.has_point(((x - 2) * dungeon_size.x) + y):
+						if astar.has_point(((x - 3)*dungeon_size.x) + y):
+							pass
+						else:
+							astar.remove_point(((x - 2) * dungeon_size.x) + y);
+				if astar.has_point((x * dungeon_size.x) + y - 1):
+					astar.connect_points(thispoint, (x * dungeon_size.x) + y - 1)
+				else:
+					if astar.has_point((x * dungeon_size.x) + y - 2):
+						if astar.has_point((x * dungeon_size.x) + y - 3):
+							pass
+						else:
+							astar.remove_point((x * dungeon_size.x) + y - 2);
+
 	# Update the tile bitmask
 	autotile.update_bitmask_region(Vector2(0, 0), dungeon_size)
 
@@ -155,7 +173,7 @@ func place_exit(rng: RandomNumberGenerator) -> bool:
 
 # Checks if the path from both portals is valid
 func valid_path() -> bool:
-	if !entrance_point || !exit_point || (!(astar.get_id_path(entrance_point, exit_point)) and false):
+	if !entrance_point || !exit_point || !astar.get_id_path(entrance_point, exit_point):
 		return false
 	return true
 
