@@ -1,10 +1,10 @@
 extends Node
 
 # Onready
-onready var player = preload("res://characters/player/Player.tscn").instance()
-onready var generator = preload("res://environment/generator/Generator.tscn")
-onready var RNG = RandomNumberGenerator.new()
-onready var boss_rooms = []
+onready var player := preload("res://characters/player/Player.tscn").instance()
+onready var generator := preload("res://environment/generator/Generator.tscn")
+onready var RNG := RandomNumberGenerator.new()
+onready var boss_rooms := []
 
 # XP and Levels
 var xp setget set_xp, get_xp
@@ -13,6 +13,7 @@ var player_lvl setget set_level, get_level
 # Misc
 var room # Current room
 var total_score = 0 # Total score this game
+
 
 
 # Initialize the game
@@ -34,7 +35,7 @@ func _start_game():
 
 	# Send player to entrance
 	player.position = room.get_node("Entrance").position
-	add_child(player)	
+	add_child(player)
 
 # Player exists the current level
 func _exit():
@@ -74,11 +75,11 @@ func _game_over():
 	get_tree().change_scene_to(restart)
 
 # An enemy dies
-func _enemy_death(score):
+func _enemy_death(score: int):
 	total_score += score
 
 # Get xp var
-func get_xp():
+func get_xp() -> int:
 	return xp
 
 # Set xp var
@@ -89,24 +90,15 @@ func set_xp(value: int):
 		set_level(player_lvl + 1)
 
 # Get level var
-func get_level():
+func get_level() -> int:
 	return player_lvl
 
 # set level var
 func set_level(value: int):
 	print(player_lvl)
 	# Create levelup label
-	var levelup = preload("res://indicator/Indicator.tscn").instance()
-	var label = levelup.get_node("Label")
-	
-	# Style the label
-	label.text = "Level Up!"
-	levelup.global_position = player.global_position
+	player.indicator("Level Up!", Color(0.64, 0.67, 2.3), true)
 
-	# Add the label
-	add_child(levelup)
-	levelup.show_value(false, Color(0.64, 0.67, 2.3))
-	
 	# Update player stats
 	player_lvl = value
 	player.max_health+=100

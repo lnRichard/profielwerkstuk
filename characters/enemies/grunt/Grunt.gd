@@ -1,12 +1,12 @@
 extends HostileEntity
 
 # Generic
-onready var projectile = preload("res://projectiles/melee/Melee.tscn")
-onready var parent = get_parent()
+onready var projectile := preload("res://projectiles/melee/Melee.tscn")
+onready var parent := get_parent()
 
 # Attack()
-var current_cooldown = 0 # Current cooldown of attack
-var cooldown # Cooldown of the attack
+var current_cooldown := 0 # Current cooldown of attack
+var cooldown: int # Cooldown of the attack
 
 
 # _max_health: float, _move_speed: float, _score: int

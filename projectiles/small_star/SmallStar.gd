@@ -1,8 +1,5 @@
 extends ProjectileEntity
 
-# [!] TODO: Fix bug where targets to not get appended when the projectile dies 
-# before the target.append function is called
-
 # _on_Projectile_body_entered()
 var targets = [] # Targets that will get exploded on hit
 
@@ -17,15 +14,15 @@ func _init().(100, 2000, 200, 30):
 	pass
 
 # Entity is susceptible to the explosion
-func _on_ExplosionArea_body_entered(body):
+func _on_ExplosionArea_body_entered(body: LivingEntity):
 	targets.append(body)
 
 # Entity is not longer susceptible to the explosion
-func _on_ExplosionArea_body_exited(body):
+func _on_ExplosionArea_body_exited(body: LivingEntity):
 	targets.remove(targets.bsearch(body))
 
 # Override logic function
-func _on_Projectile_body_entered(body):
+func _on_Projectile_body_entered(body: CollisionObject2D):
 	# Hits all entities in explosion radius
 	for t in targets:
 		# Checks if entity has not already died
@@ -34,8 +31,4 @@ func _on_Projectile_body_entered(body):
 			# Update entity fiction and health
 			t.friction = 200			
 			t.set_health(t.get_health() - damage)
-			
-			# Spawn damage indicators
-			if damage != 0:
-				_damage_indicator(t.get_health() <= 0, damage)
 	queue_free()

@@ -11,7 +11,7 @@ var spread = PI/2 # How much the label spreads
 
 
 # Shows a indicator
-func show_value(killing_blow, color = null):
+func show_value(special: bool, color = null):
 	# Change color if color is set
 	if color:
 		label.add_color_override("font_color", color)
@@ -29,8 +29,8 @@ func show_value(killing_blow, color = null):
 			1.0, 0.0, duration,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 
-	# If killing block
-	if killing_blow:
+	# If special label
+	if special:
 		# Interpolate the rectangle scale
 		tween.interpolate_property(label, "rect_scale",
 			label.rect_scale*2, label.rect_scale,
