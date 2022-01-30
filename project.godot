@@ -149,8 +149,6 @@ key_r={
 2d_physics/layer_6="sight_radius"
 2d_physics/layer_7="attack_radius"
 2d_physics/layer_8="explosion_radius"
-2d_physics/layer_9="props"
-2d_physics/layer_10="destroyables"
 
 [physics]
 

@@ -49,7 +49,7 @@ animations = [ {
 resource_local_to_scene = true
 font_data = ExtResource( 33 )
 
-[node name="Projectile" instance=ExtResource( 1 )]
+[node name="ZippyZip" instance=ExtResource( 1 )]
 script = ExtResource( 32 )
 
 [node name="Collision" parent="." index="0"]
@@ -57,7 +57,7 @@ shape = SubResource( 3 )
 
 [node name="AnimatedSprite" parent="." index="1"]
 frames = SubResource( 1 )
-frame = 26
+frame = 25
 speed_scale = 2.5
 playing = true
 
