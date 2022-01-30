@@ -22,17 +22,20 @@ func get_xp():
 func set_xp(value: int):
 	xp = value
 	# Levelup while xp is enough
-	while xp > player_lvl * 10:
+	while xp > player_lvl * 25:
 		set_level(player_lvl + 1)
 
 # set level var
 func set_level(value: int):
+	if not player:
+		return
+
 	# Create levelup label
 	player.indicator("Level Up!", Color(0.64, 0.67, 2.3), true)
 
 	# Update player stats
 	player_lvl = value
-	player.max_health+=100
+	player.max_health += 50
 	player.current_health = player.max_health
 
 # Get the player's current level
