@@ -25,17 +25,19 @@ func _ready():
 
 # Called when the player enters the attack radius
 func attack():
-	danger+=2
+	danger += 2
 	if danger > 60:
 		var explosion = projectile.instance()
 		explosion.global_position = global_position
 		parent.add_child(explosion)
 		set_health(0)
+	elif danger % 40 == 0:
+		indicator("!", Color(0.8, 0, 0))
 
 # Reduce cooldowns
 func cooldowns():
 	if danger > 0:
-		danger-=1	
+		danger -= 1	
 
 # Fetch direction to player
 func dir_to_player() -> Vector2:
