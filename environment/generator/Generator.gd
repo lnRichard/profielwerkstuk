@@ -18,11 +18,16 @@ onready var autotile := $Map # Tilemap of the dungeon
 onready var astar := AStar2D.new() # AStar pathfinding instance
 
 # Map state
-enum map_states {EMPTY, TILE, ENTRANCE, EXIT, ENEMY}
+enum map_states {EMPTY, TILE, ENTRANCE, EXIT, PROP, ENEMY}
 var map_state := []
 
-# Misc
+# Enemies
 var grunt := preload("res://characters/enemies/grunt/Grunt.tscn") # Grunt enemy to spawn
+
+# Props
+var crate := preload("res://props/crate/Crate.tscn")
+
+# Misc
 var entrance_point: int # Location of the entrance
 var exit_point: int # Location of the exit
 
@@ -47,6 +52,7 @@ func _ready():
 		place_tiles()
 
 	# Generate the map entities
+	place_props(gen_parameters)
 	place_enemies(gen_parameters)
 
 	# Finalize the generation
@@ -119,6 +125,48 @@ func valid_path() -> bool:
 		return false
 	return true
 
+# Spawns the props on the map
+func place_props(gen_parameters: Dictionary):
+	# var space state;
+	var space_state = get_world_2d().direct_space_state # State of the map
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+
+	# Get enemy counts
+	var props = get_prop_counts(gen_parameters, rng)
+	
+	# Spawn crates
+	while props["crates"] > 0:
+		spawn_prop(crate, rng)
+		props["crates"] -= 1
+
+# Gets amount of props to spawn of each type
+func get_prop_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+	return {
+		"crates": rng.randi_range(3 + 1 * gen_parameters["current_level"], 3 + 1 * gen_parameters["current_level"])
+	}
+
+# Spawns a specific prop instance
+func spawn_prop(type: PackedScene, rng: RandomNumberGenerator) -> bool:
+	# Get prop pos
+	var x = rng.randi_range(0, dungeon_size.x - 1)
+	var y = rng.randi_range(0, dungeon_size.y - 1)
+
+	# Check if tile is valid
+	if map_state[x][y] != map_states.TILE:
+		return false
+
+	# Calculate coord
+	var coord = Vector2(x * 16 + 8, y * 16 + 8)
+
+	# Spawn the prop
+	var prop = type.instance()
+	add_child(prop)
+	prop.position = coord
+	map_state[x][y] = map_states.PROP
+	return true
+
+
 # Spawns the enemies on the map
 func place_enemies(gen_parameters: Dictionary):
 	# var space state;
@@ -127,7 +175,7 @@ func place_enemies(gen_parameters: Dictionary):
 	rng.randomize()
 
 	# Get enemy counts
-	var enemies = get_enemy_count(gen_parameters, rng)
+	var enemies = get_enemy_counts(gen_parameters, rng)
 
 	# Spawn grunts
 	while enemies["grunts"] > 0:
@@ -135,7 +183,7 @@ func place_enemies(gen_parameters: Dictionary):
 		enemies["grunts"] -= 1
 
 # Gets amount of enemies to spawn of each type
-func get_enemy_count(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return {
 		"grunts": rng.randi_range(5 + 5 * gen_parameters["current_level"], 10 + 5 * gen_parameters["current_level"])
 	}

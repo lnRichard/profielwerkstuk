@@ -1,4 +1,4 @@
-extends Prop
+extends Destroyable
 class_name Crate
 
 # TODO: Implement

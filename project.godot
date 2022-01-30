@@ -9,10 +9,15 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Prop",
+"base": "Destroyable",
 "class": "Crate",
 "language": "GDScript",
 "path": "res://props/crate/Crate.gd"
+}, {
+"base": "Prop",
+"class": "Destroyable",
+"language": "GDScript",
+"path": "res://props/destroyable/Destroyable.gd"
 }, {
 "base": "LivingEntity",
 "class": "HostileEntity",
@@ -46,6 +51,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Crate": "",
+"Destroyable": "",
 "HostileEntity": "",
 "LifestealMachinegun": "",
 "LivingEntity": "",
