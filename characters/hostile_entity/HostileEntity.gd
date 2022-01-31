@@ -85,7 +85,7 @@ func move():
 	# Moves enemy towards player
 	$AnimatedSprite.flip_h = target.x < 0
 	$AnimatedSprite.play("running")
-	move_and_slide(target * (30 + pathSpeed))
+	move_and_slide(target * move_speed)
 
 # Checks if the enemy can see the player
 func visual_check() -> bool:

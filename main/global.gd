@@ -27,7 +27,7 @@ func set_xp(value: int):
 
 # set level var
 func set_level(value: int):
-	if not player:
+	if not is_instance_valid(player):
 		return
 
 	# Create levelup label

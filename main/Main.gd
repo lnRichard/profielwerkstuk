@@ -31,7 +31,7 @@ func _start_game():
 
 # Player exists the current level
 func _exit():
-	yield(get_tree().create_timer(1.0), "timeout")
+#	yield(get_tree().create_timer(1.0), "timeout")
 	move_to_next_room()
 	Global.passed_levels+=1
 	Global.highscore+=100
