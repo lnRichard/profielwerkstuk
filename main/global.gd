@@ -17,7 +17,9 @@ var xp = 0 setget set_xp, get_xp # Player's xp
 # Map & Camera size
 var mapcamera_size := Vector2(25, 25)
 
-
+# Elite enemy kills
+var elite_kills: int = 0
+var skill_points: int = 0
 
 # Get xp var
 func get_xp():

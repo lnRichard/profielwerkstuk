@@ -24,6 +24,7 @@ var enemies = { # Links enemy names to instances
 	"paint_grunt": preload("res://characters/enemies/paint_grunt/PaintGrunt.tscn"), # shaman enemy to spawn
 	"zombie": preload("res://characters/enemies/zombie/Zombie.tscn"), # zombie to spawn
 	"big_grunt": preload("res://characters/enemies/big_grunt/BigGrunt.tscn"), # Big grunt to spawn
+	"elite": preload("res://characters/enemies/elite/Elite.tscn")
 }
 var enemies_sizes = { # Checks if an enemy is big
 	"grunt": false,
@@ -31,6 +32,7 @@ var enemies_sizes = { # Checks if an enemy is big
 	"paint_grunt": false,
 	"zombie": false,
 	"big_grunt": true,
+	"elite": false
 }
 
 # Props
@@ -233,7 +235,7 @@ func place_enemies(gen_parameters: Dictionary):
 
 	# Get enemy counts
 	var counts = get_enemy_counts(gen_parameters, rng)
-
+	
 	# Spawn enemies
 	for enemy in enemies:
 		while counts[enemy] > 0:
@@ -248,7 +250,10 @@ func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) ->
 		"paint_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
 		"zombie": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
 		"big_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
+		"elite": 2
 	}
+
+var bosscreator = BossCreator.new()
 
 # Spawns a specific enemy instance
 func spawn_enemy(type: PackedScene, rng: RandomNumberGenerator, big = false) -> bool:
@@ -274,7 +279,7 @@ func spawn_enemy(type: PackedScene, rng: RandomNumberGenerator, big = false) -> 
 
 	# Calculate coord
 	var coord = Vector2(x * 16 + 8, y * 16 + 8)
-
+	
 	# Do not generate around entrance
 	if $Entrance.position.x + (5 * 16) >= coord.x and $Entrance.position.x - (5 * 16) <= coord.x:
 		if $Entrance.position.y + (5 * 16) >= coord.y and $Entrance.position.y - (5 * 16) <= coord.y:

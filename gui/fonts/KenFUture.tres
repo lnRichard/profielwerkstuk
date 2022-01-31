@@ -4,4 +4,6 @@
 font_path = "res://gui/themes/kenvector_future.ttf"
 
 [resource]
+resource_local_to_scene = true
+size = 7
 font_data = SubResource( 1 )
