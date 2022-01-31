@@ -2,6 +2,7 @@ extends Destroyable
 class_name Crate
 
 # _physics_process()
+onready var flask = preload("res://props/Flask/Flask.tscn")
 onready var player = get_parent().get_parent().player # Player instance
 var speed = 1000 # Get the speed
 
@@ -20,3 +21,10 @@ func _physics_process(delta):
 	if speed > 0:
 		move_and_slide(player.global_position.direction_to(global_position) * (delta * speed))
 		speed -= 100
+
+# Unloads the prop
+func unload():
+	var flask_instance = flask.instance()
+	flask_instance.global_position = global_position
+	get_parent().add_child(flask_instance)
+	.unload()

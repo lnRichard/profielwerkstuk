@@ -16,10 +16,14 @@ func destroy():
 	destroyed = true
 	$AnimatedSprite.play("destroy")
 
+# Unloads the prop
+func unload():
+	Global.highscore += score
+	Global.xp += xp
+	death_effect()
+	queue_free()
+
 # Called when animation is finished
 func _on_AnimatedSprite_animation_finished():
 	if destroyed:
-		Global.highscore += score
-		Global.xp += xp
-		death_effect()
-		queue_free()
+		unload()
