@@ -34,6 +34,7 @@ func _ready():
 	add_spell_arsenal("res://projectiles/iceball/Iceball.tscn", ATTACK_SLOT.B)
 	add_spell_arsenal("res://projectiles/small_star/SmallStar.tscn", ATTACK_SLOT.C)
 	add_spell_arsenal("res://projectiles/lifesteal_machinegun/LifestealMachinegun.tscn", ATTACK_SLOT.D)
+	add_spell_arsenal("res://projectiles/zippy_zip/ZippyZip.tscn", ATTACK_SLOT.E)
 	$AnimatedSprite.play("idle")
 	connect("PlayerDeath", get_parent(), "_game_over")
 
@@ -75,6 +76,9 @@ func attack_input():
 		state = ATTACKING
 	elif Input.is_action_just_pressed("key_r"):
 		projectile_queue = ATTACK_SLOT.D
+		state = ATTACKING
+	elif Input.is_action_just_pressed("key_e"):
+		projectile_queue = ATTACK_SLOT.E
 		state = ATTACKING
 
 

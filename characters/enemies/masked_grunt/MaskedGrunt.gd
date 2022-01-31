@@ -42,3 +42,11 @@ func cooldowns():
 # Fetch direction to player
 func dir_to_player() -> Vector2:
 	return position.direction_to(player.position)	
+
+
+func set_health(value: float):
+	if value <= 0:
+		var explosion = projectile.instance()
+		explosion.global_position = global_position
+		parent.add_child(explosion)
+	.set_health(value)

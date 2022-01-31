@@ -14,6 +14,11 @@ var player_lvl = 1 setget set_level, get_level # Player's current level
 var xp = 0 setget set_xp, get_xp # Player's xp
 
 
+# Map & Camera size
+var mapcamera_size := Vector2(25, 25)
+
+
+
 # Get xp var
 func get_xp():
 	return xp
@@ -36,7 +41,7 @@ func set_level(value: int):
 	# Update player stats
 	player_lvl = value
 	player.max_health += 50
-	player.current_health = player.max_health
+	player.current_health += 50
 
 # Get the player's current level
 func get_level():

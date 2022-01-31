@@ -6,7 +6,7 @@ var exit_set := false # Exit has been generated
 var entrance_set := false # Entrance has been generated
 
 # Settings
-var dungeon_size := Vector2(25, 25) # Size of the dungeon
+var dungeon_size := Global.mapcamera_size # Size of the dungeon
 var tile_cap := 0.2 # Treshold for tile spawn
 
 # Onready
