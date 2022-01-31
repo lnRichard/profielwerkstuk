@@ -9,6 +9,7 @@ signal PlayerDeath # Signals if player has died
 onready var parent := get_parent() # Parent
 
 # Attack()
+onready var space_state := get_world_2d().direct_space_state # State of the map
 var projectiles := {} # Dict of projectiles
 var projectile_queue # Projectile queue
 
@@ -159,7 +160,6 @@ func attack():
 			b.caster = self;
 		
 		# Perform raycast
-		var space_state = get_world_2d().direct_space_state
 		var result = space_state.intersect_ray(global_position, b.global_position, [self], 0b00000000000000000001)
 		if result:
 			# Hit invalid spot

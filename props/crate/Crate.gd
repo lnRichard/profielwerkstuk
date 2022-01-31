@@ -6,6 +6,7 @@ onready var flask = preload("res://props/Flask/Flask.tscn")
 onready var player = get_parent().get_parent().player # Player instance
 var speed = 1000 # Get the speed
 
+
 # Initialize the crate
 func _init().(10, 10):
 	pass

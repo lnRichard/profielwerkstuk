@@ -18,12 +18,19 @@ enum map_states {EMPTY, TILE, ENTRANCE, EXIT, PROP, ENEMY}
 var map_state := []
 
 # Enemies
-var enemies = {
+var enemies = { # Links enemy names to instances
 	"grunt": preload("res://characters/enemies/grunt/Grunt.tscn"), # Grunt enemy to spawn
 	"masked_grunt": preload("res://characters/enemies/masked_grunt/MaskedGrunt.tscn"), # Exploding grunt enemy to spawn
 	"paint_grunt": preload("res://characters/enemies/paint_grunt/PaintGrunt.tscn"), # shaman enemy to spawn
 	"zombie": preload("res://characters/enemies/zombie/Zombie.tscn"), # zombie to spawn
 	"big_grunt": preload("res://characters/enemies/big_grunt/BigGrunt.tscn"), # Big grunt to spawn
+}
+var enemies_sizes = { # Checks if an enemy is big
+	"grunt": false,
+	"masked_grunt": false,
+	"paint_grunt": false,
+	"zombie": false,
+	"big_grunt": true,
 }
 
 # Props
@@ -60,6 +67,7 @@ func _ready():
 
 	# Finalize the generation
 	get_parent().player.global_position = $Entrance.position
+	get_parent().player.space_state = get_world_2d().direct_space_state
 	map_state.clear()
 
 # Reset the map state
@@ -154,7 +162,7 @@ func place_exit(rng: RandomNumberGenerator) -> bool:
 	# Check if tile is valid
 	if map_state[x][y] != map_states.TILE or map_state[x][y + 1] != map_states.TILE or map_state[x][y - 1] != map_states.TILE:
 		return false
-	elif map_state[x + 1][y] != map_states.TILE or map_state[x - 2][y] != map_states.TILE:
+	elif map_state[x + 1][y] != map_states.TILE or map_state[x - 1][y] != map_states.TILE:
 		return false
 
 	# Calculate coord
@@ -229,7 +237,7 @@ func place_enemies(gen_parameters: Dictionary):
 	# Spawn enemies
 	for enemy in enemies:
 		while counts[enemy] > 0:
-			if spawn_enemy(enemies[enemy], rng):
+			if spawn_enemy(enemies[enemy], rng, enemies_sizes[enemy]):
 				counts[enemy] -= 1
 
 # Gets amount of enemies to spawn of each type
@@ -243,14 +251,26 @@ func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) ->
 	}
 
 # Spawns a specific enemy instance
-func spawn_enemy(type: PackedScene, rng: RandomNumberGenerator) -> bool:
+func spawn_enemy(type: PackedScene, rng: RandomNumberGenerator, big = false) -> bool:
 	# Get enemy pos
-	var x = rng.randi_range(0, dungeon_size.x - 1)
-	var y = rng.randi_range(0, dungeon_size.y - 1)
+	var x: int
+	var y: int
 
 	# Check if tile is valid
-	if map_state[x][y] != map_states.TILE:
-		return false
+	if not big:
+		x = rng.randi_range(0, dungeon_size.x - 1)
+		y = rng.randi_range(0, dungeon_size.y - 1)
+
+		if map_state[x][y] != map_states.TILE:
+			return false
+	else:
+		x = rng.randi_range(1, dungeon_size.x - 2)
+		y = rng.randi_range(1, dungeon_size.y - 2)
+
+		if map_state[x][y] != map_states.TILE or map_state[x][y + 1] != map_states.TILE or map_state[x][y - 1] != map_states.TILE:
+			return false
+		elif map_state[x + 1][y] != map_states.TILE or map_state[x - 1][y] != map_states.TILE:
+			return false
 
 	# Calculate coord
 	var coord = Vector2(x * 16 + 8, y * 16 + 8)

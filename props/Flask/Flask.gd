@@ -4,6 +4,7 @@ class_name Flask
 # on_pickup()
 var health_amount = 20 # Amount to heal entity
 
+
 # Health entity on pikcup
 func on_pickup(body: CollisionObject2D):
 	body.set_health(body.current_health + health_amount)
