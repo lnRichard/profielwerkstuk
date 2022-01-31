@@ -156,7 +156,7 @@ func attack():
 		
 		#Lifestealmachinegun
 		if b is LifestealMachinegun:
-			b.player = self;
+			b.caster = self;
 		
 		# Perform raycast
 		var space_state = get_world_2d().direct_space_state
