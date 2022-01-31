@@ -1,4 +1,5 @@
 extends HostileEntity
+class_name Zombie
 
 # Generic
 onready var projectile := preload("res://projectiles/melee/Melee.tscn")

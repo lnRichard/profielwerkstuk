@@ -18,13 +18,18 @@ enum map_states {EMPTY, TILE, ENTRANCE, EXIT, PROP, ENEMY}
 var map_state := []
 
 # Enemies
-var grunt := preload("res://characters/enemies/grunt/Grunt.tscn") # Grunt enemy to spawn
-var masked_grunt := preload("res://characters/enemies/masked_grunt/MaskedGrunt.tscn") # Exploding grunt enemy to spawn
-var paint_grunt := preload("res://characters/enemies/paint_grunt/PaintGrunt.tscn") # shaman enemy to spawn
-var zombie := preload("res://characters/enemies/zombie/Zombie.tscn") # zombie to spawn
+var enemies = {
+	"grunt": preload("res://characters/enemies/grunt/Grunt.tscn"), # Grunt enemy to spawn
+	"masked_grunt": preload("res://characters/enemies/masked_grunt/MaskedGrunt.tscn"), # Exploding grunt enemy to spawn
+	"paint_grunt": preload("res://characters/enemies/paint_grunt/PaintGrunt.tscn"), # shaman enemy to spawn
+	"zombie": preload("res://characters/enemies/zombie/Zombie.tscn"), # zombie to spawn
+	"big_grunt": preload("res://characters/enemies/big_grunt/BigGrunt.tscn"), # Big grunt to spawn
+}
 
 # Props
-var crate := preload("res://props/crate/Crate.tscn")
+var props = {
+	"crate": preload("res://props/crate/Crate.tscn"), # Crate to spawn
+}
 
 # Misc
 var entrance_point: int # Location of the entrance
@@ -176,17 +181,18 @@ func place_props(gen_parameters: Dictionary):
 	rng.randomize()
 
 	# Get enemy counts
-	var props = get_prop_counts(gen_parameters, rng)
-	
-	# Spawn crates
-	while props["crates"] > 0:
-		if spawn_prop(crate, rng):
-			props["crates"] -= 1
+	var counts = get_prop_counts(gen_parameters, rng)
+
+	# Spawn props
+	for prop in props:
+		while counts[prop] > 0:
+			if spawn_prop(props[prop], rng):
+				counts[prop] -= 1
 
 # Gets amount of props to spawn of each type
 func get_prop_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return {
-		"crates": rng.randi_range(3 + 1 * gen_parameters["current_level"], 3 + 1 * gen_parameters["current_level"])
+		"crate": rng.randi_range(3 + 1 * gen_parameters["current_level"], 3 + 1 * gen_parameters["current_level"])
 	}
 
 # Spawns a specific prop instance
@@ -218,30 +224,22 @@ func place_enemies(gen_parameters: Dictionary):
 	rng.randomize()
 
 	# Get enemy counts
-	var enemies = get_enemy_counts(gen_parameters, rng)
+	var counts = get_enemy_counts(gen_parameters, rng)
 
+	# Spawn enemies
+	for enemy in enemies:
+		while counts[enemy] > 0:
+			if spawn_enemy(enemies[enemy], rng):
+				counts[enemy] -= 1
 
-
-	# Spawn grunts
-	while enemies["grunts"] > 0:
-		if spawn_enemy(grunt, rng):
-			enemies["grunts"] -= 1
-	while enemies["masked_grunt"] > 0:
-		if spawn_enemy(masked_grunt, rng):
-			enemies["masked_grunt"] -= 1
-	while enemies["paint_grunt"] > 0:
-		if spawn_enemy(paint_grunt, rng):
-			enemies["paint_grunt"] -= 1
-	while enemies["zombie"] > 0:
-		if spawn_enemy(zombie, rng):
-			enemies["zombie"] -= 1
 # Gets amount of enemies to spawn of each type
 func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return {
-		"grunts": rng.randi_range(1 + 1 * gen_parameters["current_level"], 1),
+		"grunt": rng.randi_range(1 + 1 * gen_parameters["current_level"], 1),
 		"masked_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
 		"paint_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
-		"zombie": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1)
+		"zombie": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
+		"big_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
 	}
 
 # Spawns a specific enemy instance

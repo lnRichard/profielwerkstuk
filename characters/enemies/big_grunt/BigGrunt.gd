@@ -1,8 +1,8 @@
 extends HostileEntity
-class_name PaintGrunt
+class_name BigGrunt
 
 # Generic
-onready var projectile := preload("res://projectiles/lifesteal_machinegun/LifestealMachinegun.tscn")
+onready var projectile := preload("res://projectiles/melee/Melee.tscn")
 onready var parent := get_parent()
 
 # Attack()
@@ -11,7 +11,7 @@ var cooldown: int # Cooldown of the attack
 
 
 # _max_health: float, _move_speed: float, _score: int
-func _init().(500.0, 50.0, 25, 25):
+func _init().(1000.0, 20.0, 10, 10):
 	pass
 
 # Initializes the grunt
@@ -25,15 +25,13 @@ func _ready():
 func attack():
 	if current_cooldown == 0:
 		# Reset the cooldown
-		current_cooldown = 60
+		current_cooldown = cooldown
 
 		# Instances the projectile
 		var to_player: Vector2 = dir_to_player()
 		var b = projectile.instance()
-		b.direction =  to_player #Vector2(10, 0).rotated((player.position).angle()).normalized()
-		
-		if b is LifestealMachinegun:
-			b.caster = self
+		b.direction =  10 * to_player #Vector2(10, 0).rotated((player.position).angle()).normalized()
+
 		# Fetch the animated sprite
 		var asprite = b.get_node("AnimatedSprite")
 		asprite.rotation = position.angle_to_point(to_player)

@@ -15,7 +15,7 @@
 extents = Vector2( 4, 6 )
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 117.068
+radius = 72.0
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
