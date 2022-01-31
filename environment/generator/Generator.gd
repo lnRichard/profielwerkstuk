@@ -253,14 +253,20 @@ func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) ->
 # Spawns a specific enemy instance
 func spawn_enemy(type: PackedScene, rng: RandomNumberGenerator, big = false) -> bool:
 	# Get enemy pos
-	var x = rng.randi_range(0, dungeon_size.x - 1)
-	var y = rng.randi_range(0, dungeon_size.y - 1)
+	var x: int
+	var y: int
 
 	# Check if tile is valid
 	if not big:
+		x = rng.randi_range(0, dungeon_size.x - 1)
+		y = rng.randi_range(0, dungeon_size.y - 1)
+
 		if map_state[x][y] != map_states.TILE:
 			return false
 	else:
+		x = rng.randi_range(1, dungeon_size.x - 2)
+		y = rng.randi_range(1, dungeon_size.y - 2)
+
 		if map_state[x][y] != map_states.TILE or map_state[x][y + 1] != map_states.TILE or map_state[x][y - 1] != map_states.TILE:
 			return false
 		elif map_state[x + 1][y] != map_states.TILE or map_state[x - 1][y] != map_states.TILE:

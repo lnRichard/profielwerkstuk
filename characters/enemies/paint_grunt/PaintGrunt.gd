@@ -23,9 +23,20 @@ func _ready():
 
 # Called when the player enters the attack radius
 func attack():
+	# Idle when player is not seen
+	if player_hidden:
+		# Check if player is seen again
+		if current_cooldown == 60:
+			player_hidden = visual_check()
+			current_cooldown = 0
+
+		idle()
+		return
+
 	if current_cooldown == 0:
 		# Reset the cooldown
 		current_cooldown = 60
+		player_hidden = visual_check()
 
 		# Instances the projectile
 		var to_player: Vector2 = dir_to_player()
