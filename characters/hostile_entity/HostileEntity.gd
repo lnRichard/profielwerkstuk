@@ -80,7 +80,6 @@ func move():
 	if count == 60:
 		player_hidden = visual_check()
 		target = global_position.direction_to(player.global_position)
-		pathSpeed = rng.randi_range(0, 30)
 		count = rng.randi_range(0, 30)
 
 	# Moves enemy towards player
@@ -128,7 +127,7 @@ func idle():
 			idle_timeout = 120
 
 		# Return the velocity
-		move_and_slide(v * 50)
+		move_and_slide(v * move_speed)
 	else:
 		# Stand still and idle
 		$AnimatedSprite.play("idle")

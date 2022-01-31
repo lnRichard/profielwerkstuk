@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://props/Flask/Flask.gd"
 }, {
+"base": "HostileEntity",
+"class": "Grunt",
+"language": "GDScript",
+"path": "res://characters/enemies/grunt/Grunt.gd"
+}, {
 "base": "LivingEntity",
 "class": "HostileEntity",
 "language": "GDScript",
@@ -43,6 +48,16 @@ _global_script_classes=[ {
 "class": "LivingEntity",
 "language": "GDScript",
 "path": "res://characters/living_entity/LivingEntity.gd"
+}, {
+"base": "HostileEntity",
+"class": "MaskedGrunt",
+"language": "GDScript",
+"path": "res://characters/enemies/masked_grunt/MaskedGrunt.gd"
+}, {
+"base": "HostileEntity",
+"class": "PaintGrunt",
+"language": "GDScript",
+"path": "res://characters/enemies/paint_grunt/PaintGrunt.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Pickup",
@@ -63,19 +78,28 @@ _global_script_classes=[ {
 "class": "Prop",
 "language": "GDScript",
 "path": "res://props/prop/Prop.gd"
+}, {
+"base": "HostileEntity",
+"class": "Zombie",
+"language": "GDScript",
+"path": "res://characters/enemies/zombie/Zombie.gd"
 } ]
 _global_script_class_icons={
 "BigGrunt": "",
 "Crate": "",
 "Destroyable": "",
 "Flask": "",
+"Grunt": "",
 "HostileEntity": "",
 "LifestealMachinegun": "",
 "LivingEntity": "",
+"MaskedGrunt": "",
+"PaintGrunt": "",
 "Pickup": "",
 "Player": "",
 "ProjectileEntity": "",
-"Prop": ""
+"Prop": "",
+"Zombie": ""
 }
 
 [application]

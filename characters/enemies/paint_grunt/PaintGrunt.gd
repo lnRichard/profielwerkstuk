@@ -1,4 +1,5 @@
 extends HostileEntity
+class_name PaintGrunt
 
 # Generic
 onready var projectile := preload("res://projectiles/lifesteal_machinegun/LifestealMachinegun.tscn")

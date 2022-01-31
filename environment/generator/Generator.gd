@@ -34,7 +34,9 @@ var enemies_sizes = { # Checks if an enemy is big
 }
 
 # Props
-var crate := preload("res://props/crate/Crate.tscn")
+var props = {
+	"crate": preload("res://props/crate/Crate.tscn"), # Crate to spawn
+}
 
 # Misc
 var entrance_point: int # Location of the entrance
@@ -187,17 +189,18 @@ func place_props(gen_parameters: Dictionary):
 	rng.randomize()
 
 	# Get enemy counts
-	var props = get_prop_counts(gen_parameters, rng)
-	
-	# Spawn crates
-	while props["crates"] > 0:
-		if spawn_prop(crate, rng):
-			props["crates"] -= 1
+	var counts = get_prop_counts(gen_parameters, rng)
+
+	# Spawn props
+	for prop in props:
+		while counts[prop] > 0:
+			if spawn_prop(props[prop], rng):
+				counts[prop] -= 1
 
 # Gets amount of props to spawn of each type
 func get_prop_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return {
-		"crates": rng.randi_range(3 + 1 * gen_parameters["current_level"], 3 + 1 * gen_parameters["current_level"])
+		"crate": rng.randi_range(3 + 1 * gen_parameters["current_level"], 3 + 1 * gen_parameters["current_level"])
 	}
 
 # Spawns a specific prop instance
