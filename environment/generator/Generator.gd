@@ -240,10 +240,11 @@ func place_enemies(gen_parameters: Dictionary):
 # Gets amount of enemies to spawn of each type
 func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return {
-		"grunts": rng.randi_range(1 + 1 * gen_parameters["current_level"], 1),
+		"grunt": rng.randi_range(1 + 1 * gen_parameters["current_level"], 1),
 		"masked_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
 		"paint_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
-		"zombie": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1)
+		"zombie": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
+		"big_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
 	}
 
 # Spawns a specific enemy instance
