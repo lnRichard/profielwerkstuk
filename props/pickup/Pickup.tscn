@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://props/prop/Prop.tscn" type="PackedScene" id=1]
+[ext_resource path="res://props/pickup/Pickup.gd" type="Script" id=2]
+
+[node name="Pickup" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Pickup" type="Area2D" parent="." index="2"]
+collision_layer = 32
+collision_mask = 6
+
+[node name="Radius" type="CollisionShape2D" parent="Pickup" index="0"]
+
+[connection signal="body_entered" from="Pickup" to="." method="_on_Pickup_body_entered"]
