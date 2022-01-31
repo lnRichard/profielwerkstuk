@@ -6,6 +6,7 @@ var destroyed := false # If the prop is destroyed
 var score := 0
 var xp := 0
 
+
 # Initialize the destroyable
 func _init(_score: int, _xp: int):
 	score = _score

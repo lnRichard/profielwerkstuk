@@ -1,4 +1,5 @@
 extends HostileEntity
+class_name BigGrunt
 
 # Generic
 onready var projectile := preload("res://projectiles/melee/Melee.tscn")
@@ -10,7 +11,7 @@ var cooldown: int # Cooldown of the attack
 
 
 # _max_health: float, _move_speed: float, _score: int
-func _init().(10.0, 350.0, 10, 10):
+func _init().(1000.0, 20.0, 10, 10):
 	pass
 
 # Initializes the grunt
@@ -48,3 +49,12 @@ func cooldowns():
 # Fetch direction to player
 func dir_to_player() -> Vector2:
 	return position.direction_to(player.position)	
+
+# Handles entity knockback
+func knockback(delta: float):
+	if knockback == Vector2.ZERO:
+		return
+
+	# Reduce and apply knockback
+	knockback = knockback.move_toward(Vector2.ZERO, friction * delta * 5)
+	knockback = move_and_slide(knockback)

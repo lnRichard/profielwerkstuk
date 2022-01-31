@@ -30,14 +30,23 @@ func attack():
 		var to_player: Vector2 = dir_to_player()
 		var b = projectile.instance()
 		b.direction =  to_player #Vector2(10, 0).rotated((player.position).angle()).normalized()
-		
+		b.position = position + 20 * to_player
+
 		if b is LifestealMachinegun:
 			b.caster = self
+			b.heal_amount = 5
+
+		# Perform raycast
+		var result = space_state.intersect_ray(global_position, b.global_position, [self], 0b00000000000000000001)
+		if result:
+			# Hit invalid spot
+			b.queue_free()
+			return
+
 		# Fetch the animated sprite
 		var asprite = b.get_node("AnimatedSprite")
 		asprite.rotation = position.angle_to_point(to_player)
 		asprite.flip_h = to_player.x < 0
-		b.position = position + 20 * to_player
 
 		# Append the child
 		parent.add_child(b)
