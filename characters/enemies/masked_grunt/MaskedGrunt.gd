@@ -1,4 +1,5 @@
 extends HostileEntity
+class_name MaskedGrunt
 
 # Generic
 onready var projectile := preload("res://projectiles/explosion/Explosion.tscn")
