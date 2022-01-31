@@ -20,6 +20,8 @@ func _physics_process(delta):
 
 	# Move box if it has speed
 	if speed > 0:
+		if !is_instance_valid(player):
+			return
 		move_and_slide(player.global_position.direction_to(global_position) * (delta * speed))
 		speed -= 100
 
