@@ -13,6 +13,12 @@ var ticks := 0 # How long the projectile has been alive
 # move()
 var direction := Vector2() # Moving direction of projectile
 
+
+
+func _ready():
+	if !Global.lighting and is_instance_valid($Light2D):
+		$Light2D.queue_free()
+
 # Initialize the projectile
 func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
 	speed = _speed

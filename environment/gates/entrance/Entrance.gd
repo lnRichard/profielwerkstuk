@@ -6,7 +6,8 @@ var count := -1 # Counter value increases after each animation
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if !Global.lighting and is_instance_valid($Light2D):
+		$Light2D.queue_free()
 
 # Open the portal
 func open():
@@ -19,13 +20,15 @@ func _on_AnimatedSprite_animation_finished():
 		count += 1
 		match count:
 			0:
-				$Light2D.enabled = true
+				if is_instance_valid($Light2D):
+					$Light2D.enabled = true
 				$AnimatedSprite.play("open")
 			1:
 				$AnimatedSprite.play("idle")
 			2:
 				$AnimatedSprite.play("close")
 			3:
-				$Light2D.enabled = false
+				if is_instance_valid($Light2D):
+					$Light2D.enabled = false
 				$AnimatedSprite.hide()
 				set_physics_process(false)
