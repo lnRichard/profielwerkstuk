@@ -15,9 +15,9 @@ script = ExtResource( 2 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Label" type="Label" parent="."]
-margin_left = -9.0
+margin_left = -4.0
 margin_top = -18.0
-margin_right = 9.0
+margin_right = 4.0
 custom_colors/font_color = Color( 0.901961, 0.117647, 0.117647, 1 )
 custom_fonts/font = SubResource( 1 )
 __meta__ = {
