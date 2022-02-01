@@ -180,5 +180,8 @@ func get_stats():
 
 func set_health(value: float):
 	.set_health(value)
-	Global.elite_kills+=1
-	Global.skill_points+=1
+	if current_health <= 0:
+		Global.elite_kills += 1
+		Global.skill_points += 1
+		Global.mana_regen *= 1.2
+

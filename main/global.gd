@@ -16,7 +16,7 @@ var player; # Reference to the player
 # Player stats
 var player_lvl = 1 setget set_level, get_level # Player's current level
 var xp = 0 setget set_xp, get_xp # Player's xp
-
+var mana_regen = 5.0
 
 # Map & Camera size
 var mapcamera_size := Vector2(25, 25)
@@ -59,12 +59,18 @@ func set_level(value: int):
 		return
 	player.get_node("UILayer/UI//ManaBar/XP").text = "Level " + String(value)
 	# Create levelup label
+	var tween = player.get_node("Tween")
+	tween.interpolate_callback(player, 3, "indicator", "+MAX HEALTH", Color(1, 0, 0))
 	player.indicator("Level Up!", Color(0.64, 0.67, 2.3), true)
-
+	tween.start()
 	# Update player stats
 	player_lvl = value
 	player.max_health += 50
 	player.current_health += 50
+	
+	player.mana_max *= 1.5
+	
+	
 
 # Get the player's current level
 func get_level():
