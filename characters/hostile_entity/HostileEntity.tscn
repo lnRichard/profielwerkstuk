@@ -27,7 +27,11 @@ margin_bottom = 17.0
 
 [node name="Navigation2D" type="Navigation2D" parent="." index="6"]
 
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="9"]
+
 [connection signal="body_entered" from="Sight" to="." method="_on_Sight_body_entered"]
 [connection signal="body_exited" from="Sight" to="." method="_on_Sight_body_exited"]
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
 [connection signal="body_exited" from="Attack" to="." method="_on_Attack_body_exited"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

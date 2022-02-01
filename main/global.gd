@@ -3,8 +3,8 @@ extends Node
 # Highest score the player has achieved
 
 # Game stats
-var highscore = 0 # Highest score achieved
-var passed_levels = 0 # Amount of levels passed
+var highscore = 0 setget set_score, get_score # Highest score achieved
+var passed_levels = 0 setget set_passed_levels, get_passed_levels # Amount of levels passed
 
 # Player reference
 var player; # Reference to the player
@@ -20,6 +20,23 @@ var mapcamera_size := Vector2(25, 25)
 # Elite enemy kills
 var elite_kills: int = 0
 var skill_points: int = 0
+
+func get_score():
+	return highscore
+	
+func set_score(value: int):
+	if is_instance_valid(player):
+		print(value)
+		player.get_node("UILayer/UI/ManaBar/Info/Score").text = String(value) + " Score"
+	highscore = value
+
+func get_passed_levels():
+	return passed_levels
+	
+func set_passed_levels(value: int):
+	if is_instance_valid(player):
+		player.get_node("UILayer/UI//ManaBar/Info/Stage").text = "Stage " + String(value)
+	passed_levels = value
 
 # Get xp var
 func get_xp():

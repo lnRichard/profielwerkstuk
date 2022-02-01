@@ -168,7 +168,7 @@ func get_stats():
 			move_speed = 100
 		SPEED:
 			max_health = 500
-			current_health = 500
+			current_health = 500	
 			move_speed = 500
 		SIGHT:
 			max_health = 500
