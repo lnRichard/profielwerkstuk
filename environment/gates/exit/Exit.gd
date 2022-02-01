@@ -14,7 +14,7 @@ func _ready():
 	$AnimatedSprite.modulate = Color(0.36, 0.36, 0.36)
 	$Light2D.energy = 0.0
 	self.connect("PlayerTouch", get_parent().get_parent() , "_exit")
-	$Tween.interpolate_callback(self, Global.passed_levels * 4, "activate")
+	$Tween.interpolate_callback(self, 4 * Global.passed_levels + 5, "activate")
 	$Tween.start()
 	if !Global.lighting and is_instance_valid($Light2D):
 		$Light2D.queue_free()
