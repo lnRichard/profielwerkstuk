@@ -316,9 +316,11 @@ func set_health(value: float):
 # Dialogue function
 func _on_Sight_body_entered(body: Player):
 	._on_Sight_body_entered(body)
-	indicator(sight_enter_dialogue[rng.randi_range(0, sight_enter_dialogue.size() - 1)], Color(0, 1, 1), false, 0.2)
+	if rng.randi_range(0, 5) == 3:
+		indicator(sight_enter_dialogue[rng.randi_range(0, sight_enter_dialogue.size() - 1)], Color(0, 1, 1), false, 0.2)
 
 # Dialogue function
 func _on_Sight_body_exited(body: Player):
 	._on_Sight_body_exited(body)
-	indicator(slight_leave_dialogue[rng.randi_range(0, slight_leave_dialogue.size() - 1)], Color(0, 1, 1), false, 0.2)
+	if rng.randi_range(0, 5) == 3:
+		indicator(slight_leave_dialogue[rng.randi_range(0, slight_leave_dialogue.size() - 1)], Color(0, 1, 1), false, 0.2)
