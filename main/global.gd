@@ -1,5 +1,9 @@
 extends Node
 
+# Options
+var smoothing = true
+var lighting = true
+
 # Highest score the player has achieved
 
 # Game stats
@@ -53,7 +57,7 @@ func set_xp(value: int):
 func set_level(value: int):
 	if not is_instance_valid(player):
 		return
-
+	player.get_node("UILayer/UI//ManaBar/XP").text = "Level " + String(value)
 	# Create levelup label
 	player.indicator("Level Up!", Color(0.64, 0.67, 2.3), true)
 

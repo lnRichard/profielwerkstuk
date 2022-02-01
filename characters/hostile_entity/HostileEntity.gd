@@ -89,6 +89,8 @@ func move():
 
 # Checks if the enemy can see the player
 func visual_check() -> bool:
+	if is_instance_valid(player):
+		return false
 	var result = space_state.intersect_ray(global_position, player.global_position, [self], collision_mask)
 	return result and not result is Player
 

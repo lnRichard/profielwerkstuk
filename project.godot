@@ -121,7 +121,6 @@ Global="*res://main/global.gd"
 
 [display]
 
-window/size/resizable=false
 window/size/fullscreen=true
 
 [global]
@@ -204,5 +203,6 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"
