@@ -308,17 +308,17 @@ func set_health(value: float):
 	Global.elite_kills+=1
 	Global.skill_points+=1
 
-# Dialogue function
-func _on_Attack_body_entered(body: Player):
-	._on_Attack_body_entered(body)
-	indicator(attack_dialogue[rng.randi_range(0, attack_dialogue.size() - 1)], Color(0, 1, 1))
+# TODO: Change to attacking function to stop text spam
+#func _on_Attack_body_entered(body: Player):
+#	._on_Attack_body_entered(body)
+#	indicator(attack_dialogue[rng.randi_range(0, attack_dialogue.size() - 1)], Color(0, 1, 1), false, 0.2)
 
 # Dialogue function
 func _on_Sight_body_entered(body: Player):
 	._on_Sight_body_entered(body)
-	indicator(sight_enter_dialogue[rng.randi_range(0, sight_enter_dialogue.size() - 1)], Color(0, 1, 1))
+	indicator(sight_enter_dialogue[rng.randi_range(0, sight_enter_dialogue.size() - 1)], Color(0, 1, 1), false, 0.2)
 
 # Dialogue function
 func _on_Sight_body_exited(body: Player):
 	._on_Sight_body_exited(body)
-	indicator(slight_leave_dialogue[rng.randi_range(0, slight_leave_dialogue.size() - 1)], Color(0, 1, 1))
+	indicator(slight_leave_dialogue[rng.randi_range(0, slight_leave_dialogue.size() - 1)], Color(0, 1, 1), false, 0.2)

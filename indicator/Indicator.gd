@@ -11,7 +11,12 @@ var spread = PI/2 # How much the label spreads
 
 
 # Shows a indicator
-func show_value(special: bool, color = null):
+func show_value(special: bool, color = null, size = 1):
+	# Set size
+	var font = label.get_font("font")
+	font.size = size * 16
+	label.add_font_override("font", font)
+
 	# Change color if color is set
 	if color:
 		label.add_color_override("font_color", color)

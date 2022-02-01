@@ -97,7 +97,7 @@ func health_indicator(killing_blow: bool, health_change: float):
 		label.show_value(killing_blow, Color(0.12, 0.9, 0.12))
 
 # Creates an all prupose indicator
-func indicator(message: String, color: Color, special: bool = false):
+func indicator(message: String, color: Color, special: bool = false, size: int = 1):
 	# Create the label
 	var label = indicator.instance()
 
@@ -107,4 +107,4 @@ func indicator(message: String, color: Color, special: bool = false):
 	# Append the label
 	get_parent().add_child(label)
 	label.get_node("Label").text = message
-	label.show_value(special, color)
+	label.show_value(special, color, size)
