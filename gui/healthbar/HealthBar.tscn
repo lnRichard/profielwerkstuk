@@ -1,9 +1,11 @@
 [gd_scene load_steps=3 format=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
+resource_local_to_scene = true
 bg_color = Color( 0.054902, 0.764706, 0.266667, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
+resource_local_to_scene = true
 bg_color = Color( 1, 0, 0, 1 )
 
 [node name="ProgressBar" type="ProgressBar"]

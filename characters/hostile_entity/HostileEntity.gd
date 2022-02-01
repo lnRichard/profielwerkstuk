@@ -177,6 +177,14 @@ func _on_Attack_body_exited(_body: Player):
 		state = MOVING
 		$AnimatedSprite.play("running")		
 
+func _on_VisibilityNotifier2D_screen_exited():
+	set_physics_process(false)
+	state = UNLOADED
+	update_redness()
+
+func _on_VisibilityNotifier2D_screen_entered():
+	set_physics_process(true)
+	state = IDLING
 
 # MISC FUNCTIONS
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://characters/living_entity/LivingEntity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=2]
@@ -12,13 +12,9 @@
 [ext_resource path="res://characters/player/sprites/wizard/idle/wizzard_m_idle_anim_f2.png" type="Texture" id=10]
 [ext_resource path="res://characters/player/sprites/wizard/idle/wizzard_m_idle_anim_f1.png" type="Texture" id=11]
 [ext_resource path="res://characters/player/AttackPoint.gd" type="Script" id=12]
-[ext_resource path="res://gui/healthbar/HealthBar.tscn" type="PackedScene" id=13]
+[ext_resource path="res://characters/player/ui/UI.tscn" type="PackedScene" id=13]
 [ext_resource path="res://particles/dash_particle.png" type="Texture" id=15]
 [ext_resource path="res://characters/player/Camera.gd" type="Script" id=16]
-[ext_resource path="res://characters/player/LoadArea.gd" type="Script" id=17]
-
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 119.5, 76 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 6, 7 )
@@ -54,23 +50,8 @@ current = true
 zoom = Vector2( 0.2, 0.2 )
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
+smoothing_enabled = true
 script = ExtResource( 16 )
-
-[node name="ProgressBar" parent="Camera" index="0" instance=ExtResource( 13 )]
-margin_left = -10.0
-margin_top = -15.0
-margin_right = 9.0
-margin_bottom = -14.0
-
-[node name="LoadArea" type="Area2D" parent="Camera" index="1"]
-collision_layer = 512
-collision_mask = 2
-script = ExtResource( 17 )
-
-[node name="LoadCollider" type="CollisionShape2D" parent="Camera/LoadArea" index="0"]
-position = Vector2( -2.5, 0 )
-scale = Vector2( 2, 2 )
-shape = SubResource( 6 )
 
 [node name="BodyCollision" parent="." index="1"]
 position = Vector2( 0, 3 )
@@ -103,5 +84,8 @@ initial_velocity = 19.0
 angular_velocity = -180.0
 scale_amount_curve = SubResource( 3 )
 
-[connection signal="body_entered" from="Camera/LoadArea" to="Camera/LoadArea" method="_on_LoadArea_body_entered"]
-[connection signal="body_exited" from="Camera/LoadArea" to="Camera/LoadArea" method="_on_LoadArea_body_exited"]
+[node name="UILayer" type="CanvasLayer" parent="." index="7"]
+scale = Vector2( 0.2, 0.2 )
+transform = Transform2D( 0.2, 0, 0, 0.2, 0, 0 )
+
+[node name="UI" parent="UILayer" index="0" instance=ExtResource( 13 )]

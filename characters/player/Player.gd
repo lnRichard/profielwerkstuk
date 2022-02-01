@@ -227,7 +227,7 @@ func untint():
 
 # Set healthbar progress
 func health():
-	$Camera/ProgressBar.value = current_health/max_health * 100
+	$UILayer/UI/HealthBar.value = current_health/max_health * 100
 
 # Check if player has died
 func death():

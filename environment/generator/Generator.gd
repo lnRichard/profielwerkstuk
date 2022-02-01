@@ -245,12 +245,12 @@ func place_enemies(gen_parameters: Dictionary):
 # Gets amount of enemies to spawn of each type
 func get_enemy_counts(gen_parameters: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
 	return {
-		"grunt": rng.randi_range(1 + 1 * gen_parameters["current_level"], 1),
-		"masked_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
-		"paint_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
-		"zombie": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
-		"big_grunt": rng.randi_range(1 + 1 *gen_parameters["current_level"], 1),
-		"elite": 2
+		"grunt": 1,
+		"masked_grunt": 1,
+		"paint_grunt": 1,
+		"zombie": 1,
+		"big_grunt": 1,
+		"elite": 1
 	}
 
 var bosscreator = BossCreator.new()
