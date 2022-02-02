@@ -10,7 +10,7 @@ func _ready():
 	pass
 
 # _speed: float, _lifetime: int, _damage: float, _cooldown: int
-func _init().(100, 2000, 25, 30):
+func _init().(100, 2000, 25, 30, 6):
 	pass
 
 # Target is susceptible to the explosion

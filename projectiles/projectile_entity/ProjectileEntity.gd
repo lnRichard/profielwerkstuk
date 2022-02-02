@@ -6,19 +6,26 @@ var speed: float # Speed of the projectile
 var lifetime: int # How long the projectile may live
 var damage: float # Damage of projectile
 var cooldown: float # Cooldown of projectile
-
+var mana_cost: float # Cost in mana
 # _physics_process()
 var ticks := 0 # How long the projectile has been alive
 
 # move()
 var direction := Vector2() # Moving direction of projectile
 
+
+
+func _ready():
+	if !Global.lighting and is_instance_valid($Light2D):
+		$Light2D.queue_free()
+
 # Initialize the projectile
-func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float):
+func _init(_speed: float, _lifetime: int, _damage: float, _cooldown: float, _mana_cost: float ):
 	speed = _speed
 	lifetime = _lifetime
 	damage = _damage
 	cooldown = _cooldown
+	mana_cost = _mana_cost
 
 # Projectile physics
 func _physics_process(delta: float):

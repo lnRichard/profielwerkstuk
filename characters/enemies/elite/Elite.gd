@@ -305,8 +305,10 @@ func get_stats():
 # Set health
 func set_health(value: float):
 	.set_health(value)
-	Global.elite_kills+=1
-	Global.skill_points+=1
+	if current_health <= 0:
+		Global.elite_kills += 1
+		Global.skill_points += 1
+		Global.mana_regen *= 1.2
 
 # TODO: Change to attacking function to stop text spam
 #func _on_Attack_body_entered(body: Player):

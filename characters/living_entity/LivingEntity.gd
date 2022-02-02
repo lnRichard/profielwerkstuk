@@ -24,6 +24,10 @@ var death_effect = preload("res://effects/death_effect/DeathEffect.tscn") # Deat
 var indicator := preload("res://indicator/Indicator.tscn")
 
 
+func _ready():
+	if !Global.lighting and is_instance_valid($Light2D):
+		$Light2D.queue_free()
+
 # Initialize the entity
 func _init(_max_health: float, _move_speed: float):
 	max_health = _max_health

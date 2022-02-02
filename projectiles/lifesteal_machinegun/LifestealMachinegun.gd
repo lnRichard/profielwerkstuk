@@ -11,7 +11,7 @@ func _ready():
 	$AnimatedSprite.play("default") 
 
 # _speed: float, _lifetime: int, _damage: float, _cooldown: int
-func _init().(50, 2000, 5, 10):
+func _init().(50, 2000, 5, 10, 0.5):
 	pass
 
 # Override logic function

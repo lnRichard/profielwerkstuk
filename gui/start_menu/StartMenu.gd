@@ -11,7 +11,7 @@ func _on_Quit_pressed():
 
 # Player goes to options meny
 func _on_Options_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://gui/option_menu/OptionMenu.tscn")
 
 # Player goes to highscore menu
 func _on_Highscore_pressed():

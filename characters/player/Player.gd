@@ -23,7 +23,10 @@ var dash = {
 	"duration": 0
 }
 
+# Mana 
 
+var mana_max = 20.0 setget set_max_mana, get_max_mana
+var mana_current = 20.0 setget set_current_mana, get_current_mana
 # Initializes the player
 func _init().(100, 3):
 	pass
@@ -87,6 +90,7 @@ func attack_input():
 
 # Handles player movement
 func movement(delta: float):
+	mana()
 	match state:
 		IDLING:
 			idle()
@@ -152,8 +156,8 @@ func start_dash():
 # The player is attacking
 func attack():	
 	# Check if there is an attack in the queue
-	if projectile_queue in projectiles && projectiles[projectile_queue].c_cooldown == 0:
-		projectiles[projectile_queue].c_cooldown = projectiles[projectile_queue].cooldown
+	if projectile_queue in projectiles and projectiles[projectile_queue].mana_cost < mana_current:
+
 		var b = projectiles[projectile_queue].projectile.instance()
 		b.direction = Vector2.RIGHT.rotated((get_local_mouse_position()).angle()).normalized()
 		b.get_node("AnimatedSprite").rotation = get_local_mouse_position().angle()
@@ -169,7 +173,7 @@ func attack():
 			# Hit invalid spot
 			b.queue_free()
 			return
-
+		set_current_mana(mana_current-projectiles[projectile_queue].mana_cost)
 		# Add to parent
 		parent.add_child(b)
 
@@ -200,13 +204,14 @@ func cooldowns():
 func add_spell_arsenal(projectile_path: String, slot: int):
 	var temp = load(projectile_path).instance()
 	var cooldown = temp.cooldown
+	var mana_cost = temp.mana_cost
 	temp.queue_free()
-	
 	# Add new projectile to it's slot
 	projectiles[slot] = {
 		"projectile": load(projectile_path),
 		"cooldown": cooldown,
-		"c_cooldown": 0
+		"c_cooldown": 0,
+		"mana_cost": mana_cost
 	}
 
 # Set the player's health
@@ -229,6 +234,35 @@ func untint():
 func health():
 	$UILayer/UI/HealthBar.value = current_health/max_health * 100
 
+func set_max_mana(value: float):
+	$Tween.interpolate_callback(self, 2, "indicator", "+MAX MANA", Color(1, 1, 1))
+	$Tween.start()
+#	indicator("Max mana increased", Color(0, 0, 0))
+	$UILayer/UI/ManaBar.value = mana_current/mana_max * 100
+	mana_max = value
+
+func get_max_mana():
+	return mana_max
+	
+func set_current_mana(value: float):
+	
+	if value <= mana_max:
+		mana_current = value
+	elif value > mana_max:
+		mana_current = mana_max
+	
+	$UILayer/UI/ManaBar.value = mana_current/mana_max * 100
+	
+func get_current_mana():
+	return mana_current
+	
+var mana_timer = 0	
+func mana():
+	mana_timer += 1
+	if mana_timer == 60:
+		mana_timer = 0
+		set_current_mana(mana_current + Global.mana_regen)
+		
 # Check if player has died
 func death():
 	if current_health <= 0:
